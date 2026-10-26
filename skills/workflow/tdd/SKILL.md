@@ -19,8 +19,9 @@ Coding agents fail at TDD in known ways. These rules override convenience:
   production code.
 - Do not mock code you own. Mock only at real system boundaries (network,
   clock, third-party services), and keep the semantics the claim depends on.
-- Assert literal expected values. Do not recompute the expected value the way
-  the code does; a tautological test passes by construction.
+- Give each assertion an independent oracle: a requirement, a known example,
+  or a domain rule. A test that duplicates the implementation's calculation
+  can preserve its mistakes instead of detecting them.
 - Do not write all tests up front. Tests written before any implementation
   describe imagined behavior.
 

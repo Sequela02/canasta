@@ -1,15 +1,10 @@
 # canasta
 
-**Canasta** is Spanish for basket—a basket of skills, with “Cana” from Canitas, just as pstack carries poteto's “p”.
+Ricardo Armenta's (Canitas) pack of skills for coding agents. They help agents
+stay within the requested scope, check their work and leave consequential
+decisions with you—not a new harness or a mandatory process for every edit.
 
-Ricardo Armenta's (Canitas) working practices for coding agents. Small skills
-for keeping intent, scope, evidence and authority intact—not a new agent
-harness or a mandatory process for every edit.
-
-**Owner-review draft, not yet published.** Intended home:
-[`Sequela02/canasta`](https://github.com/Sequela02/canasta). Publication is planned
-for roughly a week after 2026-10-27, only after owner review and licence
-confirmation. Nothing here authorizes an agent to publish or merge.
+**Canasta** is Spanish for basket—a basket of skills, with “Cana” from Canitas.
 
 ## Why these skills exist
 
@@ -33,13 +28,13 @@ Keep your project's explicit constraints; check version-sensitive guidance
 against its installed toolchain. Third-party skills stay with their upstreams.
 
 Read [how I work](docs/how-i-work.md) for the method, its sources, and the
-boundary between evidence and my preferences. Matt Pocock's skills and poteto's
-pstack influenced the presentation and ideas; this is not a copy of pstack.
+boundary between evidence and my preferences.
+Canasta follows the style of personal skill packs such as [Theo's tstack](https://github.com/t3dotgg/tstack) and poteto's pstack.
 
 ## Installation
 
-Choose one method per agent. **These remote commands are for after publication.**
-Use a local checkout today. [Full installation guide and verification limits](skills/workflow/setup-canasta/references/installation.md).
+Choose one method per agent. See the [full installation guide and verification limits](skills/workflow/setup-canasta/references/installation.md)
+for local-checkout and manual installation options.
 
 ### Claude Code
 
@@ -66,7 +61,7 @@ npx skills add Sequela02/canasta
 ```
 
 Select workflow skills (including `setup-canasta`) and any stack skills you
-want. For Tesota or an agent without an installer adapter, use the
+want. For agents without an installer adapter, use the
 [manual clone-and-copy route](skills/workflow/setup-canasta/references/installation.md#manual-clone-and-copy).
 Keep each skill folder intact in the agent's documented skills directory.
 
@@ -89,8 +84,8 @@ report anything you could not check. Do not change project instructions,
 install agent executables, publish, push or merge anything.
 ```
 
-Before publication, replace the GitHub URL in that prompt with your local
-checkout path. The prompt requests installation, not unrelated outward actions.
+For a local installation, replace the GitHub URL with your checkout path.
+The prompt requests installation, not unrelated outward actions.
 
 ## Skills
 
@@ -133,8 +128,6 @@ checkout path. The prompt requests installation, not unrelated outward actions.
 
 ## Reviewing and maintaining this pack
 
-- [Classification](docs/CLASSIFICATION.md) is a temporary owner-review file;
-  review authorship/exclusions, then delete it before publication.
 - `python scripts/check.py` checks manifests, inventory, local links, notices
   and generic skill metadata. It does not prove skill effectiveness or
   successful installation in an agent.
@@ -144,6 +137,5 @@ checkout path. The prompt requests installation, not unrelated outward actions.
 
 ## Licence
 
-[MIT](LICENSE), copyright Ricardo Armenta. The owner will confirm or change the
-licence before publication. The adapted Matt Pocock debugging reference retains
+[MIT](LICENSE), copyright Ricardo Armenta. The adapted Matt Pocock debugging reference retains
 its own MIT notice in the [tdd folder](skills/workflow/tdd/NOTICE).

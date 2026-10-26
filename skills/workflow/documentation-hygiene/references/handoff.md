@@ -4,8 +4,9 @@
 
 Use when the user asks for a handoff, session summary, or notes for whoever
 continues the work. A handoff is a reply or an update to the canonical record,
-not a new file by default. Create a file or commit only when the user asks for
-one; put it where the repository already keeps such records.
+not a new file by default. An explicitly requested handoff document belongs
+with the repository's existing continuation records; a summary request alone
+does not authorize a commit.
 
 Cover what the next person cannot reconstruct from the repository:
 

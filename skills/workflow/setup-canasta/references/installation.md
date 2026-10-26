@@ -72,8 +72,8 @@ those opinions. Pocock's linked guide lists Pi as a supported adapter; canasta's
 Pi installation has not been exercised. Omit agent flags to inspect the
 installer's current choices.
 
-For Tesota or another tool not listed by your installer, do **not** assume a
-named adapter exists. Use the manual route and that tool's documented skills
+For agents without an installer adapter, do **not** assume a named adapter
+exists. Use the manual route and that tool's documented skills
 directory. Restart the agent or refresh skill discovery as its documentation
 requires. Invoke `setup-canasta` using the tool's supported skill invocation;
 a literal slash-command form is not guaranteed across agents.
@@ -98,7 +98,7 @@ cp -R ~/agent-packs/canasta/skills/stack/* ~/.codex/skills/
 
 On Windows, use your shell's equivalent copy operation. Confirm the effective
 skills directory from your installed tool's guidance; custom home settings can
-change it. For Pi, Tesota and similar agents, replace the destination with the
+change it. For Pi and other agents, replace the destination with the
 documented user or project skills directory. Keep `references/`, evaluations
 and `NOTICE` files with their skill. Do not copy the group's `.claude-plugin`
 directory as a skill. Do not overwrite an existing skill of the same name:

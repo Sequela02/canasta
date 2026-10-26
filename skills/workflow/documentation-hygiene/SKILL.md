@@ -69,12 +69,12 @@ Close the task:
    changed claims against code or tests, and run git diff --check. Report the useful
    changes and material gaps in the requested response, not a new cleanup report
    by default. A tidy tree is not proof that documentation is accurate.
-5. If the user corrected the same mistake twice during the work, propose where
-   to make it impossible, at the highest level that works: structure (one
-   owner, one supported way), then types, then a lint or check whose error
-   names the fix, then a test, and a written rule last, only for a judgment
-   call. Show the check failing on the real mistake. Do the approved
-   enforcement as its own task, not inside this one.
+5. Treat recurring corrections as a maintenance signal. Identify why the
+   existing feedback missed the problem and propose a safeguard at the place
+   that owns it. A validation rule, clearer ownership or better instructions
+   may help; choose based on the failure rather than a fixed preference order.
+   Explain what the safeguard would catch and what it would leave to judgment.
+   Obtain approval before adding enforcement beyond the current task.
 
 Load a reference only for its task:
 - Reviewing, writing, or trimming project-owned agent instructions or skills

@@ -38,12 +38,12 @@ require an interview. Use clear-writing for the resulting explanation.
    Resolve routine implementation choices within the already authorized scope.
 5. Probe the uncertain boundary with a concrete example, counterexample, or
    failure scenario. When only running code can answer the question, build one
-   throwaway prototype: state the single question it answers and its budget;
-   for logic or state, a small pure module with a minimal driver that shows
-   the state after each action; for appearance, a few structurally different
-   variants switchable in place. Keep it in the session scratch or an isolated
-   worktree, record the verdict and the question it settled, and discard the
-   code unless the user adopts it. Use concept-modeling only for conflicting or overloaded
+   limited experiment with an explicit budget and an observation that would
+   settle the uncertainty. Choose a representation suited to that observation:
+   sample inputs may expose a logic gap, while a rendered example may reveal a
+   layout constraint. Keep experimental code separate from the deliverable.
+   Record what was learned before removing it; retaining it as product code
+   requires the user's decision. Use concept-modeling only for conflicting or overloaded
    terminology; use research for external evidence and
    implementation-planning for sequencing an established objective.
 6. Stop when remaining uncertainty no longer changes the authorized outcome or

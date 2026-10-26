@@ -20,10 +20,10 @@ These findings drive the "Agent failure modes" section.
   It wants to write the code and then write tests that pass," and it tried to
   delete a failing test instead of fixing the code. His remedy is to enforce
   the cycle explicitly.
-- Practitioner skills converge on the same rules: test through agreed public
-  seams, avoid tautological assertions, and work in vertical slices, one test
-  then one implementation (Matt Pocock's `tdd`); assert observed results
-  against literal expected values (poteto's pstack).
+- This skill's testing practice is to observe behavior at an agreed interface
+  and derive expected outcomes from the requirement, not the implementation.
+  Small behavior increments make a failure easier to interpret. These are
+  working choices, not claims of experimentally established superiority.
 - Enforcement belongs in structure where possible: report every test-file
   change at completion so reviewers check it, and use repository hooks that
   keep tests read-only while making them pass where a team adopts them.
@@ -33,8 +33,6 @@ Sources:
 - Over-mocked agent tests: https://arxiv.org/abs/2602.00409
 - Kent Beck on TDD and agents: https://newsletter.pragmaticengineer.com/p/tdd-ai-agents-and-coding-with-kent
 - Matt Pocock's tdd skill: https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md
-- poteto's pstack principles: original public link not found. This is an
-  attributed practice, not a verified public source or copied upstream text.
 
 ## Durable conclusions
 

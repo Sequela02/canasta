@@ -6,8 +6,8 @@ me explore, decide and build. This is my working method, not a proven recipe.
 
 **Opinion** marks my choices and practitioner advice. **Evidence** marks an
 observed result with limits. A source can inspire a rule without proving that
-rule improves delivery. Sources were checked on 2026-10-26 where accessible;
-missing original links are explicitly marked rather than reconstructed.
+rule improves delivery. The linked sources support the claims beside them;
+the remaining rules are my own practices, not research findings.
 
 ## 1. I say Explore, Decide or Build
 
@@ -18,13 +18,9 @@ and accountable human. A clear small edit needs no interview or elaborate plan.
 
 I use a plan for commitments and a bounded prototype for reversible uncertainty.
 New findings do not authorize new scope: I explicitly continue, revise or cancel
-when the accepted goal changes. This combines the design-first emphasis in
-[Matt Pocock's skills](https://github.com/mattpocock/skills) with the experimental
-approach attributed to poteto's pstack (**link not found**; the supplied
-snapshot identifies no public upstream). Those are practitioner approaches,
-not comparative evidence. Gentleman
-Programming's [ODD description](https://github.com/Gentleman-Programming/gentle-ai#features)
-also distinguishes questions from authorized changes and keeps small work small.
+when the accepted goal changes. Planning and experimentation serve different
+jobs in my work: one coordinates an agreed change; the other tests a premise.
+Neither needs to become a mandatory process for every task.
 
 ## 2. I hand off the task, not the job of recovering my context
 
@@ -34,11 +30,9 @@ briefly restates those points and labels consequential premises **verified**,
 **inferred** or **unknown**. It checks local facts before relying on them.
 A restatement is an alignment check, not an extra approval ritual.
 
-The restatement idea is attributed to poteto in my research digest; the specific
-original post's **link not found**. Pocock's repository provides the related
-pattern of bounded implementation tasks. My own message analysis also exposed
-repeated context and scope corrections; that motivates this habit, not a claim
-that restatements have a measured productivity effect.
+My own review of a few weeks of my agent sessions showed me how often I had
+to recover context or correct scope. That motivates this habit; it does not
+establish that restatements improve productivity.
 
 ## 3. I batch decisions and keep the finish line stable
 
@@ -48,10 +42,9 @@ inside scope; I retain product policy, taste and consequential authorization.
 “Continue” keeps work flowing. It does not mean “publish this” or “merge that.”
 
 I freeze a small accepted slice and defer adjacent discoveries unless they
-invalidate safety, correctness or the core promise. Asynchronous batching is
-attributed to Thorsten Ball in the source digest; the specific original post's
-**link not found**. My message analysis suggested opportunities to batch related
-choices, but did not establish that each short acknowledgment was wasted effort.
+invalidate safety, correctness or the core promise. I batch choices to reduce
+avoidable interruptions, not to eliminate conversation. A short acknowledgment
+can still be useful; fewer messages is not my goal.
 
 ## 4. I research only to change a decision
 
@@ -60,11 +53,9 @@ ends with an answer or a named gap when that budget expires. Another opinion
 needs a specific disagreement. A prototype answers one uncertainty; it is not
 permission to build a new product.
 
-The digest attributes an argument against open-ended multi-approach prompting
-to **Prompt-Induced Waste — link not found**. I have not independently verified
-that paper or its reported numerical effects, so I do not repeat them as fact.
-The budget and stopping rule here are my judgment, also motivated by repeated
-research directions in my own message analysis.
+The budget and stopping rule are my judgment. I want enough investigation to
+make the decision responsibly, with the remaining uncertainty visible, rather
+than an open-ended search for another reassuring opinion.
 
 ## 5. I ask for evidence matched to the claim
 
@@ -80,9 +71,8 @@ Passing checks inform my acceptance; they do not perform it for me.
 
 [Simon Willison's account](https://simonwillison.net/2025/Mar/11/using-llms-for-code/)
 explicitly emphasizes testing generated code and using tools that can run it.
-The stronger “ask for irrefutable proof” formulation is attributed to Thorsten
-Ball in the digest; the specific original post's **link not found**. Pocock's
-skills supply test-first and review practices, not proof that TDD always helps.
+My reporting requirements go further: I want the check's limits beside its
+result, so I can judge whether the evidence answers the actual question.
 
 ## 6. I review the actual UI path
 
@@ -94,9 +84,8 @@ I still make the visual and product acceptance decision.
 
 Willison's real-code testing advice motivates exercising the actual path; my
 requirement for captures is an extension of it, not a measured finding from that
-article. **SWE-Serve — link not found** is named in the digest as a warning about
-narrow checks versus end-to-end behavior. I retain the caution without claiming
-its experiments or results have been independently verified here.
+article. A narrow check may leave layout, interaction and integration risks
+untested; I decide which real paths need additional evidence.
 
 ## 7. I leave work resumable and knowledge in one place
 
@@ -107,15 +96,13 @@ decisions and rationale belong with their repository or work item, not in
 competing chat summaries. I preserve unrelated edits and remove only task-owned
 scratch material when its purpose ends.
 
-The digest attributes persistent progress records to **Anthropic's long-running
-agent guidance — link not found**; retrieval of the candidate original page
-failed. I do not claim its details as verified. [Mitchell Hashimoto's own
-account](https://mitchellh.com/writing/my-ai-adoption-journey) describes developing
-a harness and giving agents ways to verify work. My canonical-record rule and
-resumption fields are my application of that general direction. Repeated
-mistakes should earn an enforcing test, type or lint rule, not another paragraph
-of instructions; the particular Hashimoto passage behind that attribution in
-the digest was not located, so its **link not found**.
+These resumption fields and the canonical-record rule are my own practice.
+[Mitchell Hashimoto's account](https://mitchellh.com/writing/my-ai-adoption-journey),
+in “Step 5: Engineer the Harness,” describes responding to recurring agent
+mistakes with better guidance or programmed tools, and giving agents ways to
+verify their work. I take the same opportunity to improve the feedback available
+to the next run. Which intervention fits depends on the failure; another
+instruction is not always the answer.
 
 ## 8. I scale review to consequences
 
@@ -125,11 +112,9 @@ Shared behavior needs integration evidence and targeted review. Security, money,
 private data, production and difficult-to-reverse contracts require independent
 technical review and my examination of the consequential behavior.
 
-Gentleman Programming's linked repository describes proportionate review;
-Pocock's work motivates deliberate human judgment. The specific original
-one-way-door post attributed to Pocock is **link not found**. My tiers are policy
-choices, not experimentally established boundaries. Cross-family review is a
-hypothesis worth measuring, not a correctness guarantee.
+My tiers are policy choices, not experimentally established boundaries.
+Cross-family review is a hypothesis worth measuring, not a correctness
+guarantee. I want review effort to follow the possible harm, not a fixed ritual.
 
 ## 9. I delegate for a named benefit
 
@@ -139,10 +124,9 @@ constraints, checks and a stop condition. I verify an adopted result in the
 destination workspace; a child report is not integration evidence. Overlapping
 writes wait rather than race.
 
-The digest contrasts Gentleman Programming's bounded roles with an **Anthropic
-account dated October 2026 — link not found** arguing for simpler architectures.
-I have not verified that comparison or a general claim that one agent wins.
-Coordination has a cost; more concurrent agents is not itself more throughput.
+This is not a claim that one agent always wins. Coordination has a cost;
+I judge delegation by whether its independent result helps complete the task,
+not by how many agents are active.
 
 ## 10. I separate outward authority from technical success
 
@@ -158,8 +142,8 @@ it**. A narrow queue policy may allow a low-risk class after its specified CI,
 review and risk-note conditions; without that policy, the agent does not merge.
 My present preference is to keep behavior changes and irreversible actions under
 explicit owner judgment. This is a policy choice, not automatic authority for
-other projects. Gentleman Programming's repository likewise keeps commit, push
-and release decisions with the user; my complete action boundary is my own.
+other projects. The action boundary here is my own: technical success and
+permission to act are separate decisions.
 
 ## 11. I measure accepted outcomes, not activity
 
@@ -177,16 +161,13 @@ unfinished tasks, changed scope, external waiting and follow-up windows visible.
 Messages, tokens, PRs and agent counts may explain cost, but are not productivity.
 I compare similar tasks, change one practice at a time and allow “inconclusive.”
 
-## What my own analysis can and cannot tell me
+## What my own review can and cannot tell me
 
-**Evidence with limits.** A private analysis of my October 2026 message export
-looked at clarification, scope, decisions, research, evidence and continuity.
-It separated obvious automated/supervisor records from the comparison pool;
-categories overlapped and copied material could still contaminate them. Agent
-replies were unavailable. Message counts were not independent failures, time
-saved, or proof that a particular agent worked. No private messages or identities
-are distributed here.
+**Personal observation, not a public study.** My own review of a few weeks of my
+agent sessions helped me notice recurring clarification, scope and recovery
+work. The session data is private and is not distributed here. I cannot infer
+time saved or comparative agent quality from those observations.
 
-**Opinion.** That analysis tells me where to try habits, not that this method is
+**Opinion.** That review tells me where to try habits, not that this method is
 validated. My test is whether I get accepted work with less avoidable supervision
 and no hidden quality, privacy or authority regressions. If not, I change it.
