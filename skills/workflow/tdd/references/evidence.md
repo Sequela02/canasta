@@ -23,7 +23,7 @@ These findings drive the "Agent failure modes" section.
 - Practitioner skills converge on the same rules: test through agreed public
   seams, avoid tautological assertions, and work in vertical slices, one test
   then one implementation (Matt Pocock's `tdd`); assert observed results
-  against literal expected values (Lauren Tan's pstack).
+  against literal expected values (poteto's pstack).
 - Enforcement belongs in structure where possible: report every test-file
   change at completion so reviewers check it, and use repository hooks that
   keep tests read-only while making them pass where a team adopts them.

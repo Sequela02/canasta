@@ -32,9 +32,11 @@ by your installed version, then check the installed plugin list and skill menu.
 
 ## Codex
 
-The reference pack uses the same marketplace file and `plugin.json`, not a
-separate Codex-only schema. This machine's Codex exposes the corresponding
-native marketplace and plugin commands:
+Canasta follows the shared marketplace and `plugin.json` layout documented in
+[Matt Pocock's installation guide](https://github.com/mattpocock/skills#installation-30-second-setup),
+not a separate Codex-only manifest. **Codex ingestion of canasta's manifests is
+not yet tested.** The Codex CLI help checked during preparation supports this
+marketplace and plugin command syntax:
 
 ```sh
 codex plugin marketplace add Sequela02/canasta
@@ -55,18 +57,20 @@ support, use the manual skill-folder route below rather than guessing syntax.
 
 ## Pi, other supported agents, and editable copies
 
-The reference README documents skills.sh as a copy-based alternative to plugins,
-with agent selection and manual updates. After publication:
+skills.sh is a copy-based alternative to plugins, with agent selection and
+manual updates, as described in [Matt Pocock's installation guide](https://github.com/mattpocock/skills#installation-30-second-setup).
+After publication:
 
 ```sh
 npx skills add Sequela02/canasta
 ```
 
-This is the requested shorthand; the reference uses `npx skills@latest add` to
-explicitly select the latest installer. The installer lets you select skills
-and agents. Include `setup-canasta` and the workflow skills; select stack skills
-only if you want those opinions. Pi is named as a supported adapter in the
-reference. Omit agent flags to inspect the installer's current choices.
+Use `npx skills@latest add Sequela02/canasta` if you want to explicitly select
+the latest installer. The installer lets you select skills and agents. Include
+`setup-canasta` and the workflow skills; select stack skills only if you want
+those opinions. Pocock's linked guide lists Pi as a supported adapter; canasta's
+Pi installation has not been exercised. Omit agent flags to inspect the
+installer's current choices.
 
 For Tesota or another tool not listed by your installer, do **not** assume a
 named adapter exists. Use the manual route and that tool's documented skills
