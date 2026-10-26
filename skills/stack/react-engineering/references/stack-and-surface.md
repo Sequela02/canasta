@@ -34,7 +34,7 @@ Select the runtime before selecting React-specific libraries:
 
 | Surface                                                                          | Default                                              | Rules                                                                                                                                                                                                                                                |
 | -------------------------------------------------------------------------------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Authenticated, operational, or data-heavy application                            | React + Vite                                         | Use the governed stable baseline. Use TanStack Router/Query, React Hook Form, Zod, and client state only where the repository pattern and workflow require them. Load `zod-standards` for runtime schemas, migrations, and compilation.              |
+| Authenticated, operational, or data-heavy application                            | React + Vite                                         | Use the governed stable baseline. Use TanStack Router/Query, React Hook Form, Zod, and client state only where the repository pattern and workflow require them. Load the [Zod reference](../../typescript-standards/references/zod.md) for runtime schemas, migrations, and compilation.              |
 | Marketing site, product landing, campaign page, public writing, or documentation | Astro, static output by default                      | Keep static structure in `.astro` components. Add React islands only for behavior that needs client state or browser APIs. Do not add an SPA router or query client by default.                                                                      |
 | Public signup, checkout, or portal paired with marketing content                 | Split content and application deployments by default | Let Astro own discoverable content and hand off to the application. Real credential, tenant, payment, or session creation belongs to the application. If one deployment owns both, choose the dominant interaction model and document the exception. |
 | Public route inside an established application                                   | Existing application stack                           | An established transactional route takes precedence over the split default. Do not introduce a second runtime for one route. Prerender or server-render indexable content when discoverability matters.                                              |
@@ -76,7 +76,7 @@ memoization in new components and hooks. Do not add `useMemo`, `useCallback`, or
 `React.memo` routinely. Keep manual memoization for demonstrated control or
 performance needs, and test carefully before removing existing memoization;
 removal can change compiler output and effect behavior. This qualification also
-applies to manual memoization examples in `performance/`.
+applies when consulting upstream manual-memoization examples.
 
 Verify compiler activation, compiler diagnostics, a production build, and the
 relevant interactions. Fix Rules of React violations and inspect skipped

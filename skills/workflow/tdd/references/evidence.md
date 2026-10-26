@@ -33,7 +33,8 @@ Sources:
 - Over-mocked agent tests: https://arxiv.org/abs/2602.00409
 - Kent Beck on TDD and agents: https://newsletter.pragmaticengineer.com/p/tdd-ai-agents-and-coding-with-kent
 - Matt Pocock's tdd skill: https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md
-- pstack principles: https://github.com/backnotprop/pstack
+- poteto's pstack principles: original public link not found. This is an
+  attributed practice, not a verified public source or copied upstream text.
 
 ## Durable conclusions
 

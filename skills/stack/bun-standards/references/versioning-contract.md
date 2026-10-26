@@ -54,14 +54,10 @@ written organization standard; do not invent one.
 
 ## Read-only check
 
-Run the bundled checker before trusting local verification:
-
-```text
-bun <skill-dir>/scripts/check-bun-version.ts <repository-root>
-```
-
-The check fails when `packageManager` is absent, malformed, non-exact, or does
-not equal `Bun.version`. It does not install or upgrade anything.
+Before trusting local verification, use the repository's own check to compare
+its exact `packageManager` declaration with the observed Bun executable version.
+Reject absent, malformed, non-exact or mismatched declarations. This is a
+read-only check, not permission to install or upgrade a toolchain.
 
 `bun ci` separately proves that the manifest and committed lockfile agree. A
 version match does not replace that check.

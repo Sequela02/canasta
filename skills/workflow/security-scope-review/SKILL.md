@@ -44,9 +44,9 @@ Workflow:
 Treat prompt and tool injection as authorization problems, not prompt-style
 problems. Report findings by severity with the triggering path, impact,
 evidence, narrow correction, reviewed and unreviewed surface, verification, and
-residual risk. For a managed-child task, let managed-agent risk review lead
-lifecycle, settlement, handoff, and evidence-parity analysis; use this review for
-the general enforcement, credential, untrusted-data, and disclosure paths.
+residual risk. For a managed-child task, separately assess lifecycle, settlement, handoff
+and evidence-parity risks when those are in scope; do not assume this general
+authority review establishes those guarantees.
 
 For a Spring backend (cookies, tokens, tenant isolation, CSRF/CORS, method
 security, and its negative-test checklist), read

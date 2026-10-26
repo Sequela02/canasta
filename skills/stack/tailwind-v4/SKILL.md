@@ -5,7 +5,7 @@ description: "Configure Tailwind CSS v4 or change its tokens, utilities, respons
 
 # Tailwind v4
 
-Use Tailwind CSS v4 as a CSS-first design-system layer. Keep this skill focused on Tailwind mechanics, tokens, utilities, variants, and maintainability. Use the upstream shadcn guidance (not bundled) for component registry/API work. For color conversion, palettes, contrast and gamut, read [references/oklch/index.md](references/oklch/index.md) and only the topic file it points to.
+Use Tailwind CSS v4 as a CSS-first design-system layer. Keep this skill focused on Tailwind mechanics, tokens, utilities, variants, and maintainability. Use the upstream shadcn guidance (not bundled) for component registry/API work. For color conversion, palettes, contrast and gamut, consult [MDN's OKLCH reference](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/oklch) or the upstream [OKLCH skill](https://github.com/jakubkrehel/oklch-skill), which is not bundled.
 
 ## Sources
 

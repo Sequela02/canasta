@@ -49,5 +49,5 @@ Map work to the available capabilities, not fixed role names. See
 
 This skill does not grant route, provider, model, permission, budget, approval,
 or lifecycle authority; the harness's executable contracts do. Route
-implementation planning, security review, lifecycle risk review, and code
-review to their owning procedures rather than absorbing them here.
+implementation planning, security review and code review to their owning
+procedures. Assess lifecycle risks separately when the task requires them.

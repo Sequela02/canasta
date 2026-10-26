@@ -28,7 +28,8 @@ Optimizes findability, comprehension, and continuation into the relevant task. I
 
 ## Application surface
 
-An authenticated or transactional workflow is outside page architecture's primary scope. Its hierarchy follows task completion, state, permissions, and error recovery rather than a marketing argument. Use the project's interface-quality guidance and `react-engineering` instead.
+An authenticated or transactional workflow is outside page architecture's primary scope. Its hierarchy follows task completion, state, permissions, and error recovery rather than a marketing argument. Use the project's interface-quality guidance and the project's implementation guidance instead. If the optional stack
+group is installed and the project uses React, `react-engineering` can help.
 
 ## Classification check
 

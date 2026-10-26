@@ -56,7 +56,7 @@ replaced by the relevant subject or upstream guidance, not bundled copies.
 | spring-boot | stack | Local Java/backend opinions; private platform names replaced by adopted platform components. |
 | stripe-best-practices | excluded | External authorship declared by owner; Stripe-specific upstream-style entry point and reference collection. No local licence/copyright notice found. |
 | system-design | workflow | Local design procedure; deployment constraints and decision destinations generalized. |
-| tailwind-v4 | stack | Local CSS/token opinions with technical references. |
+| tailwind-v4 | stack | Local CSS/token wrapper retained. The OKLCH reference tree explicitly identifies jakubkrehel/oklch-skill revision 9831d14b; it is omitted and replaced by upstream links. |
 | tdd | workflow | Local test-first discipline; diagnosing-bugs reference explicitly adapts Matt Pocock revision 5beb35b under MIT. Full upstream notice retained in that reference and a folder-level notice added. Other practitioner ideas are attributed, not copied. |
 | typescript-standards | stack | Local language/tooling opinions and official/style-guide citations. Version-sensitive claims require checking against the consuming repository. |
 | vitest-testing | stack | Local test-runner diagnosis and evidence procedure. |

@@ -20,8 +20,9 @@ I use a plan for commitments and a bounded prototype for reversible uncertainty.
 New findings do not authorize new scope: I explicitly continue, revise or cancel
 when the accepted goal changes. This combines the design-first emphasis in
 [Matt Pocock's skills](https://github.com/mattpocock/skills) with the experimental
-approach attributed to poteto's [pstack](https://github.com/backnotprop/pstack).
-Those are practitioner approaches, not comparative evidence. Gentleman
+approach attributed to poteto's pstack (**link not found**; the supplied
+snapshot identifies no public upstream). Those are practitioner approaches,
+not comparative evidence. Gentleman
 Programming's [ODD description](https://github.com/Gentleman-Programming/gentle-ai#features)
 also distinguishes questions from authorized changes and keeps small work small.
 
