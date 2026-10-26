@@ -1,0 +1,21 @@
+{
+  "name": "canasta",
+  "owner": {
+    "name": "Ricardo Armenta"
+  },
+  "description": "A basket of agent skills by Canitas.",
+  "plugins": [
+    {
+      "name": "canasta-workflow",
+      "source": "./skills/workflow",
+      "description": "Tool-neutral working practices.",
+      "category": "engineering"
+    },
+    {
+      "name": "canasta-stack",
+      "source": "./skills/stack",
+      "description": "Optional stack opinions.",
+      "category": "engineering"
+    }
+  ]
+}

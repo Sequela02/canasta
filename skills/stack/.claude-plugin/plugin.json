@@ -1,0 +1,21 @@
+{
+  "name": "canasta-stack",
+  "version": "0.1.0",
+  "description": "Optional technology opinions by Ricardo Armenta.",
+  "author": {
+    "name": "Ricardo Armenta"
+  },
+  "repository": "https://github.com/Sequela02/canasta",
+  "license": "MIT",
+  "skills": [
+    "./astro",
+    "./bun-standards",
+    "./postgres",
+    "./react-engineering",
+    "./rust-standards",
+    "./spring-boot",
+    "./tailwind-v4",
+    "./typescript-standards",
+    "./vitest-testing"
+  ]
+}
