@@ -39,4 +39,3 @@ Official reference:
 
 - https://docs.spring.io/spring-boot/reference/actuator/observability.html
 - https://docs.spring.io/spring-boot/reference/actuator/metrics.html
-

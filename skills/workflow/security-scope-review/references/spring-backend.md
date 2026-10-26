@@ -52,4 +52,3 @@ Run focused authorization and tenant-isolation tests, dependency/secret scans
 available to the repository, security configuration startup checks, and the
 broader backend gates. Report any production identity provider, key rotation,
 WAF/rate limit, or infrastructure control not exercised locally.
-

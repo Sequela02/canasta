@@ -44,4 +44,3 @@ Return stable unauthenticated/forbidden problem contracts without revealing
 whether a protected resource exists. Record security-relevant events with
 correlation and outcome, but redact secrets and personal data. Metrics should
 use bounded dimensions.
-

@@ -91,4 +91,3 @@ over building a parallel one.
 - When platform files change, verify the container image and startup path.
 - Do not claim migration readiness without testing API contracts, persistence,
   security, migrations, runtime packaging, and the affected production path.
-

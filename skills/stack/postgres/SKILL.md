@@ -63,4 +63,3 @@ optimize from measured plans rather than folklore.
 - Verify hot plans, concurrency cases, backup/restore evidence, and monitoring.
 - Report exactly what was exercised; do not equate compilation with database
   readiness.
-

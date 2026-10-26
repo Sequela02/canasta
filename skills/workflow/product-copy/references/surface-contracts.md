@@ -33,4 +33,3 @@ An authenticated or transactional workflow is outside page architecture's primar
 ## Classification check
 
 When multiple contracts appear to apply, identify the dominant visitor job. Split the surface or document the compromise when combining them would create competing primary actions or incompatible evidence needs.
-

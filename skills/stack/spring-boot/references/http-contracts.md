@@ -48,4 +48,3 @@ Keep one canonical contract source per API. Verify that security schemes,
 required/nullability semantics, examples, errors, pagination, webhooks, and
 deprecations match runtime behavior. Generated output is an artifact, not a
 second hand-edited authority.
-

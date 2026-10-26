@@ -43,4 +43,3 @@ behavior. Optimize the largest evidenced cost before rewriting everything.
 Classify operations by lock level, table rewrite potential, duration, disk/WAL
 growth, replication effect, and rollback/recovery path. Prefer expand/migrate/
 contract for changes that cannot be deployed atomically with all consumers.
-

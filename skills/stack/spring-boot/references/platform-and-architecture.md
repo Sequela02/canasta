@@ -47,4 +47,3 @@ Official reference:
 4. Resolve repository-owned deprecations instead of suppressing them.
 5. Run contract, security, persistence, container, and operational checks.
 6. Remove temporary migration code once all real consumers have moved.
-

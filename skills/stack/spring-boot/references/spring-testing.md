@@ -46,4 +46,3 @@ the actual contract.
 Use controllable clocks for domain time. For races, coordinate competing
 transactions deterministically and assert the database-backed invariant rather
 than relying on timing sleeps.
-

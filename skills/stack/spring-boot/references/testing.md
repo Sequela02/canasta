@@ -64,4 +64,3 @@ Use repository-defined commands. Typical Gradle sequencing is a specific test,
 the owning test task, integration or architecture tests, quality gates, build,
 and container smoke verification when packaging changed. Report unavailable
 Docker/provider/system dependencies as residual risk.
-

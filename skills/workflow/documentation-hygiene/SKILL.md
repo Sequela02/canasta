@@ -77,16 +77,14 @@ Close the task:
    enforcement as its own task, not inside this one.
 
 Load a reference only for its task:
-- Reviewing, writing, or trimming agent instruction files (`AGENTS.md`,
-  `CLAUDE.md`) or skills from repository evidence:
+- Reviewing, writing, or trimming project-owned agent instructions or skills
+  from repository evidence:
   [instruction-review.md](references/instruction-review.md).
 - A handoff or session summary for whoever continues the work:
   [handoff.md](references/handoff.md).
 - Retiring a branch, worktree, or remote ref:
   [branch-retirement.md](references/branch-retirement.md). Local and remote
   deletion each need their own explicit authorization.
-- Revising the global UI guidance itself (maintainer evidence, not routine
-  product work): [ui-guidance-research-basis.md](references/ui-guidance-research-basis.md).
 
 Use clear-writing for prose, research for external evidence, and repository-text-hygiene
 for Git, encoding, and line-ending drift. This procedure grants no publication,
