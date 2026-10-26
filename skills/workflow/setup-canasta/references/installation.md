@@ -128,10 +128,14 @@ Claude uses `install <plugin@marketplace>`, and Codex uses
 `claude plugin validate`; structural checks compare both plugin skill lists to
 the actual directories.
 
-**Not verified:** remote installation (the repository is not published),
-marketplace registration or installation into a real user's configuration,
-Codex manifest ingestion, skills.sh execution/recursive discovery, automatic
-updates, or in-agent skill invocation after restart. We did not run `npx`,
-install plugins, or modify any agent configuration just to test these docs.
-Command help proves syntax, not successful installation. The manual route is
-available when a tool cannot discover the grouped layout.
+**Verified on 2026-10-26, from the published repository on Windows, into
+fresh, isolated configurations:**
+- **Claude Code:** `claude plugin marketplace add Sequela02/canasta`, then
+  `claude plugin install canasta-workflow@canasta`, listed as enabled.
+- **Codex:** `codex plugin marketplace add Sequela02/canasta`, then
+  `codex plugin add canasta-workflow@canasta`. It listed `canasta-workflow` as
+  installed and enabled, and `canasta-stack` as available.
+
+**Not verified:** skills.sh (`npx skills add`) and Pi, automatic updates, and
+an agent invoking a skill after restart. The manual route is available when a
+tool cannot discover the grouped layout.
