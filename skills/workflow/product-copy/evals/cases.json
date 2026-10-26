@@ -1,0 +1,153 @@
+{
+  "version": 1,
+  "purpose": "Evaluate cross-project product-copy standards without rewarding any particular brand voice or page template.",
+  "cases": [
+    {
+      "id": "evidence-bound-homepage-copy",
+      "request": "Rewrite a logistics product homepage. The repository proves automated dispatch and audit history, but contains no authorized time-saved metric or customer quote.",
+      "expected": [
+        "uses the two authorized capabilities concretely",
+        "does not invent a metric or testimonial",
+        "marks any desired outcome claim as unsupported",
+        "keeps page structure outside the copy task"
+      ]
+    },
+    {
+      "id": "actionable-interface-error",
+      "request": "Write UI copy for a payment submission that can fail validation, be declined by the provider, or time out with an unknown final state.",
+      "expected": [
+        "distinguishes the three states",
+        "gives an honest next action for each state",
+        "does not blame the user or expose an internal exception",
+        "does not claim that a timed-out payment failed"
+      ]
+    },
+    {
+      "id": "bilingual-commercial-equivalence",
+      "request": "Adapt approved Mexican Spanish product copy into English for US buyers without changing the offer or guarantee strength.",
+      "expected": [
+        "writes natural market-facing English",
+        "preserves offer and claim strength",
+        "keeps product terminology stable",
+        "checks CTA meaning and layout-sensitive length"
+      ]
+    },
+    {
+      "id": "technical-claim-needs-owner",
+      "request": "Add 'enterprise-grade security and 99.99% uptime' to a product page. The repository contains authentication code but no security attestation or SLO.",
+      "expected": [
+        "rejects or blocks both claims",
+        "does not infer security assurance from implementation presence",
+        "identifies the missing authority",
+        "offers no weakened claim that still implies the unsupported guarantee"
+      ]
+    },
+    {
+      "id": "whole-surface-lexical-review",
+      "request": "Review a page where the hero, navigation, two headings, and final CTA all repeat the same promise and action in slightly different words.",
+      "expected": [
+        "reviews the surface as a system",
+        "keeps stable action vocabulary",
+        "removes redundant claim echoes",
+        "does not replace every repeated term with a synonym"
+      ]
+    },
+    {
+      "id": "abstract-contact-cta",
+      "request": "Our final CTA says 'Tell us where the software stopped fitting' and the button says 'Explore the next chapter.' Visitors do not understand whether this opens a form, starts a sales conversation, or requests support.",
+      "expected": [
+        "identifies the literal action and destination",
+        "replaces internal metaphor with audience-readable language",
+        "keeps the invitation broad enough for an existing problem or a credible new idea only when authorized",
+        "does not strengthen the commercial promise or redesign the page structure"
+      ]
+    },
+    {
+      "id": "technical-evaluator-counterexample",
+      "request": "Write an integration page for staff engineers comparing authentication flow, migration constraints, failure semantics, and SDK compatibility.",
+      "expected": [
+        "keeps technical terminology that helps the audience evaluate the integration",
+        "explains consequences and constraints precisely",
+        "does not simplify away required implementation detail",
+        "avoids using stack names as unsupported quality claims"
+      ]
+    },
+    {
+      "id": "brand-overlay-boundary",
+      "request": "Write copy for a client-owned healthcare product while using the studio's own established tone because it sounds confident.",
+      "expected": [
+        "refuses to import the studio voice by default",
+        "uses the client's repository-owned voice and evidence",
+        "preserves healthcare claim and approval boundaries"
+      ]
+    },
+    {
+      "id": "negative-long-form-adr",
+      "request": "Rewrite a twelve-page architecture decision record for clarity, preserving citations and alternatives considered.",
+      "expected": [
+        "does not treat the ADR as product copy",
+        "routes to general or technical writing guidance"
+      ]
+    },
+    {
+      "id": "audience-vocabulary-not-proof",
+      "request": "Sales-call notes repeatedly use the phrase 'Friday reconciliation panic.' Turn that into a homepage claim that most finance teams lose a full day every Friday.",
+      "expected": [
+        "uses authorized audience vocabulary only as wording or an objection hypothesis",
+        "does not convert anecdotal language into a prevalence or time-loss claim",
+        "identifies the evidence needed for the broader claim",
+        "may retain the phrase only when voice and publication rights support it"
+      ]
+    },
+    {
+      "id": "editorial-premium-voice-counterexample",
+      "request": "A museum membership page has an approved literary editorial voice and a clear literal subheading. Rewrite every sentence into terse operational product copy because concise copy is more human.",
+      "expected": [
+        "preserves the approved editorial voice where comprehension remains intact",
+        "does not impose one terse conversational register",
+        "keeps actions and consequential details literal",
+        "evaluates voice against audience and repository evidence rather than reviewer taste"
+      ]
+    },
+    {
+      "id": "three-part-list-counterexample",
+      "request": "A safety procedure names exactly three required checks in a parallel list. Remove the triad because three-part lists are an AI-copy pattern.",
+      "expected": [
+        "keeps the three-part structure because the source material contains exactly three real checks",
+        "distinguishes rhetorical automation from a truthful content relationship",
+        "does not add or remove items for stylistic variety",
+        "keeps terminology and sequence stable"
+      ]
+    },
+    {
+      "id": "es-mx-incomplete-input",
+      "request": "Write Mexican Spanish checkout copy from an English mockup. No Spanish glossary, market owner, legal wording, date or currency policy, or in-market reviewer is available.",
+      "expected": [
+        "produces only low-risk provisional wording when possible and labels it unapproved",
+        "records missing glossary, locale-format, legal, and review dependencies",
+        "does not invent Mexican slang or claim regional familiarity",
+        "requires rendered es-MX review for public or consequential copy"
+      ]
+    },
+    {
+      "id": "technical-consequence-bridge",
+      "request": "The product supports append-only audit events, idempotency keys, and deterministic replay. Write for staff engineers evaluating recovery behavior without replacing the details with 'peace of mind.'",
+      "expected": [
+        "keeps the domain terms the audience needs",
+        "connects each implementation fact to recovery, duplication, or audit consequences",
+        "does not present technology names as generic superiority",
+        "preserves limitations and evidence scope"
+      ]
+    },
+    {
+      "id": "fake-conversational-tone",
+      "request": "Rewrite an incident-status error as 'Oops, looks like our little servers are having a moment!' for a regulated payments console.",
+      "expected": [
+        "rejects unsupported intimacy and minimization",
+        "states the known status and next safe action",
+        "preserves the product's operational voice",
+        "does not add an apology or reassurance that implies resolution"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,142 @@
+{
+  "version": 1,
+  "purpose": "Evaluate routing and application without rewarding similarity to the a prior landing-page experiment.",
+  "cases": [
+    {
+      "id": "homepage-b2b-mixed-intent",
+      "request": "Plan the homepage structure for a bilingual bookkeeping firm serving small businesses in Mexico and US-based founders with Mexican operations. We have two authorized case summaries but no public pricing.",
+      "expected": [
+        "classifies the surface as a homepage",
+        "maps distinct visitor questions to chapters",
+        "uses the authorized cases as claim-bound proof",
+        "does not invent pricing or a universal section sequence"
+      ]
+    },
+    {
+      "id": "campaign-single-offer",
+      "request": "Create the content architecture for a paid-search landing page promoting a 30-minute inventory audit. The ad promises only an assessment, not implementation.",
+      "expected": [
+        "classifies the surface as a campaign landing",
+        "preserves message continuity with the ad",
+        "keeps one primary action",
+        "does not expand the promise into implementation"
+      ]
+    },
+    {
+      "id": "service-page-bespoke",
+      "request": "Review the sections for a custom data-integration service. Every engagement differs and we cannot publish timelines yet.",
+      "expected": [
+        "classifies the surface as a service page",
+        "separates fit, responsibility, evidence, and qualification",
+        "marks timeline content blocked or omits it",
+        "does not fabricate packages"
+      ]
+    },
+    {
+      "id": "product-proof-before-ui",
+      "request": "Plan a page for a warehouse scheduling product. The repository contains real product captures and one measured deployment result.",
+      "expected": [
+        "classifies the surface as product marketing",
+        "binds the deployment result to the relevant claim",
+        "requires real product capture for product UI",
+        "keeps implementation technology out of the content argument"
+      ]
+    },
+    {
+      "id": "faq-not-required",
+      "request": "Our homepage already answers support, contracting, and data handling beside the relevant sections. Add a standard ten-question FAQ at the bottom.",
+      "expected": [
+        "challenges the quota",
+        "checks whether consolidation improves findability",
+        "avoids duplicating answers",
+        "does not add schema by default"
+      ]
+    },
+    {
+      "id": "owned-product-does-not-define-company",
+      "request": "Plan a software company's homepage. It has one owned ticketing product with public repositories, but client systems and engineering tools are equally important parts of the company.",
+      "expected": [
+        "establishes the company category and scope before the owned product",
+        "uses the product as proportional evidence rather than the page's dominant identity",
+        "does not infer customer outcomes from repository scope",
+        "removes capability sections that merely restate the same offer"
+      ]
+    },
+    {
+      "id": "mixed-evidence-strength",
+      "request": "A company page has a public repository, an operator statement about intent, several competitor pages using similar language, and no authorized customer outcomes.",
+      "expected": [
+        "maps each claim to the evidence type that can actually support it",
+        "uses the repository for artifact scope rather than customer impact",
+        "treats competitor conventions as hypotheses rather than conversion evidence",
+        "omits or blocks outcome claims"
+      ]
+    },
+    {
+      "id": "blocked-product-chapter",
+      "request": "Add a prominent product chapter to the company homepage. The product has a name but no approved asset, destination, public scope, or substantiated claim.",
+      "expected": [
+        "marks the chapter blocked or omits it",
+        "does not fill the evidence gap with generic feature copy",
+        "keeps the broader company argument intact",
+        "identifies the asset, destination, and claim dependencies"
+      ]
+    },
+    {
+      "id": "contextual-labels-one-action",
+      "request": "The header says 'Contact us,' the hero says 'Describe your project,' and the final button says 'Email the team.' All three begin the same project conversation through email.",
+      "expected": [
+        "recognizes one primary action concept",
+        "allows context-specific labels when each truthfully clarifies input or destination",
+        "does not require word-for-word repetition",
+        "flags any label that implies a different offer or outcome"
+      ]
+    },
+    {
+      "id": "negative-application-workflow",
+      "request": "Redesign the approval workflow inside an authenticated payroll application, including empty, loading, denied, and conflict states.",
+      "expected": [
+        "does not apply a marketing page argument",
+        "routes to product workflow and frontend state ownership"
+      ]
+    },
+    {
+      "id": "negative-site-architecture",
+      "request": "Restructure the documentation site's navigation, URL hierarchy, redirects, and breadcrumb model.",
+      "expected": [
+        "does not claim ownership of site-wide information architecture",
+        "routes to site architecture and framework owners"
+      ]
+    },
+    {
+      "id": "comparison-grid-counterexample",
+      "request": "Plan a page comparing four deployment options with the same seven decision fields. The visual team wants every option to use a different chapter so the page feels less repetitive.",
+      "expected": [
+        "identifies comparison as the governing content relationship",
+        "preserves equivalent fields and a scannable repeated structure",
+        "keeps architecture focused on decision order and evidence rather than prescribing card styling",
+        "flags missing or non-comparable data instead of hiding it with unique layouts"
+      ]
+    },
+    {
+      "id": "incomplete-evidence-brief",
+      "request": "Create a SaaS homepage argument. We know only the product name and that it uses AI. Audience, workflow, pricing, proof, and primary action are not provided.",
+      "expected": [
+        "does not fill the page with a standard hero-features-testimonials-pricing-FAQ sequence",
+        "marks audience, page job, product behavior, evidence, and action as material dependencies",
+        "provides only the bounded decisions that can be made from supplied authority",
+        "does not convert technology presence into customer value"
+      ]
+    },
+    {
+      "id": "evidence-index-separation-counterexample",
+      "request": "A long research product page puts concise claim-specific citations beside each finding and also includes a consolidated methods and source index at the end. Remove the index because evidence must always stay only beside claims.",
+      "expected": [
+        "keeps local claim qualification and the consolidated reference index because they serve different retrieval jobs",
+        "does not turn evidence adjacency into a ban on summaries or source indexes",
+        "checks that the index does not replace local qualification",
+        "preserves the page's research-oriented surface contract"
+      ]
+    }
+  ]
+}
