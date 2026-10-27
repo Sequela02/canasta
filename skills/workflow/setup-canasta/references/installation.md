@@ -25,9 +25,10 @@ For a local checkout, replace the first command with:
 claude plugin marketplace add /absolute/path/to/canasta
 ```
 
-The root `.claude-plugin/marketplace.json` lists two plugin sources. Each source
-has its own `.claude-plugin/plugin.json` with an explicit skill list. Workflow
-and stack do not load each other. Restart or start a fresh session if required
+The root `.claude-plugin/marketplace.json` lists two plugin sources. The
+workflow plugin is the repository root, so it can also ship `agents/`; the stack
+plugin is `skills/stack`. Each has a `.claude-plugin/plugin.json` with an
+explicit skill list. Workflow and stack do not load each other. Restart or start a fresh session if required
 by your installed version, then check the installed plugin list and skill menu.
 
 ## Codex
@@ -109,6 +110,37 @@ skills again. Locally edited copies need reconciliation; they do not magically
 update with the source clone. Remove only the plugin or copied folders you
 installed when uninstalling; preserve unrelated skills and user changes.
 
+## Agent types
+
+The six files in `agents/` have no model. Each tool reads its own format, so
+`setup-canasta` renders a copy per tool with the model you chose. Documented
+formats, checked 2026-10-26:
+
+| Tool | Where it reads agent types | Model field | If the model is omitted |
+| --- | --- | --- | --- |
+| Claude Code | `~/.claude/agents/`, `.claude/agents/`, or a plugin's `agents/` | `model:` (`sonnet`, a full ID, or `inherit`) | Inherits the session's model |
+| Codex | `~/.codex/agents/` or `.codex/agents/`, one **TOML** file per agent with `name`, `description`, `developer_instructions` | `model` (and `model_reasoning_effort`) | Uses the `[agents]` default, else the parent's model |
+| Tesota | `~/.tesota/agents`, `~/.agents/agents`, project `.agents/agents` | `model: provider/id` | Runs on the session's model |
+
+Notes that change what setup writes:
+
+- **Claude Code plugin.** `canasta-workflow` ships `agents/` through the plugin,
+  with no model, so they inherit. To pick models, setup writes copies to
+  `~/.claude/agents/`; a user copy outranks the plugin's. Setup adds a `tools`
+  allowlist to the four read-only roles in those copies.
+- **Codex.** The Markdown files are not read as they are; setup converts each to
+  TOML. A Codex agent file cannot set `sandbox_mode`, approvals or MCP servers:
+  those come from the parent session. A read-only role in Codex is therefore a
+  prompt instruction plus the session's own sandbox, not a permission boundary.
+  Say so to the user.
+- **Tesota.** The Markdown files load as they are, on the session's model. Setup
+  writes copies with a `provider/id` model to `~/.tesota/agents`, which wins by
+  name over `~/.agents/agents`. Writer roles (worker, verifier) get `writes: true`.
+- **Other tools.** No format is assumed. Leave them pending.
+
+Setup keeps your earlier choices by reading the `model` already in each
+installed copy. It never overwrites a file of yours without asking.
+
 ## What was verified, 2026-10-26
 
 The following **read-only help commands ran successfully on this machine**:
@@ -135,6 +167,13 @@ fresh, isolated configurations:**
 - **Codex:** `codex plugin marketplace add Sequela02/canasta`, then
   `codex plugin add canasta-workflow@canasta`. It listed `canasta-workflow` as
   installed and enabled, and `canasta-stack` as available.
+
+**Agent types.** Verified: the three formats above, from Claude Code's
+subagent and plugin reference pages, the Codex subagents page and Tesota's
+subagents guide; `claude plugin validate .` passes with `agents/` at the plugin
+root. **Not verified:** that Claude Code or Codex loads a rendered copy, that a
+Codex TOML file runs with its model, or that the plugin's agents appear in a
+fresh session. Model detection depends on each tool's own listing.
 
 **Not verified:** skills.sh (`npx skills add`) and Pi, automatic updates, and
 an agent invoking a skill after restart. The manual route is available when a
