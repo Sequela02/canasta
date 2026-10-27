@@ -1,8 +1,8 @@
 # How I work with agents
 
-I'm Ricardo Armenta, also known as Canitas. I want less supervision and stronger
-evidence—not more ceremony or more agents. I own the outcome; the agent helps
-me explore, decide and build. This is my working method, not a proven recipe.
+I'm Ricardo Armenta, also known as Canitas. I want to supervise agents less and
+get better proof from them. The outcome is mine; the agent helps me explore,
+decide and build. This is how I work today. It works for me, and it may change.
 
 **Opinion** marks my choices and practitioner advice. **Evidence** marks an
 observed result with limits. A source can inspire a rule without proving that
