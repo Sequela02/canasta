@@ -1,40 +1,41 @@
 # canasta
 
-Ricardo Armenta's (Canitas) pack of skills for coding agents. They help agents
-stay within the requested scope, check their work and leave consequential
-decisions with you—not a new harness or a mandatory process for every edit.
+The agent skills I use every day, cleaned up so anyone can use them. They keep
+the agent on what I asked, make it show proof before it says "done", and leave
+the big calls to me. They work in Claude Code, Codex and other agents.
 
-**Canasta** is Spanish for basket—a basket of skills, with “Cana” from Canitas.
+Canasta is Spanish for basket. A basket of skills, and "Cana" from Canitas.
 
-## Why these skills exist
+## Why I made these
 
-- **A question becomes an implementation.** `problem-clarification` separates
-  exploration, decisions and authorized building.
-- **A plausible brief becomes an unchecked premise.** `codebase-scouting` and
-  `implementation-planning` ground the work in the actual repository.
-- **The agent says “done,” but the user path still fails.** `tdd`,
-  `formal-verification` and `benchmark-readiness-review` distinguish checks
-  from confidence, and say what each check cannot prove.
-- **A small change becomes a framework.** `architecture-review`,
-  `concept-modeling` and `refactor` keep responsibility and scope visible.
-- **Delegation creates more supervision than progress.** `orchestration-workflow`
-  starts with one agent and requires a reason for handing work off.
-- **A green check becomes permission to ship.** `writing-pr` ends with a risk
-  note; merge authority still comes from the project's stated policy.
+Agents kept making the same mistakes on me:
 
-The workflow skills describe what matters and why, independently of your tool.
-The optional stack group contains my technology opinions, not universal rules.
-Keep your project's explicit constraints; check version-sensitive guidance
-against its installed toolchain. Third-party skills stay with their upstreams.
+- **I ask a question and the agent starts building.** `problem-clarification`
+  makes it tell exploring, deciding and building apart.
+- **The agent trusts a brief without checking it.** `codebase-scouting` and
+  `implementation-planning` make it look at the real repo first.
+- **It says "done" and the thing still doesn't work.** `tdd`,
+  `formal-verification` and `benchmark-readiness-review` ask for real checks,
+  and for what each check can't prove.
+- **A small change turns into a framework.** `architecture-review`,
+  `concept-modeling` and `refactor` keep the change small.
+- **Handing work to subagents costs more than it saves.** `orchestration-workflow`
+  starts with one agent and asks why before splitting work.
+- **Green CI turns into "ship it".** `writing-pr` ends every PR with a risk note,
+  and the agent doesn't merge unless your project says it can.
 
-Read [how I work](docs/how-i-work.md) for the method, its sources, and the
-boundary between evidence and my preferences.
-Canasta follows the style of personal skill packs such as [Theo's tstack](https://github.com/t3dotgg/tstack) and poteto's pstack.
+The workflow skills say what to do and why, not which tool to use. The stack
+skills are my opinions on the tech I use, so take them as opinions. Your
+project's own rules win.
 
-## Installation
+How I work, and where each idea comes from, is in [how I work](docs/how-i-work.md).
+If you know [Theo's tstack](https://github.com/t3dotgg/tstack) or poteto's pstack,
+this is the same kind of thing.
 
-Choose one method per agent. See the [full installation guide and verification limits](skills/workflow/setup-canasta/references/installation.md)
-for local-checkout and manual installation options.
+## Install
+
+Pick one method per agent. The [installation guide](skills/workflow/setup-canasta/references/installation.md)
+has the manual and local-checkout options.
 
 ### Claude Code
 
@@ -60,17 +61,18 @@ codex plugin add canasta-stack@canasta
 npx skills add Sequela02/canasta
 ```
 
-Select workflow skills (including `setup-canasta`) and any stack skills you
-want. For agents without an installer adapter, use the
-[manual clone-and-copy route](skills/workflow/setup-canasta/references/installation.md#manual-clone-and-copy).
-Keep each skill folder intact in the agent's documented skills directory.
+Pick the workflow skills (including `setup-canasta`) and any stack skills you
+want. If your agent has no installer, use the
+[manual clone-and-copy route](skills/workflow/setup-canasta/references/installation.md#manual-clone-and-copy),
+and keep each skill folder whole.
 
-CLI syntax was checked against local Claude Code and Codex help. Remote
-installation, Codex manifest ingestion, skills.sh and in-agent discovery were
-**not** exercised. After installing, run `setup-canasta` with your agent's skill
-invocation mechanism; some tools require a new session or a user interaction.
+I tested the Claude Code and Codex installs from this repo. I haven't tested
+`npx skills` or Pi yet. Some agents need a new session before they see the
+skills.
 
-### Copy-and-paste setup prompt
+### Or let your agent do it
+
+Paste this into your agent:
 
 ```text
 Install canasta from https://github.com/Sequela02/canasta for the agent tools
@@ -84,58 +86,56 @@ report anything you could not check. Do not change project instructions,
 install agent executables, publish, push or merge anything.
 ```
 
-For a local installation, replace the GitHub URL with your checkout path.
-The prompt requests installation, not unrelated outward actions.
+For a local copy, swap the GitHub URL for your checkout path.
 
 ## Skills
 
 ### Workflow
 
-- [architecture-review](skills/workflow/architecture-review/SKILL.md) — Module boundaries, dependency direction and contracts.
-- [benchmark-readiness-review](skills/workflow/benchmark-readiness-review/SKILL.md) — Benchmark validity and defensible performance claims.
-- [clear-writing](skills/workflow/clear-writing/SKILL.md) — Accurate prose shaped around the reader.
-- [code-review-findings](skills/workflow/code-review-findings/SKILL.md) — Actionable defects, evidence and verification gaps.
-- [codebase-scouting](skills/workflow/codebase-scouting/SKILL.md) — Find owners, dependencies and affected checks.
-- [concept-modeling](skills/workflow/concept-modeling/SKILL.md) — Resolve ambiguous terms and semantic ownership.
-- [config-projection-review](skills/workflow/config-projection-review/SKILL.md) — Canonical configuration, provenance and safe convergence.
-- [documentation-hygiene](skills/workflow/documentation-hygiene/SKILL.md) — Place and maintain durable documentation.
-- [formal-verification](skills/workflow/formal-verification/SKILL.md) — Prove contracts without confusing proof with intent.
-- [implementation-planning](skills/workflow/implementation-planning/SKILL.md) — Small, evidenced implementation sequences.
-- [orchestration-workflow](skills/workflow/orchestration-workflow/SKILL.md) — Bounded delegation and verified adoption.
-- [problem-clarification](skills/workflow/problem-clarification/SKILL.md) — Separate questions, decisions and build intent.
-- [product-copy](skills/workflow/product-copy/SKILL.md) — Evidence-led interface and marketing copy.
-- [refactor](skills/workflow/refactor/SKILL.md) — Change structure while preserving behavior.
-- [repository-text-hygiene](skills/workflow/repository-text-hygiene/SKILL.md) — Repair encoding, line-ending and Git drift.
-- [research](skills/workflow/research/SKILL.md) — Question-driven investigation with a stopping condition.
-- [security-scope-review](skills/workflow/security-scope-review/SKILL.md) — Trace authority, untrusted data and consequential effects.
-- [setup-canasta](skills/workflow/setup-canasta/SKILL.md) — Detect agents, install or check, and explain user steps.
-- [system-design](skills/workflow/system-design/SKILL.md) — Requested system designs with constraints and tradeoffs.
-- [tdd](skills/workflow/tdd/SKILL.md) — Small test-first slices with trustworthy oracles.
-- [writing-issues](skills/workflow/writing-issues/SKILL.md) — Observable problems and acceptance criteria.
-- [writing-pr](skills/workflow/writing-pr/SKILL.md) — Aggregate change, verification and a final risk note.
+- [architecture-review](skills/workflow/architecture-review/SKILL.md): module boundaries, dependency direction and contracts.
+- [benchmark-readiness-review](skills/workflow/benchmark-readiness-review/SKILL.md): whether a benchmark claim holds up.
+- [clear-writing](skills/workflow/clear-writing/SKILL.md): accurate prose written for the reader.
+- [code-review-findings](skills/workflow/code-review-findings/SKILL.md): real defects, with evidence and gaps.
+- [codebase-scouting](skills/workflow/codebase-scouting/SKILL.md): find owners, dependencies and the checks a change affects.
+- [concept-modeling](skills/workflow/concept-modeling/SKILL.md): sort out terms that mean different things in different places.
+- [config-projection-review](skills/workflow/config-projection-review/SKILL.md): one source of truth for configuration.
+- [documentation-hygiene](skills/workflow/documentation-hygiene/SKILL.md): where docs go, and keeping them current.
+- [formal-verification](skills/workflow/formal-verification/SKILL.md): prove contracts without mistaking the proof for the intent.
+- [implementation-planning](skills/workflow/implementation-planning/SKILL.md): small steps, each with its check.
+- [orchestration-workflow](skills/workflow/orchestration-workflow/SKILL.md): delegate only with a reason, and check what comes back.
+- [problem-clarification](skills/workflow/problem-clarification/SKILL.md): questions, decisions and building, kept apart.
+- [product-copy](skills/workflow/product-copy/SKILL.md): interface and marketing copy that's true.
+- [refactor](skills/workflow/refactor/SKILL.md): change structure, keep behavior.
+- [repository-text-hygiene](skills/workflow/repository-text-hygiene/SKILL.md): fix encoding, line-ending and Git drift.
+- [research](skills/workflow/research/SKILL.md): research that answers a question and knows when to stop.
+- [security-scope-review](skills/workflow/security-scope-review/SKILL.md): follow authority and untrusted data to where it matters.
+- [setup-canasta](skills/workflow/setup-canasta/SKILL.md): find your agents, install, and tell you what you need to do.
+- [system-design](skills/workflow/system-design/SKILL.md): system designs with real numbers and tradeoffs.
+- [tdd](skills/workflow/tdd/SKILL.md): small test-first steps with tests you can trust.
+- [writing-issues](skills/workflow/writing-issues/SKILL.md): problems you can see, and how to know they're fixed.
+- [writing-pr](skills/workflow/writing-pr/SKILL.md): what changed, how it was checked, and a risk note.
 
-### Stack — optional
+### Stack (optional)
 
-- [astro](skills/stack/astro/SKILL.md) — Pages, content, rendering and islands.
-- [bun-standards](skills/stack/bun-standards/SKILL.md) — Runtime, package management and toolchain alignment.
-- [postgres](skills/stack/postgres/SKILL.md) — Schemas, queries, locks and database operations.
-- [react-engineering](skills/stack/react-engineering/SKILL.md) — Composition, rendering and measured performance.
-- [rust-standards](skills/stack/rust-standards/SKILL.md) — Rust 2024, determinism, errors and crate choices.
-- [spring-boot](skills/stack/spring-boot/SKILL.md) — Java backend boundaries, persistence and operations.
-- [tailwind-v4](skills/stack/tailwind-v4/SKILL.md) — CSS-first tokens, utilities and responsive styles.
-- [typescript-standards](skills/stack/typescript-standards/SKILL.md) — Language, imports, compiler and type idioms.
-- [vitest-testing](skills/stack/vitest-testing/SKILL.md) — Suite semantics, isolation and measured test speed.
+- [astro](skills/stack/astro/SKILL.md): pages, content, rendering and islands.
+- [bun-standards](skills/stack/bun-standards/SKILL.md): runtime, packages and toolchain.
+- [postgres](skills/stack/postgres/SKILL.md): schemas, queries, locks and operations.
+- [react-engineering](skills/stack/react-engineering/SKILL.md): composition, rendering and measured performance.
+- [rust-standards](skills/stack/rust-standards/SKILL.md): Rust 2024, determinism, errors and crates.
+- [spring-boot](skills/stack/spring-boot/SKILL.md): Java backend boundaries, persistence and operations.
+- [tailwind-v4](skills/stack/tailwind-v4/SKILL.md): CSS-first tokens, utilities and responsive styles.
+- [typescript-standards](skills/stack/typescript-standards/SKILL.md): language, imports, compiler and types.
+- [vitest-testing](skills/stack/vitest-testing/SKILL.md): suite behavior, isolation and test speed.
 
-## Reviewing and maintaining this pack
+## Changing this pack
 
-- `python scripts/check.py` checks manifests, inventory, local links, notices
-  and generic skill metadata. It does not prove skill effectiveness or
-  successful installation in an agent.
-- Skill changes should preserve substance, attribution and tool independence.
-  Keep installation syntax in the installation guide, not working procedures.
-- No build, service or agent configuration is installed merely by cloning.
+- `python scripts/check.py` checks the manifests, the skill list, local links
+  and notices. It doesn't prove the skills work, or that an agent installed them.
+- When you change a skill, keep what it says, its credits, and its tool
+  independence. Install steps go in the installation guide.
+- Cloning the repo installs nothing.
 
-## Licence
+## License
 
-[MIT](LICENSE), copyright Ricardo Armenta. The adapted Matt Pocock debugging reference retains
-its own MIT notice in the [tdd folder](skills/workflow/tdd/NOTICE).
+[MIT](LICENSE), copyright Ricardo Armenta. The debugging reference adapted from
+Matt Pocock keeps its own MIT notice in the [tdd folder](skills/workflow/tdd/NOTICE).
