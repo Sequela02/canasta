@@ -30,10 +30,11 @@ def check(root: Path) -> list[str]:
                 errors.append(f"Missing description: {entry.relative_to(root)}")
             if re.search(r"^(tools|allowed-tools|hooks|disable-model-invocation):", header[1], re.M):
                 errors.append(f"Tool-specific metadata: {entry.relative_to(root)}")
-        manifest_path = base / ".claude-plugin" / "plugin.json"
+        plugin_root = root if group == "workflow" else base
+        manifest_path = plugin_root / ".claude-plugin" / "plugin.json"
         try:
             manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-            expected = ["./" + entry.parent.name for entry in entries]
+            expected = ["./" + entry.parent.relative_to(plugin_root).as_posix() for entry in entries]
             if sorted(manifest["skills"]) != expected:
                 errors.append(f"Plugin skill inventory mismatch: {group}")
             if manifest["name"] != "canasta-" + group:
@@ -45,12 +46,35 @@ def check(root: Path) -> list[str]:
             errors.append(f"Invalid plugin manifest {group}: {type(error).__name__}")
     try:
         market = json.loads((root / ".claude-plugin/marketplace.json").read_text(encoding="utf-8"))
-        expected = {"canasta-workflow": "./skills/workflow", "canasta-stack": "./skills/stack"}
+        expected = {"canasta-workflow": "./", "canasta-stack": "./skills/stack"}
         entries = market["plugins"]
         if market["name"] != "canasta" or len(entries) != 2 or {p["name"]: p["source"] for p in entries} != expected:
             errors.append("Marketplace source/name mismatch")
     except (OSError, ValueError, KeyError, TypeError) as error:
         errors.append(f"Invalid marketplace: {type(error).__name__}")
+
+    agent_names = {"advisor", "clerk", "explorer", "reviewer", "verifier", "worker"}
+    agents = sorted((root / "agents").glob("*.md"))
+    if {path.stem for path in agents} != agent_names:
+        errors.append("Agent inventory mismatch")
+    for path in agents:
+        text = path.read_text(encoding="utf-8")
+        header = re.match(r"\A---\n(.*?)\n---\n", text, re.S)
+        label = path.relative_to(root).as_posix()
+        if not header:
+            errors.append(f"Missing agent frontmatter: {label}")
+            continue
+        name = re.search(r"^name: (.+)$", header[1], re.M)
+        if not name or name[1] != path.stem:
+            errors.append(f"Agent name mismatch: {label}")
+        if not re.search(r"^description: .+", header[1], re.M):
+            errors.append(f"Missing agent description: {label}")
+        # Public templates carry only portable identity, never local model choices.
+        if any(not re.match(r"^(name|description): .+", line)
+               for line in header[1].splitlines()):
+            errors.append(f"Nonportable agent metadata: {label}")
+        if not text[header.end():].strip():
+            errors.append(f"Missing agent body: {label}")
 
     for path in sorted(root.rglob("*.json")):
         if ".git" in path.relative_to(root).parts:
@@ -78,6 +102,9 @@ def check(root: Path) -> list[str]:
             for skill in entries:
                 if skill.relative_to(root).as_posix() not in readme:
                     errors.append(f"Skill missing from README: {skill.parent.name}")
+        for agent in agents:
+            if agent.relative_to(root).as_posix() not in readme:
+                errors.append(f"Agent missing from README: {agent.stem}")
     else:
         errors.append("README missing")
     method_path = root / "docs/how-i-work.md"
@@ -97,5 +124,5 @@ if __name__ == "__main__":
     for finding in findings:
         print(f"FAIL: {finding}")
     if not findings:
-        print("PASS: manifests, skill metadata/inventory, JSON, local links, README, method length and MIT notice")
+        print("PASS: manifests, skill and agent metadata/inventory, JSON, local links, README, method length and MIT notice")
     sys.exit(bool(findings))

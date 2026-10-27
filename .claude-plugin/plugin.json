@@ -1,0 +1,34 @@
+{
+  "name": "canasta-workflow",
+  "version": "0.1.0",
+  "description": "Working practices by Ricardo Armenta.",
+  "author": {
+    "name": "Ricardo Armenta"
+  },
+  "repository": "https://github.com/Sequela02/canasta",
+  "license": "MIT",
+  "skills": [
+    "./skills/workflow/architecture-review",
+    "./skills/workflow/benchmark-readiness-review",
+    "./skills/workflow/clear-writing",
+    "./skills/workflow/code-review-findings",
+    "./skills/workflow/codebase-scouting",
+    "./skills/workflow/concept-modeling",
+    "./skills/workflow/config-projection-review",
+    "./skills/workflow/documentation-hygiene",
+    "./skills/workflow/formal-verification",
+    "./skills/workflow/implementation-planning",
+    "./skills/workflow/orchestration-workflow",
+    "./skills/workflow/problem-clarification",
+    "./skills/workflow/product-copy",
+    "./skills/workflow/refactor",
+    "./skills/workflow/repository-text-hygiene",
+    "./skills/workflow/research",
+    "./skills/workflow/security-scope-review",
+    "./skills/workflow/setup-canasta",
+    "./skills/workflow/system-design",
+    "./skills/workflow/tdd",
+    "./skills/workflow/writing-issues",
+    "./skills/workflow/writing-pr"
+  ]
+}

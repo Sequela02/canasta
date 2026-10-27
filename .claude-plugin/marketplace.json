@@ -7,7 +7,7 @@
   "plugins": [
     {
       "name": "canasta-workflow",
-      "source": "./skills/workflow",
+      "source": "./",
       "description": "Tool-neutral working practices.",
       "category": "engineering"
     },
