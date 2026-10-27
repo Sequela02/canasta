@@ -88,6 +88,25 @@ install agent executables, publish, push or merge anything.
 
 For a local copy, swap the GitHub URL for your checkout path.
 
+## Agent types
+
+I use six helpers, each with a small job:
+
+- [explorer](agents/explorer.md): answer a repository question without editing.
+- [clerk](agents/clerk.md): inventories, searches and other bounded read-only work.
+- [worker](agents/worker.md): implement within assigned files and check the result.
+- [reviewer](agents/reviewer.md): find concrete defects without changing the work.
+- [verifier](agents/verifier.md): independently check the outcome; may write test artifacts, not repairs.
+- [advisor](agents/advisor.md): weigh a hard decision without editing.
+
+I ship them without models. Run `setup-canasta` to inspect your tools and choose
+one for each role, or keep the session's model. It suggests light models for
+explorer, clerk and worker, and stronger ones for reviewer, verifier and advisor.
+When available, I prefer another model family for review and verification to
+help catch shared blind spots, not as proof of correctness. Setup keeps your
+choices on later runs and asks before replacing your own files. See the
+[agent setup guide](skills/workflow/setup-canasta/references/installation.md#agent-types).
+
 ## Skills
 
 ### Workflow
