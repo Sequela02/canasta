@@ -11,7 +11,7 @@ tags:
 
 # Writing Issues
 
-Use for issue titles and bodies. Apply clear-writing for prose and examples;
+Use for issue titles and bodies. Apply technical-writing for prose and examples;
 use problem-clarification only when missing information materially affects the
 issue. Writing a draft does not require implementing the proposed solution.
 

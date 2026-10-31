@@ -1,4 +1,4 @@
-> Reference for `clear-writing`, formerly the `action-first-communication` skill.
+> Reference for `technical-writing`, carried over from canasta's former `clear-writing` skill.
 
 # Action-First Communication
 

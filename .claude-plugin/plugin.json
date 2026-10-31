@@ -10,7 +10,6 @@
   "skills": [
     "./skills/workflow/architecture-review",
     "./skills/workflow/benchmark-readiness-review",
-    "./skills/workflow/clear-writing",
     "./skills/workflow/code-review-findings",
     "./skills/workflow/codebase-scouting",
     "./skills/workflow/concept-modeling",
@@ -28,6 +27,8 @@
     "./skills/workflow/setup-canasta",
     "./skills/workflow/system-design",
     "./skills/workflow/tdd",
+    "./skills/workflow/technical-writing",
+    "./skills/workflow/upstream-contribution",
     "./skills/workflow/writing-issues",
     "./skills/workflow/writing-pr"
   ]

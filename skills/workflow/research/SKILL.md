@@ -98,7 +98,7 @@ Synthesize and finish:
 - Lead with the answer and its supporting citations. For substantial research,
   include the cutoff, method, material coverage limits, uncertainty, and useful
   follow-up evidence. Keep detail proportional to the requested artifact; use
-  clear-writing for presentation. Save durable findings where the repository
+  technical-writing for presentation. Save durable findings where the repository
   already keeps research when the task calls for a reusable record; use
   documentation-hygiene to decide placement and retention. Do not create
   a report file or require a status prefix for every lookup.

@@ -11,15 +11,21 @@ tags:
 
 # Writing Pull Requests
 
-Use for PR titles and bodies. Apply clear-writing for prose and visual
+Use for PR titles and bodies. Apply technical-writing for prose and visual
 explanations. This procedure describes delivered work; writing-issues describes
 the problem to solve. Neither owns branch, publication, or merge authority.
 
-1. Establish the intended base and current candidate. Inspect the aggregate diff,
+1. Before writing anything, read the repository's contribution rules, its PR
+   template and two recent merged PRs, and establish whose repository it is
+   from its remote and maintainers, not from assumption.
+   Establish the intended base and current candidate. Inspect the aggregate diff,
    linked issue or accepted objective, repository PR template, and contribution
    rules. Check whether a PR for the branch already exists, and inspect its
    metadata when updating. Verify claims inherited
    from commits or previous summaries; report unavailable material evidence.
+   The repository's template and the structure of its recent merged PRs decide
+   the sections. In a project you don't maintain, they replace your own
+   organization's conventions; use upstream-contribution there too.
 2. Write the title and opening around the concrete problem and resulting behavior.
    A reviewer unfamiliar with the conversation should understand why this change
    exists. Follow repository naming conventions; recent merged PRs and history
@@ -31,7 +37,7 @@ the problem to solve. Neither owns branch, publication, or merge authority.
    focus only where the diff does not make their implications clear. Name affected
    boundaries and give a reading order when it materially helps. Do not invent
    rejected alternatives or narrate each changed file.
-4. Use the smallest useful representation from clear-writing. For UI changes,
+4. Use the smallest useful representation from technical-writing. For UI changes,
    prefer comparable real before/after captures; use a short recording when
    interaction or timing matters. Identify the states and revisions shown. Missing
    captures stay missing, never replaced by generated images presented as proof.
@@ -56,6 +62,8 @@ the problem to solve. Neither owns branch, publication, or merge authority.
    already authorized publication workflow (a real PR, not a draft, unless the
    repository says otherwise); do not add approval gates or infer authority
    from the skill.
-9. End every PR with a risk note: one-way or two-way door, blast radius, and
-   evidence. The agent never merges unless the project's stated policy allows it;
-   passing checks and drafting a PR do not grant merge authority.
+9. When the repository or your own organization requires a risk note, end the
+   PR with it: one-way or two-way door, blast radius, and evidence. A PR to
+   another project carries none unless that project asks for one. The agent
+   never merges unless the project's stated policy allows it; passing checks
+   and drafting a PR do not grant merge authority.

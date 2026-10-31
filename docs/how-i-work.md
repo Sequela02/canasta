@@ -27,7 +27,12 @@ it, and what the agent may and may not do on its own.
 
 Before starting anything big, the agent tells me back what it understood, and
 marks its key assumptions as checked, guessed or unknown. It checks the facts
-it can check before relying on them.
+it can check before relying on them. When an instruction or a note contradicts
+the current code or tests, the current state wins, and the agent tells me which
+instruction is stale and where it lives. Without that rule, agents followed the
+stale file in 90% of choices in
+[one study](https://arxiv.org/abs/2610.30571); in my own runs they followed the
+code but never named the stale line until I asked for it in those words.
 
 I started doing this after looking back at a few weeks of my own agent
 sessions: I spent a lot of messages correcting misunderstandings and pulling
@@ -43,7 +48,9 @@ anything that leaves my machine, I decide.
 "Continue" means keep working. It never means "publish this" or "merge that".
 
 I keep the scope of a task small and stable. Good ideas that come up along the
-way go to a list for later, unless they affect safety or correctness.
+way go to a list for later, unless they affect safety or correctness. When the
+agent notices an unrelated defect, it lists it in its final report and leaves
+it alone.
 
 ## 4. I research to make a decision
 

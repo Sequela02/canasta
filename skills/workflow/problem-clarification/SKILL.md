@@ -19,7 +19,7 @@ edit, skip it.
 Use when unresolved intent would materially change the outcome, scope,
 acceptance criteria, or a consequential design choice, or when the user asks
 to stress-test a proposal. A request to write an issue or PR alone does not
-require an interview. Use clear-writing for the resulting explanation.
+require an interview. Use technical-writing for the resulting explanation.
 
 1. Inspect the supplied evidence and existing work before reopening questions:
    relevant code, guidance, issues, decisions, and active branches or worktrees

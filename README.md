@@ -113,7 +113,6 @@ choices on later runs and asks before replacing your own files. See the
 
 - [architecture-review](skills/workflow/architecture-review/SKILL.md): module boundaries, dependency direction and contracts.
 - [benchmark-readiness-review](skills/workflow/benchmark-readiness-review/SKILL.md): whether a benchmark claim holds up.
-- [clear-writing](skills/workflow/clear-writing/SKILL.md): accurate prose written for the reader.
 - [code-review-findings](skills/workflow/code-review-findings/SKILL.md): real defects, with evidence and gaps.
 - [codebase-scouting](skills/workflow/codebase-scouting/SKILL.md): find owners, dependencies and the checks a change affects.
 - [concept-modeling](skills/workflow/concept-modeling/SKILL.md): sort out terms that mean different things in different places.
@@ -131,6 +130,8 @@ choices on later runs and asks before replacing your own files. See the
 - [setup-canasta](skills/workflow/setup-canasta/SKILL.md): find your agents, install, and tell you what you need to do.
 - [system-design](skills/workflow/system-design/SKILL.md): system designs with real numbers and tradeoffs.
 - [tdd](skills/workflow/tdd/SKILL.md): small test-first steps with tests you can trust.
+- [technical-writing](skills/workflow/technical-writing/SKILL.md): prose the reader understands on the first read, with nothing true lost.
+- [upstream-contribution](skills/workflow/upstream-contribution/SKILL.md): issues and pull requests that follow another project's rules.
 - [writing-issues](skills/workflow/writing-issues/SKILL.md): problems you can see, and how to know they're fixed.
 - [writing-pr](skills/workflow/writing-pr/SKILL.md): what changed, how it was checked, and a risk note.
 
@@ -158,3 +159,5 @@ choices on later runs and asks before replacing your own files. See the
 
 [MIT](LICENSE), copyright Ricardo Armenta. The debugging reference adapted from
 Matt Pocock keeps its own MIT notice in the [tdd folder](skills/workflow/tdd/NOTICE).
+technical-writing adapts Lauren Tan's from pstack, and keeps its MIT license in
+[its folder](skills/workflow/technical-writing/LICENSE.txt).

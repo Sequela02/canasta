@@ -22,6 +22,10 @@ Workflow:
    implementation step. Resolve choices within the authorized outcome using
    evidence; ask for direction when a consequential ambiguity or scope expansion
    cannot be resolved from the request and repository contract.
+   A product or business-rule choice the request leaves open, such as what a
+   total includes or which surfaces show a value, is not an implementation
+   detail even when the code makes one answer convenient. Propose your answer
+   and list it as an open decision for the user to confirm.
    For material architecture, name the simplest materially different design and
    the required invariant it cannot preserve. Future flexibility alone is not a
    sufficient reason to add permanent concepts.

@@ -53,8 +53,14 @@ Finding admission:
   causal path from input or state to observable failure.
 - Rank severity by impact, reach, and recoverability, not by rhetorical
   confidence. If verification is incomplete, say so.
+- When a candidate depends on code you can't see, reproduce it with a minimal
+  harness or reconstruct the missing part from what the diff proves. If you
+  still can't confirm it, report it as an unverified finding with its
+  condition and impact, not only as a verification gap: a real defect demoted
+  to a footnote is a missed finding.
 - Do not report speculative findings, stylistic preferences, or mechanically
-  enforced concerns as defects.
+  enforced concerns as defects. A finding is speculative when nothing in the
+  change supports it, not when part of its evidence is out of view.
 - Do not demand duplicate tests, raw coverage increases, or implementation-detail
   assertions when existing tests already protect the behavior.
 

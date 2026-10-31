@@ -86,6 +86,6 @@ Load a reference only for its task:
   [branch-retirement.md](references/branch-retirement.md). Local and remote
   deletion each need their own explicit authorization.
 
-Use clear-writing for prose, research for external evidence, and repository-text-hygiene
+Use technical-writing for prose, research for external evidence, and repository-text-hygiene
 for Git, encoding, and line-ending drift. This procedure grants no publication,
 history-rewrite, or deletion authority beyond the user's task.
