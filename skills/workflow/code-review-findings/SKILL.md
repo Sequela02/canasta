@@ -69,14 +69,34 @@ Finding admission:
 
 Output:
 1. Lead with findings ordered by severity; omit summaries before findings.
-2. For each finding, give location, triggering condition, impact, evidence,
-   and the narrowest correction direction without rewriting the author's
-   solution. End it with one status line: `Confirmed: <command> → <result>`,
-   or `Unverified: <the check that would settle it>`. A finding supported only
-   by reading the code is unverified.
-3. State the reviewed surface and any material surface not reviewed, verification
-   performed, and residual risk.
-4. If no issues are found, say so clearly. Do not invent a finding to avoid an
-   empty result.
+2. Give each defect its own finding, written as this block:
+
+   ```text
+   1. src/cart.ts:22, medium: a discount over 100% makes the total negative.
+      applyDiscount subtracts percent / 100 * total without a cap, so a
+      150% coupon charges -50.00 against the spec's "never below zero".
+      Fix: clamp the result at zero.
+      Confirmed: node -e "<harness>" → total(100, 150) returned -50.
+   ```
+
+   - First line: `file:line`, severity and the defect.
+   - Then the triggering condition and its impact, in one or two sentences.
+     Quote the requirement only for an intent finding.
+   - Then the narrowest correction direction, in one sentence, without
+     rewriting the author's solution.
+   - Last, one status line: `Confirmed: <command> → <result>`, or
+     `Unverified: <the check that would settle it>`. Every finding ends with
+     one, also when you could run nothing. A finding supported only by reading
+     the code is unverified. Don't replace the status lines with a summary of
+     what you ran.
+3. Report only admitted findings. Leave out observations that fail admission;
+   don't list them under another heading.
+4. Don't summarize a lens or a standard that found nothing.
+5. End with one or two lines: the surface you reviewed, what you couldn't
+   review or run, and the residual risk.
+6. With no findings, write only `No findings.` and the closing lines of item 5.
+   Do not invent a finding to avoid an empty result.
+7. Cut every word that does no work. Keep numbers, conditions, identifiers and
+   negations exactly.
 
 Do not rewrite the author's intent unless the evidence shows a real problem.
