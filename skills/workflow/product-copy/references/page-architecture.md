@@ -2,8 +2,8 @@
 
 # Marketing Page Architecture
 
-**Evaluation status: canary.** Load this reference only when explicitly asked, until the comparative
-promotion gate in `documentation-hygiene/references/ui-guidance-research-basis.md` passes.
+**Evaluation status: canary.** Load this reference only when explicitly asked, until it beats the
+plain prompt on the comparative cases in [`evals/page-architecture`](../evals/page-architecture/rubric.md).
 
 Shape the page around the visitor's decisions, not a stock section list. Preserve product, brand, legal, and commercial truth in repository-owned sources; this reference owns the reusable reasoning procedure only.
 

@@ -40,6 +40,6 @@ Establish the cause of text drift before modifying files or configuration.
    checks. Refresh the IDE view if it still disagrees with Git; report unresolved
    discrepancies rather than rewriting files to make the display quiet.
 
-Use documentation-hygiene for document ownership and lifecycle. This procedure
+Use `documentation-hygiene` for document ownership and lifecycle. This procedure
 does not choose a repository's language, directory layout, release policy, or
 global tool configuration.

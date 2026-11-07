@@ -111,32 +111,54 @@ choices on later runs and asks before replacing your own files. See the
 
 ### Workflow
 
-- [api-design](skills/workflow/api-design/SKILL.md): library and SDK surfaces that read well and promise only what they check.
-- [architecture-review](skills/workflow/architecture-review/SKILL.md): module boundaries, dependency direction and contracts.
-- [benchmark-readiness-review](skills/workflow/benchmark-readiness-review/SKILL.md): whether a benchmark claim holds up.
-- [cli-design](skills/workflow/cli-design/SKILL.md): command lines that people, scripts and agents can rely on.
-- [code-review-findings](skills/workflow/code-review-findings/SKILL.md): real defects, with evidence and gaps.
-- [codebase-scouting](skills/workflow/codebase-scouting/SKILL.md): find owners, dependencies and the checks a change affects.
-- [concept-modeling](skills/workflow/concept-modeling/SKILL.md): sort out terms that mean different things in different places.
-- [config-projection-review](skills/workflow/config-projection-review/SKILL.md): one source of truth for configuration.
-- [documentation-hygiene](skills/workflow/documentation-hygiene/SKILL.md): where docs go, and keeping them current.
-- [formal-verification](skills/workflow/formal-verification/SKILL.md): prove contracts without mistaking the proof for the intent.
-- [implementation-planning](skills/workflow/implementation-planning/SKILL.md): small steps, each with its check.
-- [orchestration-workflow](skills/workflow/orchestration-workflow/SKILL.md): delegate only with a reason, and check what comes back.
+In the order a task usually meets them.
+
+**Understand**
+
 - [problem-clarification](skills/workflow/problem-clarification/SKILL.md): questions, decisions and building, kept apart.
-- [product-copy](skills/workflow/product-copy/SKILL.md): interface and marketing copy that's true.
-- [refactor](skills/workflow/refactor/SKILL.md): change structure, keep behavior.
-- [repository-text-hygiene](skills/workflow/repository-text-hygiene/SKILL.md): fix encoding, line-ending and Git drift.
+- [codebase-scouting](skills/workflow/codebase-scouting/SKILL.md): find owners, dependencies and the checks a change affects.
 - [research](skills/workflow/research/SKILL.md): research that answers a question and knows when to stop.
-- [security-scope-review](skills/workflow/security-scope-review/SKILL.md): follow authority and untrusted data to where it matters.
-- [setup-canasta](skills/workflow/setup-canasta/SKILL.md): find your agents, install, and tell you what you need to do.
+- [concept-modeling](skills/workflow/concept-modeling/SKILL.md): sort out terms that mean different things in different places.
+
+**Design**
+
+- [architecture-review](skills/workflow/architecture-review/SKILL.md): module boundaries, dependency direction and contracts.
+- [api-design](skills/workflow/api-design/SKILL.md): library and SDK surfaces that read well and promise only what they check.
+- [cli-design](skills/workflow/cli-design/SKILL.md): command lines that people, scripts and agents can rely on.
 - [system-design](skills/workflow/system-design/SKILL.md): system designs with real numbers and tradeoffs.
-- [task-closeout](skills/workflow/task-closeout/SKILL.md): finish a task clean: no scratch left, nothing private, a handoff when needed.
+- [implementation-planning](skills/workflow/implementation-planning/SKILL.md): small steps, each with its check.
+
+**Build**
+
 - [tdd](skills/workflow/tdd/SKILL.md): small test-first steps with tests you can trust.
+- [refactor](skills/workflow/refactor/SKILL.md): change structure, keep behavior.
+- [orchestration-workflow](skills/workflow/orchestration-workflow/SKILL.md): delegate only with a reason, and check what comes back.
+
+**Verify and review**
+
+- [code-review-findings](skills/workflow/code-review-findings/SKILL.md): real defects, with evidence and gaps.
+- [security-scope-review](skills/workflow/security-scope-review/SKILL.md): follow authority and untrusted data to where it matters.
+- [formal-verification](skills/workflow/formal-verification/SKILL.md): prove contracts without mistaking the proof for the intent.
+- [benchmark-readiness-review](skills/workflow/benchmark-readiness-review/SKILL.md): whether a benchmark claim holds up.
+- [config-projection-review](skills/workflow/config-projection-review/SKILL.md): one source of truth for configuration.
+
+**Write**
+
 - [technical-writing](skills/workflow/technical-writing/SKILL.md): prose the reader understands on the first read, with nothing true lost.
-- [upstream-contribution](skills/workflow/upstream-contribution/SKILL.md): issues and pull requests that follow another project's rules.
+- [product-copy](skills/workflow/product-copy/SKILL.md): interface and marketing copy that's true.
 - [writing-issues](skills/workflow/writing-issues/SKILL.md): problems you can see, and how to know they're fixed.
 - [writing-pr](skills/workflow/writing-pr/SKILL.md): what changed, how it was checked, and a risk note.
+- [upstream-contribution](skills/workflow/upstream-contribution/SKILL.md): issues and pull requests that follow another project's rules.
+
+**Close and maintain**
+
+- [task-closeout](skills/workflow/task-closeout/SKILL.md): finish a task clean: no scratch left, nothing private, a handoff when needed.
+- [documentation-hygiene](skills/workflow/documentation-hygiene/SKILL.md): where docs go, and keeping them current.
+- [repository-text-hygiene](skills/workflow/repository-text-hygiene/SKILL.md): fix encoding, line-ending and Git drift.
+
+**Set up**
+
+- [setup-canasta](skills/workflow/setup-canasta/SKILL.md): find your agents, install, and tell you what you need to do.
 
 ### Stack (optional)
 

@@ -1,6 +1,6 @@
 ---
 name: api-design
-description: Design or review the public surface of a library or SDK that people and coding agents call from code (functions, options, results, errors, cancellation, exports, names). Use before adding or changing an export, and when reviewing one. Not for HTTP/REST endpoints or command-line interfaces.
+description: Design or review the public surface of a library or SDK that people and coding agents call from code (functions, options, results, errors, cancellation, exports, names). Use before adding or changing an export, and when reviewing one. Not for HTTP/REST endpoints, command lines (cli-design) or module boundaries (architecture-review).
 tags:
   - api
   - sdk
@@ -15,10 +15,10 @@ An API is judged where it is called. Design from the call sites of real
 consumers, and make every result say exactly what it established. A surface
 that reads well but promises more than it checked has failed.
 
-For language idioms (unions, `readonly`, exports) follow the language's
-standards skill, such as `typescript-standards`. For module boundaries use
-`architecture-review`. For a command line that wraps this API use
-`cli-design`. For its documentation use `technical-writing`.
+Use the language's standards skill, such as `typescript-standards`, for
+idioms (unions, `readonly`, exports); `architecture-review` for module
+boundaries; `cli-design` for a command line that wraps this API; and
+`technical-writing` for its documentation.
 
 ## Design a surface
 

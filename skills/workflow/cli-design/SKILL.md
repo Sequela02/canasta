@@ -1,6 +1,6 @@
 ---
 name: cli-design
-description: Design or review a command-line interface that people, scripts and coding agents run (commands, flags, output, --json, exit codes, help, errors, prompts, signals). Use before adding or changing a command or flag, and when reviewing one.
+description: Design or review a command-line interface that people, scripts and coding agents run (commands, flags, output, --json, exit codes, help, errors, prompts, signals). Use before adding or changing a command or flag, and when reviewing one. Not for the library a command wraps (api-design).
 tags:
   - cli
   - design

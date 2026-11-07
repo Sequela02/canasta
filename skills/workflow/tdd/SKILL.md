@@ -1,6 +1,6 @@
 ---
 name: tdd
-description: "Change behavior test-first in small vertical slices, design trustworthy test oracles, or diagnose flaky, slow, redundant, or weak tests."
+description: "Change behavior test-first in small vertical slices, design trustworthy test oracles, or diagnose flaky, slow, redundant, or weak tests. Not for restructuring that keeps behavior (refactor)."
 ---
 
 # TDD

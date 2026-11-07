@@ -3,7 +3,8 @@ name: architecture-review
 description: Design or review module boundaries, dependency direction, runtime
   coupling, and contract ownership without speculative abstraction, with a
   conditional domain and aggregate lens. Use before adding a module, layer, port,
-  or cross-boundary contract, and when reviewing one.
+  or cross-boundary contract, and when reviewing one. Not for a library's
+  public surface (api-design) or a whole system's design (system-design).
 tags:
   - architecture
   - clean-architecture

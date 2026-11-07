@@ -1,6 +1,6 @@
 ---
 name: technical-writing
-description: "Write, rewrite or review prose so the reader understands it on the first read and nothing true is lost: docs, READMEs, reports, explanations, PR descriptions, commit messages and messages someone will sign. Diátaxis structure, Google developer style, STE and Global English rules."
+description: "Write, rewrite or review prose so the reader understands it on the first read and nothing true is lost: docs, READMEs, reports, explanations, PR descriptions, commit messages and messages someone will sign. Diátaxis structure, Google developer style, STE and Global English rules. Not for where docs belong (documentation-hygiene) or interface copy (product-copy)."
 license: Complete terms in LICENSE.txt
 metadata:
   source: "pstack technical-writing by Lauren Tan, cursor/plugins 4dd1d05, folder f35560f"

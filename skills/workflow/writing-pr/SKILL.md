@@ -11,7 +11,7 @@ tags:
 
 # Writing Pull Requests
 
-Use for PR titles and bodies. Apply technical-writing for prose and visual
+Use for PR titles and bodies. Use `technical-writing` for prose and visual
 explanations. This procedure describes delivered work; writing-issues describes
 the problem to solve. Neither owns branch, publication, or merge authority.
 
@@ -49,7 +49,7 @@ the problem to solve. Neither owns branch, publication, or merge authority.
    pass. Skip test inventories and generic claims that everything works.
 6. For performance claims, show the actual baseline and candidate revisions,
    workload, conditions, units, and measurement uncertainty with the comparison.
-   Use benchmark-readiness-review for claim validity. Missing comparable results
+   Use `benchmark-readiness-review` for claim validity. Missing comparable results
    mean the improvement is unverified; never fabricate a before/after table.
 7. Preserve unresolved findings, meaningful residual risks, and required evidence
    even when concise. Respect repository templates; otherwise scale from a short

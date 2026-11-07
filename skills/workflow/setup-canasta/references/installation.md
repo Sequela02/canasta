@@ -28,7 +28,8 @@ claude plugin marketplace add /absolute/path/to/canasta
 The root `.claude-plugin/marketplace.json` lists two plugin sources. The
 workflow plugin is the repository root, so it can also ship `agents/`; the stack
 plugin is `skills/stack`. Each has a `.claude-plugin/plugin.json` with an
-explicit skill list. Workflow and stack do not load each other. Restart or start a fresh session if required
+explicit skill list. Skills in one plugin may name skills in the other, but
+neither plugin needs the other installed. Restart or start a fresh session if required
 by your installed version, then check the installed plugin list and skill menu.
 
 ## Codex

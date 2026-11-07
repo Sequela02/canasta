@@ -64,8 +64,8 @@ Close out the docs:
    verify changed claims against code or tests, and run git diff --check. A tidy
    tree is not proof that documentation is accurate.
 
-The rest of closing a task (scratch files, private material, handoffs,
-branches) belongs to `task-closeout`.
+Use `task-closeout` for the rest of closing a task: scratch files, private
+material, handoffs and branches.
 
 Load a reference only for its task:
 - Reviewing, writing, or trimming project-owned agent instructions or skills
@@ -75,7 +75,7 @@ Load a reference only for its task:
   library, SDK or CLI docs set:
   [developer-docs-site.md](references/developer-docs-site.md).
 
-Use technical-writing for prose and page content (its developer-docs reference
-for library and CLI docs), research for external evidence, and repository-text-hygiene
+Use `technical-writing` for prose and page content (its developer-docs reference
+for library and CLI docs), `research` for external evidence, and `repository-text-hygiene`
 for Git, encoding, and line-ending drift. This procedure grants no publication,
 history-rewrite, or deletion authority beyond the user's task.
