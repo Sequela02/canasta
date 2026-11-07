@@ -54,7 +54,7 @@ Use the compass on a whole document or on one sentence.
 
 **How-to: steps to a goal.** Solve a problem a person has, not an operation the machine can perform. Assume competence and skip teaching. Action only: no digressions, no background, no completeness for its own sake. Link those instead. Allow forks and judgment: "If you want x, do y." Name the guide by the task: "How to calibrate the radar array", not "Radar array calibration".
 
-**Reference: facts for lookup.** Only describe. No instruction, no persuasion, no opinion. Be dry, complete, and sure. State facts, options, limits, and errors with no hedging. Mirror the structure of the thing described, so code and docs can be navigated together. Put material where readers expect it. Generate from code where possible.
+**Reference: facts for lookup.** Only describe. No instruction, no persuasion, no opinion. Be dry, complete, and sure. State facts, options, limits, and errors with no hedging. Mirror the structure of the thing described, so code and docs can be navigated together. Put material where readers expect it. Generate signatures and option tables from code, and write the doc comments they come from by the rules in [developer-docs.md](references/developer-docs.md).
 
 **Explanation: understanding and why.** One bounded topic, readable away from the product. Each title should tolerate an implicit "About..." in front. Anchor on a real why question. Give context: design decisions, history, constraints, alternatives. Opinion is allowed here and nowhere else.
 
@@ -131,6 +131,7 @@ Put each one beside the claim it explains. Label made-up examples and schematic 
 
 - Issue and pull request procedures live in `writing-issues` and `writing-pr`, and product UI strings in `product-copy`. Settle a materially unclear request with `problem-clarification` before you write.
 - For concise, scannable replies, or work whose state must stay visible across turns, also read [action-first.md](references/action-first.md).
+- For the docs of a library, SDK or CLI (README, quickstart, guides, reference, examples, files for agents), also read [developer-docs.md](references/developer-docs.md). The shape of the API itself belongs to `api-design`, and of the command line to `cli-design`.
 
 ## Worked example
 
