@@ -8,8 +8,10 @@
   "repository": "https://github.com/Sequela02/canasta",
   "license": "MIT",
   "skills": [
+    "./skills/workflow/api-design",
     "./skills/workflow/architecture-review",
     "./skills/workflow/benchmark-readiness-review",
+    "./skills/workflow/cli-design",
     "./skills/workflow/code-review-findings",
     "./skills/workflow/codebase-scouting",
     "./skills/workflow/concept-modeling",
