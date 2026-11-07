@@ -132,8 +132,13 @@ you would otherwise annotate and lose specificity.
   existence rather than validating them later.
 - **`readonly` by default** on interface fields, arrays, and parameters. Mutability
   is the exception and should be visible.
-- **Branded types for identifiers.** A `UserId` that is structurally a `string` will
-  eventually be passed where an `OrderId` belongs.
+- **Branded types for identifiers that can be mixed up.** Brand an ID when code
+  handles two or more kinds of ID of the same base type, so a `UserId` can't be
+  passed where an `OrderId` belongs. In a public API, brands cost every caller a
+  constructor call, so add them there only when callers really mix IDs.
+- **Optional fields include `| undefined`** (`timeoutMs?: number | undefined`)
+  under `exactOptionalPropertyTypes`, so a caller can forward a value that may be
+  `undefined` without spreading conditionally.
 - **`unknown`, never `any`.** Narrow at the boundary with a type guard or a schema
   parser. `any` disables checking silently and spreads.
 - **Parse, don't validate.** Untrusted input crosses the boundary once, into a typed
