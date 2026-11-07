@@ -1,4 +1,4 @@
-> Reference for `documentation-hygiene`, formerly the `handoff` skill.
+> Reference for `task-closeout`, formerly the `handoff` skill.
 
 # Handoff
 

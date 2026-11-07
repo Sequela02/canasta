@@ -28,6 +28,7 @@
     "./skills/workflow/security-scope-review",
     "./skills/workflow/setup-canasta",
     "./skills/workflow/system-design",
+    "./skills/workflow/task-closeout",
     "./skills/workflow/tdd",
     "./skills/workflow/technical-writing",
     "./skills/workflow/upstream-contribution",

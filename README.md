@@ -131,6 +131,7 @@ choices on later runs and asks before replacing your own files. See the
 - [security-scope-review](skills/workflow/security-scope-review/SKILL.md): follow authority and untrusted data to where it matters.
 - [setup-canasta](skills/workflow/setup-canasta/SKILL.md): find your agents, install, and tell you what you need to do.
 - [system-design](skills/workflow/system-design/SKILL.md): system designs with real numbers and tradeoffs.
+- [task-closeout](skills/workflow/task-closeout/SKILL.md): finish a task clean: no scratch left, nothing private, a handoff when needed.
 - [tdd](skills/workflow/tdd/SKILL.md): small test-first steps with tests you can trust.
 - [technical-writing](skills/workflow/technical-writing/SKILL.md): prose the reader understands on the first read, with nothing true lost.
 - [upstream-contribution](skills/workflow/upstream-contribution/SKILL.md): issues and pull requests that follow another project's rules.

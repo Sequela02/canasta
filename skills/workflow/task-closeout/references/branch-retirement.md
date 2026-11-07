@@ -1,4 +1,4 @@
-> Reference for `documentation-hygiene`, formerly the `branch-retirement` skill.
+> Reference for `task-closeout`, formerly the `branch-retirement` skill.
 
 # Branch Retirement
 

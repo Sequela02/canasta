@@ -1,18 +1,19 @@
 ---
 name: documentation-hygiene
-description: Place, consolidate, or retire repository documentation and task
-  artifacts; use before creating durable docs, when closing work that created
-  files, or when auditing stale, duplicated, or misplaced material.
+description: Place, consolidate, or retire repository documentation; use before
+  creating a durable doc, when moving or generating docs (including a library,
+  SDK or CLI docs set and files for agents), and when auditing stale,
+  duplicated, or misplaced material. Not for closing a task (task-closeout)
+  or for prose (technical-writing).
 tags:
   - documentation
   - maintenance
-  - artifacts
 ---
 
 # Documentation Hygiene
 
 Keep repository documentation useful to its intended readers. Apply this
-procedure to the requested scope and files created or changed by the task;
+procedure to the requested scope and the docs the task created or changed;
 ordinary task completion does not authorize a repository-wide cleanup.
 
 Before creating or retaining a document:
@@ -45,47 +46,36 @@ Maintain the collection:
 - Consolidate unique information into its canonical owner and link to it. Prefer
   generated references for mechanically derived facts when the project supports
   them; retain human explanation that adds value. Do not delete generated outputs
-  required by a published contract, build, or distribution.
+  required by a published contract, build, or distribution. Every generated
+  document has one source and a check that regenerates it and fails on a
+  diff; never edit the generated copy.
 - Preserve significant decision rationale and future-useful migration or evaluation
   evidence. Mark superseded decisions honestly rather than rewriting history.
   Completed plans need retention only when their remaining evidence or obligations
   justify it. Promote useful conclusions before retiring obsolete task records;
   do not move clutter into an archive merely to hide it.
 
-Close the task:
-1. Inspect the diff and newly created files, including untracked artifacts from
-   this task. Remove task-created scratch files once they have no remaining use.
-   Keep user work and unknown-origin files intact until ownership and disposition
-   are established. Never use broad clean/reset commands to manufacture a clean
-   worktree. Honor legal, audit, release, and repository retention requirements.
-2. Review public-facing additions for private material and unsupported completion
-   claims. If sensitive material is already committed or published, removing the
-   working copy alone does not repair that exposure; surface it for the appropriate
-   security response without reproducing the sensitive content.
-3. Update links, indexes, build references, and affected consumers with moves or
+Close out the docs:
+1. Update links, indexes, build references, and affected consumers with moves or
    removals. Preserve redirects only for a real published-link compatibility need;
    otherwise remove the old path instead of leaving duplicate documents.
-4. Run repository link checks and documentation builds when affected, verify
-   changed claims against code or tests, and run git diff --check. Report the useful
-   changes and material gaps in the requested response, not a new cleanup report
-   by default. A tidy tree is not proof that documentation is accurate.
-5. Treat recurring corrections as a maintenance signal. Identify why the
-   existing feedback missed the problem and propose a safeguard at the place
-   that owns it. A validation rule, clearer ownership or better instructions
-   may help; choose based on the failure rather than a fixed preference order.
-   Explain what the safeguard would catch and what it would leave to judgment.
-   Obtain approval before adding enforcement beyond the current task.
+2. Run repository link checks and documentation builds when affected,
+   regenerate generated docs and confirm no diff, run the doc examples' check,
+   verify changed claims against code or tests, and run git diff --check. A tidy
+   tree is not proof that documentation is accurate.
+
+The rest of closing a task (scratch files, private material, handoffs,
+branches) belongs to `task-closeout`.
 
 Load a reference only for its task:
 - Reviewing, writing, or trimming project-owned agent instructions or skills
   from repository evidence:
   [instruction-review.md](references/instruction-review.md).
-- A handoff or session summary for whoever continues the work:
-  [handoff.md](references/handoff.md).
-- Retiring a branch, worktree, or remote ref:
-  [branch-retirement.md](references/branch-retirement.md). Local and remote
-  deletion each need their own explicit authorization.
+- Placing, moving or retiring the pages, examples or agent files of a
+  library, SDK or CLI docs set:
+  [developer-docs-site.md](references/developer-docs-site.md).
 
-Use technical-writing for prose, research for external evidence, and repository-text-hygiene
+Use technical-writing for prose and page content (its developer-docs reference
+for library and CLI docs), research for external evidence, and repository-text-hygiene
 for Git, encoding, and line-ending drift. This procedure grants no publication,
 history-rewrite, or deletion authority beyond the user's task.
