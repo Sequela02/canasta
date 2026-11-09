@@ -43,7 +43,8 @@ issue. Writing a draft does not require implementing the proposed solution.
    sections. Without a template, a small issue can be one paragraph plus an
    acceptance sentence. Use numbered reproduction steps or a comparison when
    helpful; omit empty headings and generic checklists. Preserve necessary facts
-   while removing credentials and private data from publication-bound evidence.
+   while removing credentials, private data and internal infrastructure names
+   (secret stores, private repositories, hosts) from publication-bound evidence.
 8. Recheck that the title and body describe the same problem, links exist, and
    acceptance criteria are requirements rather than claims of completed work.
    Return the draft, or use the existing authorized tracker workflow if creation

@@ -58,8 +58,9 @@ the problem to solve. Neither owns branch, publication, or merge authority.
 8. Reconcile the whole title and body with the current candidate after scope or
    implementation changes. Check every linked artifact exists and is suitable for
    its audience. Before publishing, check the title, body, quotes and
-   attachments for secrets and private names. Return the draft or use the
-   already authorized publication workflow (a real PR, not a draft, unless the
+   attachments for secrets, private names and internal infrastructure
+   (secret-store names and layout, private repositories, hosts). Return the
+   draft or use the already authorized publication workflow (a real PR, not a draft, unless the
    repository says otherwise); do not add approval gates or infer authority
    from the skill.
 9. When the repository or your own organization requires a risk note, end the

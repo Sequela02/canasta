@@ -24,8 +24,12 @@ repository-wide cleanup.
    to make the tree look clean. Honor legal, audit, release and repository
    retention requirements.
 3. **Check what goes public.** Review additions for private material
-   (personal paths, credentials, session context) and for completion claims
-   no check supports. If sensitive material is already committed or
+   (personal paths, credentials, session context, private project or client
+   names, and internal infrastructure: secret-store names and what they hold,
+   private repositories and their paths, hosts, accounts) and for completion
+   claims no check supports. Editing published text doesn't remove it: hosts
+   such as GitHub keep earlier versions, so delete, close and replace, or
+   rewrite an unmerged branch. If sensitive material is already committed or
    published, removing the working copy does not repair it: surface it for a
    security response without reproducing it.
 4. **Docs.** When the task touched documentation, finish
