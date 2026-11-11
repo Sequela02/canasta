@@ -38,6 +38,13 @@ class AgentInventoryTests(unittest.TestCase):
             "name: advisor", "name: advisor\ncodex.model: example"), encoding="utf-8")
         self.assertIn("Nonportable agent metadata: agents/advisor.md", check(self.root))
 
+    def test_skill_permission_metadata(self):
+        path = self.root / "skills/workflow/task-closeout/SKILL.md"
+        path.write_text(path.read_text(encoding="utf-8").replace(
+            "name: task-closeout", "name: task-closeout\nallowed-tools: Bash"), encoding="utf-8")
+        expected = Path("skills/workflow/task-closeout/SKILL.md")
+        self.assertIn(f"Tool-specific metadata: {expected}", check(self.root))
+
     def test_readme_inventory(self):
         path = self.root / "README.md"
         path.write_text(path.read_text(encoding="utf-8").replace(

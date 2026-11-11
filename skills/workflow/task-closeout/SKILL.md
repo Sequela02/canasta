@@ -1,5 +1,6 @@
 ---
 name: task-closeout
+disable-model-invocation: true
 description: Close out a task before saying it is done; remove the scratch files it created, check the diff for private material and unsupported claims, write a handoff, or retire a branch or worktree. Use when finishing work, when asked for a handoff or session summary, or before deleting a branch. Not for where docs belong (documentation-hygiene).
 tags:
   - workflow

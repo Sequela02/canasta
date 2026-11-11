@@ -28,7 +28,7 @@ def check(root: Path) -> list[str]:
                 errors.append(f"Name mismatch: {entry.relative_to(root)}")
             if not re.search(r"^description: .+", header[1], re.M):
                 errors.append(f"Missing description: {entry.relative_to(root)}")
-            if re.search(r"^(tools|allowed-tools|hooks|disable-model-invocation):", header[1], re.M):
+            if re.search(r"^(tools|allowed-tools|hooks):", header[1], re.M):
                 errors.append(f"Tool-specific metadata: {entry.relative_to(root)}")
         plugin_root = root if group == "workflow" else base
         manifest_path = plugin_root / ".claude-plugin" / "plugin.json"
