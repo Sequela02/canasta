@@ -29,7 +29,8 @@ rewrite or encode exact patch versions in this skill.
 | REST resource design, DTOs, errors, pagination, compatibility, OpenAPI, API versioning | [references/api-contracts.md](references/api-contracts.md) |
 | Authentication, authorization, tenant isolation, cookies/tokens, CSRF/CORS, secrets, abuse controls | `security-scope-review` with its Spring backend reference |
 | Unit, architecture, slice, integration, contract, migration, container, or regression tests | [references/testing.md](references/testing.md), with `tdd` for test-first discipline |
-| Domain model or module boundaries | `architecture-review` |
+| Domain model, glossary, bounded contexts, deciders, invariants | `domain-modeling` |
+| Module boundaries and dependency direction | `architecture-review` |
 | Behavior-preserving cleanup | `refactor` |
 | Stripe integration | Stripe's official integration guidance; keep domain orchestration in the backend boundary |
 
@@ -40,16 +41,13 @@ over building a parallel one.
 
 ## Architecture Invariants
 
-- Domain code has no Spring, JPA, Jackson, HTTP, or migration annotations.
-- Application services own use-case orchestration and transaction boundaries;
-  domain types own business invariants.
+- Domain purity, bounded contexts and deciders follow `domain-modeling`. In
+  Spring, domain code carries no Spring, JPA, Jackson, HTTP, or migration
+  annotations, and application services own transaction boundaries.
 - Adapters translate transport and persistence models instead of exposing JPA
   entities or infrastructure exceptions as public contracts.
-- Bounded contexts communicate through explicit application contracts or
-  events, not direct access to another context's entities and repositories.
-- Prefer a modular monolith. Use Spring Modulith or ArchUnit for executable
-  module boundaries when the repository adopts them; do not add either as
-  decorative architecture.
+- Prefer a modular monolith, with its boundaries enforced by ArchUnit or
+  Spring Modulith in CI.
 - Delete compatibility paths after their documented consumer or migration
   window ends.
 

@@ -7,9 +7,9 @@ description: "Design a system or a cross-component change before building it: re
 
 For decisions above one codebase's modules: which processes and data stores
 exist, how they talk, where they run, how they fail and recover. Hand the rest
-to the owning skill: domain rules and modules inside a codebase to
-`architecture-review`, ambiguous terms to
-`concept-modeling`, the build sequence to `implementation-planning`.
+to the owning skill: domain rules, terms and bounded contexts to
+`domain-modeling`, modules inside a codebase to `architecture-review`, the
+build sequence to `implementation-planning`.
 
 Write in the repository's documentation language.
 

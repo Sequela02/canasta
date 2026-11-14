@@ -17,8 +17,11 @@ Agents kept making the same mistakes on me:
 - **It says "done" and the thing still doesn't work.** `tdd`,
   `formal-verification` and `benchmark-readiness-review` ask for real checks,
   and for what each check can't prove.
-- **A small change turns into a framework.** `architecture-review`,
-  `concept-modeling` and `refactor` keep the change small.
+- **A small change turns into a framework.** `architecture-review` and
+  `refactor` keep the change small.
+- **Architecture rules written in prose drift.** `domain-modeling` turns
+  domain rules into a glossary, closed types, property tests and boundary
+  checks in CI.
 - **Handing work to subagents costs more than it saves.** `orchestration-workflow`
   starts with one agent and asks why before splitting work.
 - **Green CI turns into "ship it".** `writing-pr` ends every PR with a risk note,
@@ -118,10 +121,10 @@ In the order a task usually meets them.
 - [problem-clarification](skills/workflow/problem-clarification/SKILL.md): questions, decisions and building, kept apart.
 - [codebase-scouting](skills/workflow/codebase-scouting/SKILL.md): find owners, dependencies and the checks a change affects.
 - [research](skills/workflow/research/SKILL.md): research that answers a question and knows when to stop.
-- [concept-modeling](skills/workflow/concept-modeling/SKILL.md): sort out terms that mean different things in different places.
 
 **Design**
 
+- [domain-modeling](skills/workflow/domain-modeling/SKILL.md): domain-driven design with a check behind every rule: glossary, bounded contexts, deciders, invariants. The glossary practice is adapted from [Matt Pocock's `domain-modeling`](https://github.com/mattpocock/skills) (MIT).
 - [architecture-review](skills/workflow/architecture-review/SKILL.md): module boundaries, dependency direction and contracts.
 - [api-design](skills/workflow/api-design/SKILL.md): library and SDK surfaces that read well and promise only what they check.
 - [cli-design](skills/workflow/cli-design/SKILL.md): command lines that people, scripts and agents can rely on.
