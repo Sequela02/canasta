@@ -3,8 +3,10 @@ name: domain-modeling
 description: Domain-driven design with checks behind every rule. Use when a
   business term is ambiguous, overloaded or missing from GLOSSARY.md; when
   drawing or changing bounded contexts; when modeling business rules,
-  invariants or an aggregate's lifecycle; and when reviewing a domain model.
-  Module and dependency shape belongs to architecture-review.
+  invariants or an aggregate's lifecycle; when a command may be retried, two
+  writers race, a side effect leaves the database, a flow spans aggregates
+  or a client works offline; and when reviewing a domain model. Module and
+  dependency shape belongs to architecture-review.
 tags:
   - architecture
   - domain-driven-design
@@ -107,6 +109,20 @@ that fails when the rule is removed.
 A new context starts as a skeleton: glossary entries; command, event,
 rejection and state types; `decide` and `evolve` signatures; and the invariant
 tests, failing. Implementation follows in a later commit.
+
+## 6. Integration
+
+Around a decider, add the pattern the risk calls for, with its check, from
+[integration](references/integration.md):
+
+- a command that moves money or inventory may be retried: idempotency key;
+- two writers may race on one aggregate: optimistic concurrency;
+- a side effect leaves the database: transactional outbox;
+- a flow spans aggregates: process manager;
+- a client must work offline: local queue with server authority.
+
+Done when each risk the change introduces has its pattern and its passing
+check, or the pull request names the risk accepted instead.
 
 ## Reviewing a model
 
