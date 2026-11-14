@@ -43,7 +43,7 @@ require an interview. Use `technical-writing` for the resulting explanation.
    sample inputs may expose a logic gap, while a rendered example may reveal a
    layout constraint. Keep experimental code separate from the deliverable.
    Record what was learned before removing it; retaining it as product code
-   requires the user's decision. Use concept-modeling only for conflicting or overloaded
+   requires the user's decision. Use domain-modeling for conflicting or overloaded
    terminology; use research for external evidence and
    implementation-planning for sequencing an established objective.
 6. Stop when remaining uncertainty no longer changes the authorized outcome or

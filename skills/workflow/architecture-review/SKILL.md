@@ -1,10 +1,11 @@
 ---
 name: architecture-review
 description: Design or review module boundaries, dependency direction, runtime
-  coupling, and contract ownership without speculative abstraction, with a
-  conditional domain and aggregate lens. Use before adding a module, layer, port,
-  or cross-boundary contract, and when reviewing one. Not for a library's
-  public surface (api-design) or a whole system's design (system-design).
+  coupling, and contract ownership without speculative abstraction. Use before
+  adding a module, layer, port, or cross-boundary contract, and when reviewing
+  one. Not for business rules or domain language (domain-modeling), a
+  library's public surface (api-design) or a whole system's design
+  (system-design).
 tags:
   - architecture
   - clean-architecture
@@ -18,8 +19,7 @@ Use this skill when designing or evaluating architecture, module ownership, or
 cross-surface changes.
 
 When the change touches business rules, invariants, aggregate scope or domain
-language, also apply the [domain boundaries lens](references/domain-boundaries.md).
-It is conditional: do not impose DDD structure on code without such rules.
+language, also use `domain-modeling`.
 
 ## Designing a change
 
@@ -42,8 +42,9 @@ introduces a contract.
 6. State in the plan the owner, the dependency direction, and one simpler design
    you rejected with the guarantee it loses. When guarantees are equal, choose
    the simpler design.
-7. When a dependency rule must hold permanently, add an executable check (for
-   example ArchUnit or dependency-cruiser) instead of relying on review.
+7. When a dependency rule must hold permanently, add an executable check
+   instead of relying on review; `domain-modeling` has starting points for
+   ArchUnit, dependency-cruiser and import-linter.
 
 ## Reviewing a change
 
@@ -77,7 +78,7 @@ Workflow:
 7. Evaluate tradeoffs. Do not require speculative ports, DTOs, adapters, or
    events that add behavior-free layers without demonstrated volatility,
    coupling reduction, or another real consumer.
-8. Route business-language and invariant questions to the domain lens and authority
+8. Route business-language and invariant questions to `domain-modeling` and authority
    or disclosure questions to security review; dependency shape alone proves
    neither domain correctness nor safety.
 
