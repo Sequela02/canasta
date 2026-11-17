@@ -27,12 +27,17 @@ Before creating or retaining a document:
    transcripts, intermediate reports, and task bookkeeping in the configured
    private project state or an appropriate temporary location outside tracked
    documentation.
-3. Decide whether content belongs in the repository before writing it. Contributor
-   guides, architecture, and public design discussions can be legitimate public
-   docs. Private operational details, personal paths, or session context require
-   an appropriate private destination or a sanitized public explanation. A folder
-   named internal, a dot directory, or an ignore rule does not establish privacy.
-   An explicit requested deliverable still needs an appropriate audience and home.
+3. Decide whether content belongs in the repository before writing it. Access to
+   a repository is access to its system, not to the organization behind it: the
+   repository holds what a reader with access to it alone needs to understand,
+   run, change and contribute to that system. Other projects and their people or
+   clients, the organization's strategy, finances and plans, internal
+   infrastructure (hosts, secret-store names, accounts, an operator's machine
+   and paths), real personal data and session history go to the organization's
+   private knowledge store. A public repository also leaves out the
+   organization's clients and users. A folder named internal, a dot directory,
+   or an ignore rule does not establish privacy. An explicit requested
+   deliverable still needs an appropriate audience and home.
 
 Maintain the collection:
 - Organize by reader need and existing conventions: learning, doing, reference,
@@ -49,6 +54,15 @@ Maintain the collection:
   required by a published contract, build, or distribution. Every generated
   document has one source and a check that regenerates it and fails on a
   diff; never edit the generated copy.
+- Write examples and fixtures with invented names, reserved domains
+  (`example.com`, `.test`, `.invalid`) and placeholders; data copied or derived
+  from real records stays out. Captured artifacts such as test reports, logs and
+  snapshots carry the paths and user names of the machine that made them, so
+  neutralize those before committing one.
+- When evidence for a decision lives in a private store, the repository keeps a
+  self-contained summary a reader can act on, with no link or identifier to the
+  private record: a reference can expose what it names even when its target is
+  access-controlled.
 - Preserve significant decision rationale and future-useful migration or evaluation
   evidence. Mark superseded decisions honestly rather than rewriting history.
   Completed plans need retention only when their remaining evidence or obligations
@@ -71,6 +85,8 @@ Load a reference only for its task:
 - Reviewing, writing, or trimming project-owned agent instructions or skills
   from repository evidence:
   [instruction-review.md](references/instruction-review.md).
+- Auditing what an existing repository holds against step 3:
+  [repository-audit.md](references/repository-audit.md).
 - Placing, moving or retiring the pages, examples or agent files of a
   library, SDK or CLI docs set:
   [developer-docs-site.md](references/developer-docs-site.md).
