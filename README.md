@@ -4,8 +4,6 @@ The agent skills I use every day, cleaned up so anyone can use them. They keep
 the agent on what I asked, make it show proof before it says "done", and leave
 the big calls to me. They work in Claude Code, Codex and other agents.
 
-Canasta is Spanish for basket. A basket of skills, and "Cana" from Canitas.
-
 ## Why I made these
 
 Agents kept making the same mistakes on me:
