@@ -106,17 +106,8 @@ includes:
 Do not use vendor performance claims as upgrade proof. Measure a repository
 property only when performance is part of the decision.
 
-## Current research observation
-
-At the 2026-08-23 research cutoff, Bun's official latest stable release was
-`1.4.0`, published 2026-08-20. This observation explains the basis of revision
-1; it is not a standing version authority and must be refreshed before future
-selection.
-
 Official anchors:
 
 - <https://github.com/oven-sh/bun/releases/latest>
-- <https://bun.com/blog/bun-v1.4>
-- <https://github.com/oven-sh/bun/issues/28792>
 - <https://github.com/oven-sh/setup-bun>
 - <https://bun.com/docs/installation>

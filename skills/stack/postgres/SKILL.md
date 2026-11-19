@@ -1,6 +1,7 @@
 ---
 name: postgres
-description: "Change or diagnose PostgreSQL schemas, queries, indexes, locks, migrations, backups, or upgrades."
+description: "PostgreSQL judgment: invariants in the database, measured query plans, concurrency and safe migrations. Use when editing SQL or migrations, or diagnosing queries, locks, backups or upgrades."
+paths: ["**/*.sql", "**/db/migration/**"]
 ---
 
 # PostgreSQL

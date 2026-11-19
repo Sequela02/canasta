@@ -46,26 +46,6 @@ compiled executables, containers, or release behavior.
   Apply thresholds only to meaningful owned code, and keep generated/vendor
   paths out of the denominator.
 
-## Vitest under Bun 1.4
-
-Bun 1.4 claims Vitest support with forks, threads, and V8 coverage. Current
-Vitest documentation conflicts: its coverage guide still says V8 coverage does
-not work on Bun, while an experimental Node-loader path documents narrower Bun
-limitations for selected transform/mock features. Treat these as path-specific
-claims, not a complete compatibility matrix.
-
-Do not force Vitest through Bun as a generic speed switch. Verify the exact
-suite's collection, mocks, aliases/transforms, snapshots, coverage, handles,
-memory, failures, and repeatability. An open Bun 1.4.0 reproducer shows Vite SSR
-dropping explicit exports beside `export *`, preventing affected suites from
-collecting. An independent local comparison is required before adoption.
-
-An open report also describes intermittent `bun test --parallel` deadlock in a
-roughly 1,100-file suite. This does not implicate `bun run --parallel`, and one
-report does not establish prevalence. Use soak repetitions, deterministic
-watchdogs, fixed worker budgets, and a proven fallback before making native
-file parallelism a required large-suite gate.
-
 ## Performance evidence
 
 1. State the workload, correctness invariant, Bun revision, OS/architecture,
@@ -108,9 +88,8 @@ issues, or sending them to another system or model.
 - `bun build --compile` embeds Bun and changes distribution, platform, asset,
   native-addon, dynamic-import, configuration, and update semantics. Treat the
   executable as a release artifact with its own smoke tests.
-- Declare assets explicitly. Bun 1.4 compiled executables no longer auto-load
-  project `tsconfig.json` or `package.json` from the working directory unless
-  the corresponding compile autoload flags are selected.
+- Declare assets and configuration explicitly; check the resolved version's
+  compile autoload behavior instead of assuming the working directory is read.
 - Keep original-source stack traces through appropriate source maps. Minify only
   when artifact size/startup is valuable and diagnostics remain acceptable.
 - Bytecode can improve startup but increases build coupling and does not obscure
@@ -151,7 +130,6 @@ or live checks explicitly.
 - <https://bun.com/docs/bundler/executables>
 - <https://bun.com/docs/guides/ecosystem/docker>
 - <https://bun.com/docs/guides/runtime/cicd>
-- <https://bun.com/blog/bun-v1.4>
 - <https://vitest.dev/guide/>
 - <https://vitest.dev/guide/coverage>
 - <https://vitest.dev/config/experimental.html>

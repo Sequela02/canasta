@@ -11,10 +11,9 @@ changes.
   `bun install --frozen-lockfile` and fails when manifests and lockfile differ.
 - Use ordinary `bun install` only when dependency resolution is intentionally
   allowed to change. Review both manifest and lockfile diffs afterward.
-- Treat lockfile format changes as toolchain changes. Bun 1.4 normally creates
-  lockfile version 2 and can read older formats. Nested or version-scoped
-  overrides raise the lockfile to version 3, which older Bun versions cannot
-  read. Review those migrations separately from dependency-content changes.
+- Treat lockfile format changes as toolchain changes: a newer format may be
+  unreadable by older Bun versions. Review those migrations separately from
+  dependency-content changes.
 - The global cache/store is an optimization, never authority or verification.
   A successful warm install does not prove a clean install.
 - The global virtual store is opt-in. Benchmark it on every supported install

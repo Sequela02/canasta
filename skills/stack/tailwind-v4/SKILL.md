@@ -1,6 +1,7 @@
 ---
 name: tailwind-v4
-description: "Configure Tailwind CSS v4 or change its tokens, utilities, responsive styles, and v3 migrations."
+description: "Tailwind CSS v4 judgment: tokens, semantic utilities, variants, responsive states and anti-patterns. Use when a project's CSS imports tailwindcss, when changing class lists or theme tokens, or migrating from v3."
+paths: ["**/*.css"]
 ---
 
 # Tailwind v4
@@ -14,16 +15,6 @@ Prefer official Tailwind documentation when behavior is uncertain:
 - Theme variables: https://tailwindcss.com/docs/theme
 - Styling with utility classes: https://tailwindcss.com/docs/styling-with-utility-classes
 - Upgrade guide: https://tailwindcss.com/docs/upgrade-guide
-- Tailwind v4 announcement: https://tailwindcss.com/blog/tailwindcss-v4
-
-## Baseline
-
-- Tailwind v4 is CSS-first. Treat the main CSS file as the source of theme configuration.
-- Use `@import "tailwindcss";` in the CSS entrypoint.
-- Use `@theme` for values that should generate utilities.
-- Use `@theme inline` when mapping Tailwind utility tokens to runtime CSS variables, especially with shadcn-style semantic variables.
-- Keep runtime semantic values in `:root`, `.dark`, or theme selectors; keep utility-generating names in `@theme`.
-- Tailwind v4 targets modern browsers: Safari 16.4+, Chrome 111+, and Firefox 128+. If a project must support older browsers, keep that as explicit product/platform debt.
 
 ## Token Model
 

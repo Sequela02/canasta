@@ -1,6 +1,7 @@
 ---
 name: rust-standards
-description: Rust 2024-edition coding standards, tooling, and crate choices for all projects. Covers workspace layout, determinism, testing, errors, NAPI bindings, and anti-patterns. Load before writing any Rust code.
+description: Rust judgment: workspace layout, module rules, crate choices, determinism, testing, errors and NAPI bindings. Use when editing .rs files or Cargo manifests.
+paths: ["**/*.rs", "**/Cargo.toml"]
 ---
 
 # Rust Standards (cross-project)

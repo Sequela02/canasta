@@ -1,6 +1,7 @@
 ---
 name: spring-boot
-description: "Implement or review Java/Spring backend services, transactions, persistence adapters, configuration, and operations, and route API, security, PostgreSQL, and testing work to their references and skills."
+description: "Spring Boot backend judgment: domain purity, adapters, transactions, configuration and operations, routing API, security, PostgreSQL and testing work. Use when editing Java or Kotlin backend code or its build."
+paths: ["**/*.java", "**/*.kt", "**/pom.xml", "**/build.gradle*", "**/application*.yml", "**/application*.properties"]
 ---
 
 # Spring Boot Backend
