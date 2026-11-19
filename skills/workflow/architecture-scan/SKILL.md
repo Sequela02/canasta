@@ -27,7 +27,11 @@ changing, so weight recent history:
   either file's churn.
 - Before counting, drop merges and commits from bots, dependency updates,
   formatting, generated files and lockfiles. They inflate churn without
-  pointing at design.
+  pointing at design. Leave tests out of coupling: a file and its test are
+  meant to change together.
+
+[scripts/hotspots.py](scripts/hotspots.py) does all three from Git history
+(Python standard library, read-only); `--help` lists its options.
 
 Read the domain glossary and the decisions (ADRs) for the chosen area first.
 
