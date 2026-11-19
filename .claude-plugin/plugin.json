@@ -19,7 +19,6 @@
     "./skills/workflow/domain-modeling",
     "./skills/workflow/formal-verification",
     "./skills/workflow/implementation-planning",
-    "./skills/workflow/orchestration-workflow",
     "./skills/workflow/problem-clarification",
     "./skills/workflow/product-copy",
     "./skills/workflow/refactor",
