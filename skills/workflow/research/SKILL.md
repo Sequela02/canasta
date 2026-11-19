@@ -13,9 +13,8 @@ tags:
 Use this skill for technical, product, standards, scientific, market, or
 architecture research that must support a decision with verifiable evidence.
 It defines a portable method, not a provider-specific research command. It does
-not map repository ownership, dependency paths, or affected tests; route that
-internal impact analysis to codebase scouting and use both only for an explicit
-repository-to-external comparison.
+not map repository ownership, dependency paths, or affected tests; that
+internal impact analysis is ordinary repository inspection.
 
 Before searching, name three things in a line each:
 - **Decision:** what the research serves and who decides. With no decision,
@@ -29,7 +28,8 @@ unresolved contradiction, and say which; agreement adds no evidence.
 
 Scale the investigation:
 - Infer the question, intended decision, scope, and relevant date or version
-  from the request. Ask only when missing information materially changes the
+  from the request. Anchor "latest", "current" and "recent" to today's date,
+  never to what you remember. Ask only when missing information materially changes the
   investigation. Respect supplied evidence and source restrictions.
 - A focused lookup can finish once the relevant authoritative fact and its
   applicability are verified. A decision-oriented investigation needs material
@@ -62,6 +62,11 @@ Investigate and preserve evidence:
    independent evidence units, not URLs or derivative reports. Preserve support
    through summaries and delegated work; a worker summary is not source
    verification. A source named by the user is not inspected evidence.
+   Delegate reading to keep raw pages out of the lead's context, with the
+   worker returning passages and their locations rather than a summary. The
+   lead re-reads the passages behind consequential claims. Give sources that
+   could be adversarial to a reader as capable as the lead: a delegated
+   system is only as reliable as its weakest reader.
 4. Appraise relevance, design, bias, independence, recency, precision,
    applicability, and conflicts of interest in proportion to the claim. Check
    jurisdiction, population, product version, corrections, and supersession
@@ -84,7 +89,18 @@ Synthesize and finish:
 - Check consequential final claims against inspected original support, including
   claims inherited from summaries. Verify citation existence, entailment, scope,
   placement, and coverage; retain exact source URLs and distinguish quotation
-  from inference. Respect quotation and copyright limits. Never cite a search
+  from inference.
+- Verify mechanically, not by reading your own draft:
+  - **Every cited URL resolves.** Run a liveness check (an HTTP request, or a
+    tool such as `urlhealth`) on each one before reporting; repair or drop
+    the citations that fail. Agents invent a measurable share of URLs.
+  - **Every claim a decision rests on carries its passage.** Re-open the
+    source and attach the exact supporting passage. A working, relevant link
+    does not show the source says the claim; without the passage, report the
+    claim as unverified.
+  - **The synthesis matches the sources, not the notes.** Faithfulness drops
+    as an investigation grows, so after a long one, re-check the final claims
+    against the sources themselves. Respect quotation and copyright limits. Never cite a search
   snippet as inspected evidence or fabricate source metadata. Repair unsupported
   claims, not just their citation formatting.
 - Stop a lookup once the fact and applicability are verified. Stop a decision
