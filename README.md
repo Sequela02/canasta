@@ -167,7 +167,7 @@ In the order a task usually meets them.
 - [rust-standards](skills/stack/rust-standards/SKILL.md): Rust 2024, determinism, errors and crates.
 - [spring-boot](skills/stack/spring-boot/SKILL.md): Java backend boundaries, persistence and operations.
 - [tailwind-v4](skills/stack/tailwind-v4/SKILL.md): CSS-first tokens, utilities and responsive styles.
-- [typescript-standards](skills/stack/typescript-standards/SKILL.md): language, imports, compiler and types.
+- [typescript-standards](skills/stack/typescript-standards/SKILL.md): type modeling, narrowing, imports and strict checks.
 - [vitest-testing](skills/stack/vitest-testing/SKILL.md): suite behavior, isolation and test speed.
 
 ## Skills I use alongside these
@@ -196,3 +196,5 @@ I install them from their sources, unmodified unless noted:
 Matt Pocock keeps its own MIT notice in the [tdd folder](skills/workflow/tdd/NOTICE).
 technical-writing adapts Lauren Tan's from pstack, and keeps its MIT license in
 [its folder](skills/workflow/technical-writing/LICENSE.txt).
+typescript-standards builds on her typescript-best-practices from pstack, and
+keeps its MIT license in [its folder](skills/stack/typescript-standards/LICENSE.txt).
