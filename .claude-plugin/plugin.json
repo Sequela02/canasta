@@ -10,6 +10,7 @@
   "skills": [
     "./skills/workflow/api-design",
     "./skills/workflow/architecture-review",
+    "./skills/workflow/architecture-scan",
     "./skills/workflow/benchmark-readiness-review",
     "./skills/workflow/cli-design",
     "./skills/workflow/code-review-findings",
