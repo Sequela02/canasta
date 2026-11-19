@@ -65,7 +65,10 @@ Review contract:
    unsupported, failed, invalid, retried, excluded, and unknown trials in the
    reconciliation. Report quality and safety beside latency, token, and cost
    evidence instead of collapsing incompatible properties into one score.
-7. Verify evidence and reproducibility. Retain per-item trials, inputs, outputs,
+7. Verify evidence and reproducibility. Run the project's checks at the base in
+   the exact copy the run uses first: a run whose base fails is invalid, not a
+   result. Describe what an agent did from its turns, not only its tool
+   results. Retain per-item trials, inputs, outputs,
    final states, transcripts or trajectories, tool calls, scorer outputs,
    diagnostics, usage, costs, exclusions, and immutable artifact identities.
    Separate repeatability (same team and setup), reproducibility (independent

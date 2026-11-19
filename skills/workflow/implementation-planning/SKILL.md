@@ -70,6 +70,11 @@ Output:
   and recovery;
 - final gates and residual risks.
 
+A plan handed to another agent marks each fact verified (with its source),
+inferred or unknown, keeps decisions apart from assumptions, and asks the
+receiver to restate the goal, deliverable, exclusions and check before its
+first nontrivial step.
+
 When the work spans many files or more than one session, write the plan to a
 file (the repository's plan location, or the session scratch directory when it
 has none) and implement it in a fresh session that starts from that file. The
