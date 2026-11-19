@@ -1,6 +1,7 @@
 ---
 name: vitest-testing
-description: "Configure or debug Vitest suites, mocks, pools, isolation, coverage, sharding, flaky tests, or test performance."
+description: "Vitest judgment: test layers, mocks at real boundaries, isolation, and diagnosing slow or flaky suites. Use when editing test files or a vitest config."
+paths: ["**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "**/vitest.config.*", "**/vitest.workspace.*"]
 ---
 
 # Vitest Testing
@@ -21,9 +22,8 @@ Before changing tests or configuration:
    browser behavior, contracts, and end-to-end journeys.
 4. Identify the correctness invariants behind isolation, worker caps, ordering,
    environment choice, and custom pools before tuning them.
-5. For Vitest 4.1 specifics and current caveats, read
-   [references/vitest-4.1.md](references/vitest-4.1.md). Recheck official docs
-   and tagged source when the resolved version differs or docs conflict.
+5. For version-specific behavior and caveats, read the official docs and
+   release notes for the resolved version.
 
 ## Add or change tests
 
@@ -37,9 +37,8 @@ Before changing tests or configuration:
   needs. Restore mocks, timers, environment, globals, cwd, and resources.
 - Do not enable global mock reset options mechanically; they can change concurrent
   test semantics and hide local ownership.
-- During Vitest 3/Jest to Vitest 4 migration, distinguish clear, reset, and restore
-  semantics. `vi.restoreAllMocks` no longer clears spy state and does not restore
-  automocks; add a cross-test contamination probe before relying on global cleanup.
+- Distinguish clear, reset, and restore semantics, which change between major
+  versions; add a cross-test contamination probe before relying on global cleanup.
 - Keep runtime tests separate when behavior depends on Bun, workerd, a browser,
   Node, or another deployed runtime. Runner compatibility is not runtime proof.
 - Keep TypeScript compilation/typechecking as a separate explicit gate unless a

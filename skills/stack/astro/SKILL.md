@@ -1,6 +1,7 @@
 ---
 name: astro
-description: "Build or debug Astro pages, content collections, islands, rendering, assets, and site configuration."
+description: "Astro judgment: islands, hydration, rendering mode, content and View Transitions. Use when editing .astro files or astro.config."
+paths: ["**/*.astro", "**/astro.config.*"]
 ---
 
 # Astro

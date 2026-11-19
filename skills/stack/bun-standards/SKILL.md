@@ -1,6 +1,7 @@
 ---
 name: bun-standards
-description: "Configure or change Bun runtime APIs, package management, workspaces, bundling, tests, or CI commands."
+description: "Bun judgment: runtime ownership and portability, installs and lockfiles, workspaces, bundling, tests and CI. Use when a repository uses Bun (bun.lock, bunfig.toml or Bun APIs)."
+paths: ["**/bun.lock", "**/bunfig.toml"]
 ---
 
 # Bun Standards
@@ -58,8 +59,7 @@ Do not let a Bun-owned script silently make a published library Bun-only.
 - For installs, lockfiles, workspaces, catalogs, dependency security, or
   registries, read
   [references/package-management-and-security.md](references/package-management-and-security.md).
-- For runtime APIs, subprocesses, servers, storage clients, or new Bun 1.4
-  built-ins, read
+- For runtime APIs, subprocesses, servers, storage clients, or built-ins, read
   [references/runtime-and-apis.md](references/runtime-and-apis.md).
 - For tests, bundling, compiled executables, containers, or releases, read
   [references/testing-build-and-release.md](references/testing-build-and-release.md).
@@ -114,7 +114,6 @@ Do not report upgrade or replacement completion from install success alone.
 
 ## Currency
 
-This skill was researched against official Bun 1.4 documentation on
-2026-08-23. For version-sensitive work, re-check the official release notes,
-breaking-change guide, API stability labels, and compatibility page before
-acting. Vendor benchmarks are discovery evidence, not project verification.
+Re-check the resolved version's official release notes, breaking-change guide,
+API stability labels and compatibility page before version-sensitive work.
+Vendor benchmarks are discovery evidence, not project verification.

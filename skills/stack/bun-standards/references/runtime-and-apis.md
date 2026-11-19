@@ -27,10 +27,6 @@ not override the cross-project runtime-resolved package rules.
 
 - `Bun.file` is lazy. Handle absent files, size limits, encodings, and untrusted
   paths at the boundary before parsing or returning contents.
-- Bun 1.4.0 has an open Windows report where an unsettled rejecting
-  `Bun.file(...).text/json` promise can allow a zero exit. Until the exact runtime
-  is verified fixed, use top-level await, guard optional reads with `.exists()`,
-  or use `node:fs/promises` for that boundary. A report is not prevalence proof.
 - Use `Bun.write` only after resolving and validating the destination. Preserve
   atomic/recoverable write semantics when partial files would be harmful.
 - Prefer `Bun.spawn({ cmd: [...] })` or the array form over constructing a shell
@@ -75,7 +71,7 @@ not override the cross-project runtime-resolved package rules.
   cancellation, retry, data-type, migration, observability, and test parity for
   the actual consumer.
 
-## Bun 1.4 built-ins
+## Built-in APIs
 
 Evaluate built-ins by stability and invariant, not novelty:
 

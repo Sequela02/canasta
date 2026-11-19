@@ -1,6 +1,7 @@
 ---
 name: react-engineering
-description: Build or review React component contracts, composition, rendering, data flow, bundle, and performance; choose a web runtime or surface. Use for React code, not for visual direction or styling.
+description: React judgment: component contracts, composition, rendering, data flow, bundle and measured performance; choosing a web runtime or surface. Use when editing .tsx or .jsx components, not for visual direction or styling.
+paths: ["**/*.tsx", "**/*.jsx"]
 tags:
   - react
   - frontend
