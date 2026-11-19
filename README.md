@@ -173,6 +173,18 @@ In the order a task usually meets them.
 - [typescript-standards](skills/stack/typescript-standards/SKILL.md): language, imports, compiler and types.
 - [vitest-testing](skills/stack/vitest-testing/SKILL.md): suite behavior, isolation and test speed.
 
+## Skills I use alongside these
+
+canasta has no design or animation skills because these authors' are better.
+I install them from their sources, unmodified unless noted:
+
+- [Emil Kowalski's skills](https://github.com/emilkowalski/skills): animation, gestures, motion review and UI polish. I let agents load `review-animations` and `pick-ui-library` on their own, because `animate` sends agents to them; upstream ships both for you to call.
+- [Impeccable](https://github.com/pbakaus/impeccable): interface design, critique and polish.
+- [shadcn/ui's skills](https://github.com/shadcn-ui/ui): shadcn components and the Radix to Base UI migration.
+- [Anthropic's skills](https://github.com/anthropics/skills): `frontend-design` and `mcp-builder`.
+- [Matt Pocock's skills](https://github.com/mattpocock/skills): `writing-for-agents` and `retro`.
+- poteto's pstack, from [cursor/plugins](https://github.com/cursor/plugins): `unslop`.
+
 ## Changing this pack
 
 - `python scripts/check.py` checks the manifests, the skill list, local links
