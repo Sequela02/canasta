@@ -20,8 +20,6 @@ Agents kept making the same mistakes on me:
 - **Architecture rules written in prose drift.** `domain-modeling` turns
   domain rules into a glossary, closed types, property tests and boundary
   checks in CI.
-- **Handing work to subagents costs more than it saves.** `orchestration-workflow`
-  starts with one agent and asks why before splitting work.
 - **Green CI turns into "ship it".** `writing-pr` ends every PR with a risk note,
   and the agent doesn't merge unless your project says it can.
 
@@ -133,7 +131,6 @@ In the order a task usually meets them.
 
 - [tdd](skills/workflow/tdd/SKILL.md): small test-first steps with tests you can trust.
 - [refactor](skills/workflow/refactor/SKILL.md): change structure, keep behavior.
-- [orchestration-workflow](skills/workflow/orchestration-workflow/SKILL.md): delegate only with a reason, and check what comes back.
 
 **Verify and review**
 
