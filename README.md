@@ -10,8 +10,8 @@ Agents kept making the same mistakes on me:
 
 - **I ask a question and the agent starts building.** `problem-clarification`
   makes it tell exploring, deciding and building apart.
-- **The agent trusts a brief without checking it.** `codebase-scouting` and
-  `implementation-planning` make it look at the real repo first.
+- **The agent trusts a brief without checking it.** `implementation-planning`
+  makes it look at the real repo first.
 - **It says "done" and the thing still doesn't work.** `tdd`,
   `formal-verification` and `benchmark-readiness-review` ask for real checks,
   and for what each check can't prove.
@@ -115,7 +115,6 @@ In the order a task usually meets them.
 **Understand**
 
 - [problem-clarification](skills/workflow/problem-clarification/SKILL.md): questions, decisions and building, kept apart.
-- [codebase-scouting](skills/workflow/codebase-scouting/SKILL.md): find owners, dependencies and the checks a change affects.
 - [research](skills/workflow/research/SKILL.md): research that answers a question and knows when to stop.
 
 **Design**
