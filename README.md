@@ -121,6 +121,7 @@ In the order a task usually meets them.
 
 - [domain-modeling](skills/workflow/domain-modeling/SKILL.md): domain-driven design with a check behind every rule: glossary, bounded contexts, deciders, invariants. The glossary practice is adapted from [Matt Pocock's `domain-modeling`](https://github.com/mattpocock/skills) (MIT).
 - [architecture-review](skills/workflow/architecture-review/SKILL.md): module boundaries, dependency direction and contracts.
+- [architecture-scan](skills/workflow/architecture-scan/SKILL.md): find the structural changes most worth making, adapted from Matt Pocock's `improve-codebase-architecture` (MIT). It runs only when you call it.
 - [api-design](skills/workflow/api-design/SKILL.md): library and SDK surfaces that read well and promise only what they check.
 - [cli-design](skills/workflow/cli-design/SKILL.md): command lines that people, scripts and agents can rely on.
 - [system-design](skills/workflow/system-design/SKILL.md): system designs with real numbers and tradeoffs.
@@ -197,3 +198,5 @@ technical-writing adapts Lauren Tan's from pstack, and keeps its MIT license in
 [its folder](skills/workflow/technical-writing/LICENSE.txt).
 typescript-standards builds on her typescript-best-practices from pstack, and
 keeps its MIT license in [its folder](skills/stack/typescript-standards/LICENSE.txt).
+architecture-scan adapts Matt Pocock's improve-codebase-architecture, and keeps
+its MIT license in [its folder](skills/workflow/architecture-scan/LICENSE.txt).
