@@ -28,6 +28,9 @@ def check(root: Path) -> list[str]:
                 errors.append(f"Name mismatch: {entry.relative_to(root)}")
             if not re.search(r"^description: .+", header[1], re.M):
                 errors.append(f"Missing description: {entry.relative_to(root)}")
+            plain = re.search(r"^description: (?![\"'>|])(.*(?:\n  .*)*)", header[1], re.M)
+            if plain and (": " in plain[1] or " #" in plain[1]):
+                errors.append(f"Unquoted description breaks YAML: {entry.relative_to(root)}")
             if re.search(r"^(tools|allowed-tools|hooks):", header[1], re.M):
                 errors.append(f"Tool-specific metadata: {entry.relative_to(root)}")
         plugin_root = root if group == "workflow" else base

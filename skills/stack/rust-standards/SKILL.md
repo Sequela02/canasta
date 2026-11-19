@@ -1,6 +1,6 @@
 ---
 name: rust-standards
-description: Rust judgment: workspace layout, module rules, crate choices, determinism, testing, errors and NAPI bindings. Use when editing .rs files or Cargo manifests.
+description: "Rust judgment: workspace layout, module rules, crate choices, determinism, testing, errors and NAPI bindings. Use when editing .rs files or Cargo manifests."
 paths: ["**/*.rs", "**/Cargo.toml"]
 ---
 

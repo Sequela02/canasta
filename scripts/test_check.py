@@ -45,6 +45,15 @@ class AgentInventoryTests(unittest.TestCase):
         expected = Path("skills/workflow/task-closeout/SKILL.md")
         self.assertIn(f"Tool-specific metadata: {expected}", check(self.root))
 
+    def test_unquoted_description_with_colon(self):
+        path = self.root / "skills/stack/typescript-standards/SKILL.md"
+        text = path.read_text(encoding="utf-8")
+        start = text.index("description: ")
+        end = text.index("\n", start)
+        path.write_text(text[:start] + "description: TypeScript judgment: types" + text[end:], encoding="utf-8")
+        expected = Path("skills/stack/typescript-standards/SKILL.md")
+        self.assertIn(f"Unquoted description breaks YAML: {expected}", check(self.root))
+
     def test_readme_inventory(self):
         path = self.root / "README.md"
         path.write_text(path.read_text(encoding="utf-8").replace(
