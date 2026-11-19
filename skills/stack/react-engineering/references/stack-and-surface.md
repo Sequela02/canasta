@@ -12,7 +12,7 @@ owned or materially better suited.
 Shared expectations across web surfaces:
 
 - The `typescript-standards` skill owns module resolution and import
-  specifiers, the strict tsconfig baseline, type-level idiom, and Biome.
+  specifiers, the strict tsconfig baseline, and type-level idiom.
   Those rules are language-wide and are not restated here. Load it alongside this
   skill for any TypeScript work.
 - Bun as the default package manager unless repository evidence selects another

@@ -44,11 +44,21 @@ variants. Examples for each rule: [references/patterns.md](references/patterns.m
 
 Ask who resolves the import at run time:
 
-- **A runtime** (published packages, CLIs, services): `module: "nodenext"` and
-  an explicit `.js` on relative imports, even in `.ts` files. TypeScript doesn't
-  rewrite specifiers, and Node doesn't guess extensions.
-- **A bundler** (Vite, Astro, Next applications): `module: "preserve"`;
-  extensionless imports are fine.
+- **Node runs compiled output** (services and CLIs built with `tsc`):
+  `module: "nodenext"` and an explicit `.js` on relative imports, even in `.ts`
+  files. Node doesn't guess extensions, and the path you write is the path it
+  receives.
+- **Node runs the `.ts` files directly** (type stripping): `module: "nodenext"`,
+  `.ts` on relative imports, `rewriteRelativeImportExtensions` if `tsc` also
+  emits, and `erasableSyntaxOnly`. Node ignores `tsconfig`, so `paths` never
+  applies.
+- **A bundler** (Vite, Astro, Next applications): `module: "preserve"`, or
+  `esnext` with `moduleResolution: "bundler"`, and `noEmit`; extensionless
+  imports are fine.
+- **A published library:** check under the strictest consumer setting
+  (`module: "node18"` or newer `node*`), with `.js` specifiers, `declaration`
+  and a separate `outDir`. Bundler resolution lets code through that only
+  works in a bundler.
 
 Aliases are `package.json` `imports` subpaths with a segment (`#src/*`), not
 `tsconfig` `paths`, which only type-checks and is emitted unchanged. Check that
@@ -61,15 +71,16 @@ are mechanical and imports are greppable. No `namespace`; use modules.
 
 - `strict` plus `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`,
   `noImplicitOverride`, `noFallthroughCasesInSwitch`,
-  `noPropertyAccessFromIndexSignature`, `verbatimModuleSyntax` and
-  `moduleDetection: "force"`.
+  `noPropertyAccessFromIndexSignature`, `verbatimModuleSyntax`,
+  `moduleDetection: "force"` and `skipLibCheck`. Write `strict` even where the
+  pinned version defaults to it, so the file states its contract.
+- Declare `types` (`["node"]`, `["bun"]`, a test runner's) and `rootDir`
+  explicitly. Recent compilers default `types` to none and `rootDir` to the
+  config's folder, and the missing-global errors don't name the cause.
+- No `baseUrl`; use `imports` subpaths.
 - `isolatedDeclarations` for any package that emits declarations, from day one.
-- `erasableSyntaxOnly` for code a runtime executes by stripping types.
 - `tsc --noEmit` runs in CI. Type stripping and bundlers delete types without
   checking them.
-- Biome formats, lints and organizes imports. Add ESLint with
-  `typescript-eslint` only for a named rule Biome lacks; a repository already
-  invested in ESLint plugins keeps them.
 - `tsc -b` with `composite: true` per package in monorepos.
 
 ## Project structure (owner doctrine)
