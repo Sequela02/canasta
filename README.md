@@ -155,7 +155,7 @@ In the order a task usually meets them.
 
 **Close and maintain**
 
-- [task-closeout](skills/workflow/task-closeout/SKILL.md): finish a task clean: no scratch left, nothing private, a handoff when needed. It runs only when you call it.
+- [task-closeout](skills/workflow/task-closeout/SKILL.md): finish a task clean: no scratch left, nothing private, a handoff when needed.
 - [documentation-hygiene](skills/workflow/documentation-hygiene/SKILL.md): where docs go, and keeping them current.
 - [repository-text-hygiene](skills/workflow/repository-text-hygiene/SKILL.md): fix encoding, line-ending and Git drift.
 
