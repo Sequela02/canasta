@@ -1,6 +1,6 @@
 ---
 name: formal-verification
-description: "Prove code against a contract while you work, and keep the contract honest: work on code with //@ LemmaScript contracts, write or strengthen a contract, decide whether a function deserves a proof, or review what a proof covers. TypeScript with LemmaScript and Dafny; Java through a Dafny core or property tests."
+description: "Prove code against a contract while you work, and keep the contract honest: work on code with //@ LemmaScript contracts, write or strengthen a contract, decide whether a function deserves a proof, review what a proof covers, or choose which kind of verification fits a property. TypeScript with LemmaScript and Dafny; Java through a Dafny core or property tests."
 ---
 
 # Formal Verification
@@ -92,6 +92,35 @@ instructions ask. A new contract takes the same checks as a strengthened one.
 
 Contracts are readable as written; show them, not the prover's output. A proof
 that could not run is not a pass.
+
+## Choose the kind of verification
+
+Let the property choose the tool, not the language, what is installed or a
+default. Each kind establishes a different claim:
+
+| Property | Fits | Establishes | Boundary |
+| --- | --- | --- | --- |
+| A function's result for every admitted input: contracts, algorithms, parsers | A verifier that runs on the code (Dafny; LemmaScript for TypeScript) | The encoded contract, for every input it admits | As strong as the contract, no stronger |
+| Whether steps can happen in a bad order: races, protocols, lifecycles | A model checker over a small model of the design (TLA+ with TLC or tla-ts; Quint, which quint-check runs without a JVM) | The model's invariants, over every reachable state or up to a bound | A model is not the code: link it by replaying its traces against the code, or say it is not linked |
+| What the real code does in its environment | Tests and property-based tests | The inputs and environments tested | Nothing untested |
+| Whether a test, contract or model catches a fault | Mutation of the code, and of the contract or property | Sensitivity to those faults | Not that the specification matches the intent |
+| Whether a specification captures the request | Review against the requirement | A judgment | Never a proof |
+
+- Prefer the tool the repository already uses; its configuration and
+  instructions name it. Choose a new one by the claim you need and its cost
+  (runtime such as a JVM, run time, readable counterexamples), and say why.
+- Write a contract or model from the requirement before reading the code it
+  checks. One derived from the code, or from code that may be wrong, repeats
+  the code's mistakes and still passes; it is not an independent oracle.
+- A check you have never seen fail proves nothing: show it failing on a
+  planted fault before trusting its pass.
+- Proofs of single functions don't add up to a proof of their composition;
+  check the obligations at each call boundary.
+- State the claim exactly: a proof, complete exploration of a finite model,
+  or a bound; and what the contract or model leaves out.
+- To set up model checking for a system, `create-formal-verification-skill`
+  (pstack) generates a project skill, and `maintain-formal-verification-skill`
+  keeps it in line with the code.
 
 ## Language specifics
 
