@@ -1,6 +1,7 @@
 # Evidence behind the formal-verification skill
 
-Research cutoff 2026-10-03. The public sources below inform this skill.
+Research cutoff 2026-10-03, with the section on choosing the kind of
+verification checked 2026-11-19. The public sources below inform this skill.
 Private experiments and conversations are not distributed as public evidence.
 Proof establishes the stated contract under its assumptions, not user intent.
 
@@ -51,6 +52,29 @@ Proof establishes the stated contract under its assumptions, not user intent.
 - AWS Cryptographic Material Providers Library, Dafny compiled to Java:
   [repository](https://github.com/aws/aws-cryptographic-material-providers-library).
 - OpenJML releases: [GitHub](https://github.com/OpenJML/OpenJML/releases).
+
+### Choosing the kind of verification (checked 2026-11-19)
+
+- Specifications written with possibly wrong code in view "may erroneously
+  pass verification by producing weak or implementation-misled
+  specifications", and prompting doesn't fully fix it (1,403 C programs,
+  ACSL with Frama-C). [arXiv:2610.32053](https://arxiv.org/abs/2610.32053)
+- Agent-written checkers reject invalid solutions more reliably than they
+  accept valid alternatives (222 tasks; best normalized balanced accuracy
+  62.1). [arXiv:2610.28679](https://arxiv.org/abs/2610.28679)
+- Proofs of single functions don't compose: on programs of 2 to 5 functions,
+  the strongest model verified 2% at Pass@8 on the chain split.
+  [ICLR 2026](https://proceedings.iclr.cc/paper_files/paper/2026/hash/c04d37be05ba74419d2d5705972a9d64-Abstract-Conference.html)
+- Natural-language-to-TLA+: up to 26.6% syntactically correct, 8.6%
+  semantically correct, across 30 models.
+  [arXiv:2606.05792](https://arxiv.org/abs/2606.05792)
+- Replaying model traces against the implementation: Quint Connect on
+  Emerald reached about 80% application-layer coverage and found a memory
+  leak; its spec was drafted from the code.
+  [Informal Systems](https://quint.sh/posts/quint_connect_emerald)
+- Proofs over compiled binaries state their assumptions (architecture, libc,
+  threading) and that a checker can't tell whether the spec matches reality.
+  [Anthropic](https://www.anthropic.com/research/formal-verification)
 
 ## Open questions
 
