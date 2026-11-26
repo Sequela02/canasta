@@ -36,6 +36,17 @@ Review Criteria:
 - No local absolute paths, secrets, machine-specific state, or provider/runtime
   instructions are introduced as project facts.
 - Any proposed addition is backed by a file path, script, or architecture doc.
+- One instruction file per project; another tool's file only imports or
+  links it. Two maintained copies drift apart.
+- No overview of the repository: measured context files gain nothing from one,
+  and every line costs every session. The file holds what an agent can't work
+  out from the repository, in this order: what can cause damage (live data,
+  shared processes, irreversible commands), then commands and checks, the
+  non-obvious conventions, and a short index of which doc to read for each
+  area.
+- Each rule carries its reason, so a later review can tell whether it still
+  applies. A rule a lint, script, or check can enforce moves there, and its
+  prose goes. Prefer replacing or removing a rule to adding one.
 
 When the review covers skills (adding, keeping, merging, or removing one):
 - A skill earns its slot with a current consumer, a distinct trigger, a
@@ -59,3 +70,12 @@ Output:
 - status: valid, needs_changes, or blocked.
 - evidence: concise references for each accepted fact, conflict, or unknown.
 - recommendedChanges: concrete edits for the instruction files.
+
+Sources: Gloaguen et al., [Evaluating AGENTS.md](https://arxiv.org/abs/2602.11988)
+(2026); Shanto et al., [agent instruction files in 1,000 repositories](https://arxiv.org/abs/2611.02383)
+(2026); Chakrabarti, [Why does CLAUDE.md keep growing?](https://arxiv.org/abs/2608.11095)
+(2026); T3 Code's [AGENTS.md](https://github.com/pingdotgg/t3code/blob/37d3d199e8/AGENTS.md)
+(its opening hazards, docs index and Documentation section); pstack's
+principle-encode-lessons-in-structure (cursor/plugins b7b93c3). The skill's
+test for recording a decision follows Matt Pocock's domain-modeling
+[ADR format](https://github.com/mattpocock/skills/blob/6f7f783/skills/engineering/domain-modeling/ADR-FORMAT.md).

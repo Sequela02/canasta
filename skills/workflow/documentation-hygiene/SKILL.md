@@ -21,13 +21,20 @@ Before creating or retaining a document:
    existing owners. Identify the reader, purpose, sensitivity, expected lifetime,
    and canonical destination. Prefer updating the existing owner to creating a
    parallel explanation. Do not create folders or templates just to fill a taxonomy.
-2. Distinguish maintained documentation, durable decision or evaluation evidence,
+2. Decide whether the change needs a document at all. Code, types and tests
+   already record the implementation, so most code changes need none. Write
+   what a maintainer would get wrong without it: a reason, a constraint across
+   components, a trap the source hides. Leave out field and constant lists,
+   file catalogs, narrated control flow and change summaries; they drift. When
+   code changes what a document says, rewrite that text rather than append a
+   new account beside it.
+3. Distinguish maintained documentation, durable decision or evaluation evidence,
    requested deliverables, and temporary working state. A plan or report is not
    automatically permanent because an agent produced it. Keep scratch notes,
    transcripts, intermediate reports, and task bookkeeping in the configured
    private project state or an appropriate temporary location outside tracked
    documentation.
-3. Decide whether content belongs in the repository before writing it. Access to
+4. Decide whether content belongs in the repository before writing it. Access to
    a repository is access to its system, not to the organization behind it: the
    repository holds what a reader with access to it alone needs to understand,
    run, change and contribute to that system. Other projects and their people or
@@ -64,7 +71,10 @@ Maintain the collection:
   private record: a reference can expose what it names even when its target is
   access-controlled.
 - Preserve significant decision rationale and future-useful migration or evaluation
-  evidence. Mark superseded decisions honestly rather than rewriting history.
+  evidence. Record a decision only when it is hard to reverse, surprising
+  without context, and the result of a real trade-off; a paragraph is enough,
+  kept where the project keeps its decisions. Mark superseded decisions
+  honestly rather than rewriting history.
   Completed plans need retention only when their remaining evidence or obligations
   justify it. Promote useful conclusions before retiring obsolete task records;
   do not move clutter into an archive merely to hide it.
@@ -75,8 +85,9 @@ Close out the docs:
    otherwise remove the old path instead of leaving duplicate documents.
 2. Run repository link checks and documentation builds when affected,
    regenerate generated docs and confirm no diff, run the doc examples' check,
-   verify changed claims against code or tests, and run git diff --check. A tidy
-   tree is not proof that documentation is accurate.
+   verify changed claims against code or tests, follow changed setup or run
+   instructions as written from a clean checkout, and run git diff --check. A
+   tidy tree is not proof that documentation is accurate.
 
 Use `task-closeout` for the rest of closing a task: scratch files, private
 material, handoffs and branches.
@@ -85,7 +96,7 @@ Load a reference only for its task:
 - Reviewing, writing, or trimming project-owned agent instructions or skills
   from repository evidence:
   [instruction-review.md](references/instruction-review.md).
-- Auditing what an existing repository holds against step 3:
+- Auditing what an existing repository holds against step 4:
   [repository-audit.md](references/repository-audit.md).
 - Placing, moving or retiring the pages, examples or agent files of a
   library, SDK or CLI docs set:
