@@ -1,6 +1,6 @@
 ---
 name: technical-writing
-description: "Write, rewrite or review prose so the reader understands it on the first read and nothing true is lost: docs, READMEs, reports, explanations, PR descriptions, commit messages and messages someone will sign. Diátaxis structure, Google developer style, STE and Global English rules. Not for where docs belong (documentation-hygiene) or interface copy (product-copy)."
+description: "Write, rewrite or review prose so the reader understands it on the first read and nothing true is lost: docs, READMEs, reports, explanations, PR descriptions, commit messages and messages someone will sign. Diátaxis structure, Google developer style, STE and Global English rules. Not for where docs belong (documentation-hygiene) or interface copy."
 license: Complete terms in LICENSE.txt
 metadata:
   source: "pstack technical-writing by Lauren Tan, cursor/plugins 4dd1d05, folder f35560f"
@@ -129,7 +129,7 @@ Put each one beside the claim it explains. Label made-up examples and schematic 
 
 ## Scope
 
-- Issue and pull request procedures live in `writing-issues` and `writing-pr`, and product UI strings in `product-copy`. Settle a materially unclear request with `problem-clarification` before you write.
+- Issue and pull request procedures live in `writing-issues` and `writing-pr`. Settle a materially unclear request with `problem-clarification` before you write.
 - For concise, scannable replies, or work whose state must stay visible across turns, also read [action-first.md](references/action-first.md).
 - For the docs of a library, SDK or CLI (README, quickstart, guides, reference, examples, files for agents), also read [developer-docs.md](references/developer-docs.md). The shape of the API itself belongs to `api-design`, and of the command line to `cli-design`.
 
