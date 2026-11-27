@@ -143,7 +143,6 @@ In the order a task usually meets them.
 **Write**
 
 - [technical-writing](skills/workflow/technical-writing/SKILL.md): prose the reader understands on the first read, with nothing true lost.
-- [product-copy](skills/workflow/product-copy/SKILL.md): interface and marketing copy that's true.
 - [writing-issues](skills/workflow/writing-issues/SKILL.md): problems you can see, and how to know they're fixed.
 - [writing-pr](skills/workflow/writing-pr/SKILL.md): what changed, how it was checked, and a risk note.
 - [upstream-contribution](skills/workflow/upstream-contribution/SKILL.md): issues and pull requests that follow another project's rules.
