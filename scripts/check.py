@@ -33,6 +33,10 @@ def check(root: Path) -> list[str]:
                 errors.append(f"Unquoted description breaks YAML: {entry.relative_to(root)}")
             if re.search(r"^(tools|allowed-tools|hooks):", header[1], re.M):
                 errors.append(f"Tool-specific metadata: {entry.relative_to(root)}")
+            if re.search(r"^\s*source:", header[1], re.M):
+                notices = [entry.parent / n for n in ("NOTICE", "LICENSE.txt")]
+                if not any(n.exists() and "Copyright" in n.read_text(encoding="utf-8") for n in notices):
+                    errors.append(f"Adapted skill without a NOTICE or LICENSE.txt: {entry.parent.relative_to(root)}")
         plugin_root = root if group == "workflow" else base
         manifest_path = plugin_root / ".claude-plugin" / "plugin.json"
         try:

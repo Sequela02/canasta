@@ -1,17 +1,8 @@
----
-name: config-projection-review
-description: Review a canonical configuration file and the generated or synced copies made from it, and say whether they match or can safely be brought back in line. Use when settings, editor config or agent instruction copies drift, or to find which file is canonical and which are copies.
-tags:
-  - config
-  - projection
-  - review
----
+# Sources and their copies
 
-# Config projection review
-
-One file is the source; the others are copies made from it (build settings,
-editor settings, agent instructions, installed files). A copy is never a second
-source of truth. Review, don't change anything.
+For a canonical file and the generated or synced copies made from it: build
+settings, editor settings, agent instructions, installed files, generated docs.
+A copy is never a second source of truth. Review; change nothing.
 
 1. **List sources and copies.** Find the source files, the generator or sync
    command, and each copy. Use the project's own status command if it has one.

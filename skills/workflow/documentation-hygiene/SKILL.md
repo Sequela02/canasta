@@ -1,6 +1,6 @@
 ---
 name: documentation-hygiene
-description: Decide where a document belongs, whether it should exist, and what to merge, move or retire. Use before creating a durable doc or ADR, when moving or generating docs (including a library, SDK or CLI docs set and files for agents), and when a docs folder has stale, duplicated or misplaced pages. Not for closing a task (task-closeout) or for the prose itself (technical-writing).
+description: Decide where a document belongs, whether it should exist, and what to merge, move or retire. Use before creating a durable doc or ADR, when moving or generating docs (including a library, SDK or CLI docs set and files for agents), when a docs folder has stale, duplicated or misplaced pages, and when copies of settings, editor config or agent instructions drift from their source. Not for closing a task (task-closeout) or for the prose itself (technical-writing).
 tags:
   - documentation
   - maintenance
@@ -55,7 +55,9 @@ to clean up the whole repository.
   to it. When the code changes what a page says, rewrite that text; don't append
   a second account beside it.
 - **Generated docs have one source** and a check that regenerates them and fails
-  on a diff. Edit the source, never the copy.
+  on a diff. Edit the source, never the copy. For any file with copies (docs,
+  settings, editor config, agent instructions), check each copy against its
+  source with [sources-and-copies.md](references/sources-and-copies.md).
 - **Examples use invented names** and reserved domains (`example.com`, `.test`,
   `.invalid`). Test reports, logs and snapshots carry the machine's paths and
   user names: neutralize them before committing.
@@ -86,5 +88,5 @@ Load a reference only for its task:
   CLI docs set: [developer-docs-site.md](references/developer-docs-site.md).
 
 For the rest of closing a task use `task-closeout`; for prose, `technical-writing`;
-for Git and line-ending drift, `repository-text-hygiene`. This skill grants no
+for Git and line-ending drift, `line-ending-drift`. This skill grants no
 authority to publish, rewrite history or delete beyond the user's task.

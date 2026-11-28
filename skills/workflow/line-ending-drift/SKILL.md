@@ -1,5 +1,5 @@
 ---
-name: repository-text-hygiene
+name: line-ending-drift
 description: Find out why Git shows files as changed when they aren't, and fix line-ending, encoding, formatter or editor drift without losing real edits. Use when every file shows modified but the diff is empty, after a formatter rewrote the repo, when CRLF and LF fight, or when status and diff disagree.
 tags:
   - git
@@ -7,7 +7,7 @@ tags:
   - text
 ---
 
-# Repository text hygiene
+# Line-ending drift
 
 Find the cause of the drift before you touch a file or a setting. A long list in
 `git status` is not permission to normalize anything.
