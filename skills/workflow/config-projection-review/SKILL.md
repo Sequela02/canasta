@@ -1,43 +1,41 @@
 ---
 name: config-projection-review
-description: Review canonical configuration, generated or synchronized copies, ownership, drift, and safe convergence.
+description: Review a canonical configuration file and the generated or synced copies made from it, and say whether they match or can safely be brought back in line. Use when settings, editor config or agent instruction copies drift, or to find which file is canonical and which are copies.
 tags:
   - config
   - projection
   - review
 ---
 
-# Config Projection Review
+# Config projection review
 
-Use when one configuration source generates or synchronizes other files,
-settings or installed copies. A projection is a derived copy, not a second
-source of truth. This applies to build configuration, editor settings and agent
-instructions alike; it does not require a particular configuration service.
+One file is the source; the others are copies made from it (build settings,
+editor settings, agent instructions, installed files). A copy is never a second
+source of truth. Review, don't change anything.
 
-1. Inventory the canonical sources, generator or synchronization mechanism,
-   revisions, source digests, current target bytes and ownership evidence.
-   Prefer the project's existing status evidence over a competing scanner.
-   If no shared status exists, inspect the relevant files directly and state
-   the limits; do not infer ownership merely from a matching filename.
-2. Classify each source and target as canonical, current, missing, stale,
-   drifted or unmanaged. Record which fields or files are managed, source and
-   target identities, comparison evidence and unreadable or unresolved state.
-3. Separate incorrect source content from incorrect synchronization. Use
-   `documentation-hygiene` to assess repository guidance and its source facts;
-   this review owns whether the selected derived copies can converge safely.
-4. Do not mutate during review. Preserve unrelated fields and unmanaged content.
-   Block automatic repair when ownership is ambiguous, source configuration is
-   invalid, inventory is incomplete, permission has changed, or a safe merge
-   has not been established.
-5. Recommend the narrow owning action: correct the source if needed, preview
-   the target diff, then synchronize only explicitly selected targets under the
-   project's authorization rules. Recheck the source and target before applying
-   an approved change; stale approval must not overwrite newer work. Do not
-   recommend hand-editing a generated copy to hide a canonical-source defect.
-6. Account for partial failure per target. Say whether convergence is safe,
-   needs review or is blocked. One unreadable or unsettled target prevents a
-   claim that the whole operation succeeded.
+1. **List sources and copies.** Find the source files, the generator or sync
+   command, and each copy. Use the project's own status command if it has one.
+   Otherwise read the files and say what you couldn't check. A matching file
+   name alone doesn't show who owns a file.
+2. **Classify each copy** as current, stale (source changed), drifted (someone
+   edited the copy), missing or unmanaged, and record the evidence: both
+   digests, the revision, or the diff.
 
-Report findings first, overall status (valid, needs_changes or blocked),
-per-target evidence and owning action, verification performed and residual
-unknowns. A proposed repair is not permission to execute it.
+   ```text
+   source  config/base.json        rev a1b2c3
+   copy    .tool/settings.json     drifted   (line 14 edited by hand)
+   copy    ~/.tool/settings.json   stale     (built from rev 9f8e7d)
+   copy    other/settings.json     unmanaged (no generator mentions it)
+   ```
+
+3. **Separate a wrong source from a wrong sync.** A bad value in the source is a
+   source fix; a copy that fell behind is a sync fix. Don't hand-edit a copy to
+   hide a source defect.
+4. **Recommend the narrow fix:** correct the source if needed, preview the
+   diff of each copy, then sync only the copies the owner picks. Recheck source
+   and target right before applying so an old approval can't overwrite newer
+   work. Stop and say why when ownership is unclear, the source is invalid,
+   the list is incomplete or a safe merge isn't established.
+5. **Report per copy.** Give findings first, then an overall status: valid,
+   needs_changes or blocked. One unreadable copy means you can't call the
+   whole set in sync. A recommended repair is not permission to run it.

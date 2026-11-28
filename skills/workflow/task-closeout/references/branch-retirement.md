@@ -1,75 +1,49 @@
-> Reference for `task-closeout`, formerly the `branch-retirement` skill.
+> Reference for `task-closeout`.
 
-# Branch Retirement
+# Branch retirement
 
-A provisional integration branch is retired only when its evidence is preserved,
-no consumer still depends on it, and a human has authorized the deletion.
-Retirement is irreversible in practice; treat it as a destructive action.
+Deleting a branch can't be undone in practice. Delete only when its evidence
+is kept, nothing depends on it, and a person authorized the deletion.
 
-## Retirement Criteria
+Agree the retirement criteria when the branch is created: what promotion looks
+like (the merge, release or adoption that ends it), what evidence must outlive
+it, and who authorizes deletion. A branch without them waits until they are
+written down.
 
-Define the retirement criteria when the branch is created, not when someone
-wants it gone. A branch without stated retirement criteria is not eligible for
-retirement until they are written down and agreed.
+## Check every item, then report what you found
 
-Record, at minimum:
-
-- what promotion looks like — the merge, release, or adoption that ends the branch
-- what evidence must survive the branch
-- who authorizes deletion
-
-## Preconditions
-
-Verify every item before proposing deletion. Report findings before summaries;
-a single unmet precondition blocks retirement.
-
-1. **Promotion is complete.** The work has landed in its destination, or has been
-   explicitly abandoned with that decision recorded.
-2. **Closeout evidence is preserved** somewhere that outlives the branch —
-   decisions, rationale, benchmark or verification results, and anything a future
-   reader would need to understand why the branch existed.
-3. **No open pull requests** target or originate from the branch.
-4. **No dependent branches** are based on it.
-5. **No worktrees** reference it.
-6. **No active sessions** are working on it.
-7. **No symlinks or other consumers** point at it.
-8. **A human explicitly authorizes** local *and* remote deletion. Authorization for
-   one is not authorization for the other. Never infer authorization from a
-   general cleanup request.
-
-## Verification Commands
-
-Gather evidence rather than asserting the preconditions hold.
+1. The work landed in its destination, or was abandoned and that is recorded.
+2. The decisions, rationale and verification results live somewhere that
+   outlives the branch. A merged PR alone doesn't prove it.
+3. No open PR targets or comes from the branch.
+4. No branch is based on it, no worktree uses it, no session works on it.
+5. A person authorized deleting the local branch and, separately, the remote ref.
 
 ```bash
-git worktree list                        # precondition 5
-git branch --contains <branch>           # precondition 4
-git branch -a --merged                   # promotion state
-gh pr list --head <branch> --state all   # precondition 3
-gh pr list --base <branch> --state all   # precondition 3
+git worktree list                          # worktrees using it
+git branch --contains <branch>             # branches based on it
+gh pr list --head <branch> --state all     # PRs from it
+gh pr list --base <branch> --state all     # PRs into it
 git log --oneline <destination>..<branch>  # unmerged work
 ```
 
-Treat a non-empty `<destination>..<branch>` log as unpromoted work. Do not
-retire it, and do not describe it as merged.
+A non-empty last log is unpromoted work: don't retire the branch and don't call
+it merged.
 
-## Retirement
-
-Only after every precondition is verified and authorization is explicit:
+## Delete
 
 ```bash
-git branch -d <branch>                   # -d, never -D
-git push origin --delete <branch>        # separate authorization
+git branch -d <branch>                 # refuses unmerged work; keep it that way
+git push origin --delete <branch>      # needs its own authorization
 ```
 
-Use `git branch -d`. It refuses to delete unmerged work, which is a safety
-property worth keeping. Reaching for `-D` means a precondition is unmet —
-stop and surface that instead of forcing the delete.
+If `-d` refuses, a check above is unmet. Surface it; don't switch to `-D`.
+If `git worktree remove` refuses because of modified or untracked files, those
+files exist nowhere else: list them with `git -C <path> status --porcelain`,
+ask whether to commit, move or delete them, and never add `--force` on your own.
 
-## Anti-Patterns
+## Don't
 
-- Deleting a branch because it "looks stale" or is old.
-- Bulk-deleting merged branches without checking worktrees and dependents.
-- Treating a merged PR as sufficient evidence that closeout evidence survives.
-- Using `-D` to get past a refusal.
-- Deleting the remote ref because local deletion was approved.
+- Delete a branch because it looks old or stale.
+- Bulk-delete merged branches without checking worktrees and dependents.
+- Treat approval to delete locally as approval to delete the remote.
