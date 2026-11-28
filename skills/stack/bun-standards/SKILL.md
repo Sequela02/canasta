@@ -1,119 +1,66 @@
 ---
 name: bun-standards
-description: "Bun judgment: runtime ownership and portability, installs and lockfiles, workspaces, bundling, tests and CI. Use when a repository uses Bun (bun.lock, bunfig.toml or Bun APIs)."
+description: "Use Bun for installs, lockfiles, workspaces, scripts, bundling, tests and CI: pin the version, install reproducibly, decide Bun-only vs Node-compatible code. Use when a repository has bun.lock, bunfig.toml or Bun APIs, or when Bun CI or install steps fail."
 paths: ["**/bun.lock", "**/bunfig.toml"]
 ---
 
-# Bun Standards
+# Bun
 
-Use Bun as an intentional runtime and toolchain, not as a drop-in assumption.
-Preserve reproducibility, explicit runtime ownership, portable boundaries, and
-the repository's canonical verification surface.
+Bun is a runtime, package manager, test runner and bundler. Decide which of those
+roles the repository uses before you touch anything, and keep to them.
 
-## Ownership boundaries
+Check current behavior in the docs for the Bun version the repository pins
+(`bun.com/docs`, which also serves `llms.txt` for agents). Typing, modules and
+`tsconfig` belong to `typescript-standards`; Vitest belongs to `vitest-testing`.
 
-- `typescript-standards` owns TypeScript language, module, type, and `tsconfig`
-  rules. This skill owns Bun runtime, package manager, test runner, bundler,
-  executable, CI, and Bun-native API decisions.
-- `vitest-testing` owns Vitest semantics, configuration, and performance even
-  when Bun is the package manager. Load this skill too only when Bun's runtime,
-  installer, workspace, shell, build, or native test-runner role changes.
-- A repository manifest and lockfile own its declared and resolved
-  installed state. This skill never owns an exact Bun version.
-- Repository scripts are the public developer and CI contract. Prefer
-  `bun run <script>` over bypassing a script with an underlying tool command.
-- Framework-specific build behavior remains with the framework skill. Do not
-  replace Vite, Astro, Next, or another framework pipeline merely because Bun
-  has overlapping features.
+## Procedure
 
-## Establish evidence first
+1. Read `package.json` (`packageManager`, `engines`, workspaces, scripts,
+   `trustedDependencies`), `bun.lock`, `bunfig.toml` and the CI workflow. Run
+   `bun --version`: it is the machine you are on, not the repository's choice.
+2. Say which kind of code you are changing:
+   - **Bun-owned**: deployment requires Bun. `Bun.*` APIs are fine.
+   - **Node-compatible**: the same artifact must run on Node. Use Web and `node:`
+     APIs, and check Bun's Node-compatibility page for the ones you use.
+   - **Browser-bundled**: the framework or bundler owns runtime behavior.
+   A script in a Bun-owned repository must not turn a published library into a
+   Bun-only one.
+3. Run package scripts with `bun run <script>`, the way CI does.
+4. Keep installs reproducible: one exact version in `package.json#packageManager`
+   (`"bun@x.y.z"`, never `latest` or a range), a committed text `bun.lock`, and
+   `bun ci` in CI. Change the pinned version only for an upgrade task, with the
+   release notes read and `bun ci`, typecheck, tests and build run.
+5. Bun does not typecheck. Keep `tsc --noEmit` (or the repository's check) in CI.
+6. Before you finish, run the install, typecheck, test and build scripts your
+   change touches, and name any you could not run (another OS, a native addon).
 
-Before changing Bun behavior, inspect:
+## Example
 
-1. `package.json` (`packageManager`, `engines`, workspaces, scripts, catalogs,
-   overrides, `trustedDependencies`) and `bun.lock` header.
-2. `bunfig.toml`, CI setup, containers, release scripts, deployment target, and
-   operator-facing setup documentation.
-3. Direct `Bun.*`, `bun:*`, `bun:test`, and Bun Shell use; native addons; and
-   assumptions about Node.js, browsers, operating systems, CPU architecture, or
-   installed executables.
-4. The installed `bun --version` and `bun --revision`. For spawned scripts also
-   inspect `[run].bun`, CLI flags, Node availability, and `process.execPath`.
-   Treat them as observed environment evidence, not policy.
+A CI job fails with "lockfile had changes, but lockfile is frozen".
 
-Classify each runtime surface before choosing APIs:
+Bad: delete `bun.lock` or switch the job to `bun install`.
 
-- **Bun-owned:** Bun is an explicit deployment/runtime requirement. Bun-native
-  APIs may be the simplest owner.
-- **Node-compatible:** the same artifact must run on Node.js. Keep runtime code
-  on Web and Node APIs whose exact behavior is verified on both runtimes.
-- **Browser-bundled:** browser semantics and the framework/bundler own runtime
-  behavior; Bun is development tooling unless deployment says otherwise.
+Good: run `bun install` locally with the pinned Bun version, read the
+`package.json` and `bun.lock` diff, commit both, and keep `bun ci` in CI. If
+the lockfile changed with no dependency change, compare `bun --version` with
+`packageManager` first.
 
-Do not let a Bun-owned script silently make a published library Bun-only.
+## Guardrails
 
-## Load the relevant contract
+- Never edit `bun.lock` by hand.
+- Pass subprocess arguments as an array (`Bun.spawn({ cmd: [...] })`), with a
+  timeout or `AbortSignal`. Never interpolate untrusted text into Bun Shell with
+  `{ raw }`.
+- In CI and production, turn off automatic `.env` loading when the environment is
+  the source of values (`env = false` in `bunfig.toml` or `--no-env-file`).
+- Replace a dependency with a Bun built-in only after checking that behavior,
+  error cases and supported platforms match for your consumer. Treat APIs the docs
+  mark experimental as unstable and name who depends on them.
+- Keep the repository's test runner unless you are asked to migrate it.
 
-- For setup, version drift, CI pinning, or upgrades, read
-  [references/versioning-contract.md](references/versioning-contract.md).
-- For installs, lockfiles, workspaces, catalogs, dependency security, or
-  registries, read
-  [references/package-management-and-security.md](references/package-management-and-security.md).
-- For runtime APIs, subprocesses, servers, storage clients, or built-ins, read
-  [references/runtime-and-apis.md](references/runtime-and-apis.md).
-- For tests, bundling, compiled executables, containers, or releases, read
-  [references/testing-build-and-release.md](references/testing-build-and-release.md).
+## References
 
-Load every reference whose boundary the task actually changes; do not load the
-whole set for a narrow edit.
-
-## Binding standards
-
-- Pin one exact stable Bun version in the repository's root
-  `package.json#packageManager`. Derive CI from it; do not duplicate a mutable
-  version literal across workflows, Dockerfiles, and prose.
-- Commit the text `bun.lock`. Use `bun ci` (equivalent to
-  `bun install --frozen-lockfile`) in CI and release verification. Never edit
-  the lockfile manually.
-- Keep `tsc --noEmit` or the repository's authoritative typecheck in CI. Bun's
-  runtime transpiler, test runner, and bundler do not typecheck.
-- Preserve the selected test runner unless a bounded migration proves behavior,
-  fixtures, mocking, coverage, reporting, and watch/CI parity. Built-in is not
-  by itself a reason to replace Vitest or framework test tooling.
-- Prefer Web-standard APIs at portable boundaries. Prefer Bun-native APIs when
-  Bun owns the runtime and they remove a real dependency or lifecycle without
-  exporting compatibility complexity.
-- Treat experimental APIs as unstable contracts. Name the admitted consumer,
-  supported platforms, failure behavior, and removal or stabilization
-  condition before production use.
-- Pass subprocess arguments as arrays. Bound subprocesses with cancellation or
-  timeouts, consume or redirect output intentionally, and settle child
-  lifecycles on every exit path.
-- Disable automatic `.env` loading in CI and production when the environment is
-  the authority. Parse required variables once at the boundary and never log
-  the complete environment.
-- Do not remove a dependency in favor of a Bun built-in until behavior,
-  platform support, data formats, error semantics, and tests prove parity for
-  the repository's actual consumer.
-
-## Verification
-
-Run the smallest focused check first, then the repository-owned gates affected
-by the change. A toolchain or runtime change normally requires:
-
-1. version-contract check;
-2. `bun ci` from a clean dependency state in CI or an equivalent portable
-   fixture;
-3. authoritative typecheck;
-4. focused and complete test scripts;
-5. production build or compiled-executable smoke test when applicable;
-6. every supported OS/architecture lane affected by native addons, system
-   services, compiled artifacts, or platform-specific Bun APIs.
-
-Do not report upgrade or replacement completion from install success alone.
-
-## Currency
-
-Re-check the resolved version's official release notes, breaking-change guide,
-API stability labels and compatibility page before version-sensitive work.
-Vendor benchmarks are discovery evidence, not project verification.
+- [references/installs-and-supply-chain.md](references/installs-and-supply-chain.md):
+  workspaces, catalogs, install scripts and trust, audit, release age.
+- [references/runtime-test-build.md](references/runtime-test-build.md): runtime
+  APIs, `bun test`, bundling, compiled executables, containers.

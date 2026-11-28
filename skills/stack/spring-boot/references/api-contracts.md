@@ -1,55 +1,65 @@
-> Reference for `spring-boot`, formerly the `backend-api-contracts` skill.
+# API contracts
 
-# Backend API Contracts
+The wire format is a product. Use ordinary HTTP semantics and your domain's words.
 
-Treat the wire format as a product contract. Prefer ordinary HTTP semantics and
-explicit domain meaning over universal wrappers or controller conventions.
+## Procedure
 
-## Contract Workflow
-
-1. Identify consumers, authority, compatibility window, data classification,
-   idempotency needs, and generated artifacts.
-2. Model resources and operations from domain behavior, not CRUD templates.
-3. Define request, response, validation, status, error, pagination, filtering,
-   concurrency, and retry semantics before implementation.
-4. Update OpenAPI or the repository's canonical schema and regenerate SDKs only
-   through owned tooling.
-5. Add contract tests for success, validation, authorization, conflict, missing
-   resources, rate limits, and representative failures.
-6. Read [http-contracts.md](http-contracts.md) for detailed
-   HTTP and Spring guidance.
-
-When creating, extracting, publishing, or migrating an SDK or generated client,
-read [sdk-generation.md](sdk-generation.md).
+1. List the consumers, the compatibility window, the data class and any generated
+   clients.
+2. Model resources and operations from domain behavior. Use a domain action
+   (`POST /orders/{id}/cancel`) when the operation is not plain create, read,
+   update or delete.
+3. Decide request, response, validation, status codes, errors, pagination,
+   concurrency and retry behavior before you write the controller.
+4. Update the canonical schema (OpenAPI, or the code that generates it) and
+   regenerate clients with the owned tool only.
+5. Write contract tests for success, validation, authorization, conflict, missing
+   resource, rate limit and representative failures.
 
 ## Defaults
 
-- Use nouns for resources and HTTP methods for common semantics, but use domain
-  actions when the operation is not honest CRUD.
-- Return the resource or operation result directly unless a real cross-API
-  envelope contract exists. Do not introduce `{success,data,error}` by habit.
-- Use RFC 9457 Problem Details for interoperable error bodies, extended with
-  stable machine codes and safe validation details where needed.
-- Never expose JPA entities, internal exception messages, stack traces, secrets,
-  or tenant-sensitive existence information.
-- Bound list sizes. Choose cursor/keyset pagination for deep or changing feeds;
-  use page/offset semantics only where stable totals and random access matter.
-- Use idempotency keys or conditional requests for retry-prone mutations when
-  duplicate effects are unacceptable.
+- Return the resource directly. Add a `{success, data, error}` envelope only if a
+  real cross-API contract needs it.
+- Errors use RFC 9457 Problem Details (`ProblemDetail`, `ErrorResponse`): a stable
+  `type`, a safe `detail`, the request `instance`, and extension members such as a
+  stable error code or field violations. Never put exception classes, stack
+  traces or raw messages on the wire, and do not reveal that a tenant's resource
+  exists.
+- Pick the most specific standard status, and tell apart unauthenticated,
+  forbidden, not found, invalid, conflict, rate limited, upstream failure and
+  internal failure.
+- Reject invalid state transitions with a stable conflict problem.
+- For long work, return an operation resource or status endpoint instead of
+  pretending it finished. Set limits, timeouts and retry safety.
+- Bound list sizes. Use keyset (cursor) pagination for deep or changing lists, with
+  a fixed order and a tie-breaker, and treat cursors as opaque. Offset pages suit
+  small lists that need totals. Map Spring Data `Page` to your own response type.
+- Give retry-prone mutations an idempotency key or a conditional request.
+- Use stable external ids chosen for the domain and exposure; UUIDs are not
+  mandatory.
 
 ## Compatibility
 
-- Prefer additive compatible evolution. Treat removed fields, renamed enum
-  values, changed nullability, altered defaults, and status changes as contract
-  changes.
-- Version only when a real incompatible consumer boundary requires it. Use one
-  strategy consistently and publish deprecation/sunset evidence.
-- Keep API versions distinct from application release versions.
-- Test serialization for records, enums, time, money, identifiers, errors, and
-  polymorphic types against the repository's actual Jackson line.
+- Prefer adding fields. Removing a field, renaming an enum value, changing
+  nullability, defaults or a status is a breaking change.
+- Version only when an incompatible consumer forces it, one way, with deprecation
+  and sunset information. Spring Framework 7 supports API versioning by path,
+  header, query parameter or media type; do not add `/v1` ahead of need. API
+  versions are separate from release versions.
+- Test serialization of records, enums, time, money, ids, errors and polymorphic
+  types against the Jackson version the project uses.
+
+## OpenAPI and SDKs
+
+Keep one canonical contract. Check that security schemes, required and nullable
+fields, examples, errors, pagination and deprecations match runtime behavior.
+Generated output is an artifact: no hand edits. For client generation see
+[sdk-generation.md](sdk-generation.md).
 
 ## Gate
 
-Verify schema linting, implementation/schema agreement, generated SDK diff,
-consumer/provider tests, authorization behavior, migration sequencing, and
-documentation. Report consumers that could not be exercised.
+Run schema lint, check the implementation against the schema, diff the generated
+SDK, run consumer and provider tests and authorization cases, and plan the
+migration order. Name any consumer you could not exercise.
+
+Docs: Spring Framework reference, "Error Responses" and "API Versioning"; RFC 9457.

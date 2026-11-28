@@ -1,6 +1,6 @@
 ---
 name: react-engineering
-description: "React judgment: component contracts, composition, rendering, data flow, bundle and measured performance; choosing a web runtime or surface. Use when editing .tsx or .jsx components, not for visual direction or styling."
+description: "Write React components: props and composition, state and effects, data fetching, re-renders, bundle size and measured performance; choose a web runtime or surface. Use when editing .tsx or .jsx components. Not for visual design or styling."
 paths: ["**/*.tsx", "**/*.jsx"]
 tags:
   - react
@@ -8,36 +8,71 @@ tags:
   - performance
 ---
 
-# React Engineering
+# React engineering
 
-One entry point for React implementation and review. Repository evidence owns
-the installed stack, versions and conventions; these references are defaults
-and must not override a documented repository choice.
+Follow the repository's installed React and its conventions. For current APIs,
+read react.dev (`react.dev/llms.txt` lists its pages for agents).
 
-Load only the reference the change needs:
+## Procedure
 
-| Change | Reference |
-| --- | --- |
-| Choosing a runtime, adding a dependency, creating a surface, React Compiler, or the marketing/application boundary | [stack-and-surface.md](references/stack-and-surface.md) |
-| Rendering, re-renders, data fetching, waterfalls, bundle size, server/client work | [React performance guidance](https://react.dev/learn/react-compiler) and the upstream [Vercel rules](https://github.com/vercel-labs/agent-skills/tree/main/skills/react-best-practices); consult only the relevant topic |
-| Reusable component APIs, boolean-prop growth, compound components, context shape | [React composition guidance](https://react.dev/learn/passing-data-deeply-with-context) and upstream [composition patterns](https://github.com/vercel-labs/agent-skills/tree/main/skills/composition-patterns) |
+1. Find who owns the component and how neighbors solve the same problem. Change
+   one concern at a time.
+2. Put state where it is used. Compute values during render from props and state;
+   do not copy them into state or sync them with an effect.
+3. Use an effect only to synchronize with something outside React (a socket, a
+   timer, the DOM). User actions belong in event handlers.
+4. Shape a component's API for its callers: a few clear props, `children` or
+   compound components instead of a growing set of boolean props, and one
+   context per concern.
+5. Fetch data in parallel where the requests are independent, and avoid chains
+   that wait on each other. Send the client only the data it renders.
+6. Performance claims need a measurement: name the interaction, take a profiler
+   or bundle measurement as the baseline, change one thing, measure again. A
+   matched rule or scanner warning is a lead; trace it in the path users hit
+   before you report it.
+7. Run the closest check you have (typecheck, lint, the component's tests, a
+   production build or a profiled interaction) and say which ran.
 
-Procedure:
+For a review, list findings by severity with `file:line` and the evidence, mark
+anything you did not confirm as unverified, and say what you did not run. Review
+the diff you were given, not the whole codebase.
 
-1. Find the component's owner and existing patterns before adding new ones.
-   Change one concern at a time.
-2. For a performance claim, measure first: name the interaction, the
-   profiler or bundle evidence, and the baseline. A rule match is a lead, not a
-   finding; confirm it in the code path users hit.
-3. A static scanner (such as React Doctor, when a repository adopts it as a
-   command) produces candidates, not findings. Reproduce or trace each before
-   reporting it, and copy no fix the code path does not need.
-4. Verify with the closest executable check: typecheck, lint, the component's
-   tests, a production build, or a profiled interaction. Say which ran.
+## Example
 
-For a review, lead with findings by severity with `file:line` evidence, and
-state what was not verified. Do not run a whole-codebase audit unless asked.
+A list filters items when a search box changes.
 
-Related: `typescript-standards` for types and `tailwind-v4` for styling.
-Use the project's accessibility, visual-design and animation guidance as needed.
-Upstream reference collections are linked, not bundled in this pack.
+Bad:
+
+```tsx
+const [visible, setVisible] = useState(items);
+useEffect(() => setVisible(items.filter(i => i.name.includes(q))), [items, q]);
+```
+
+This renders twice per keystroke and can show stale results in between.
+
+Good:
+
+```tsx
+const visible = items.filter(i => i.name.includes(q));
+```
+
+Add `useMemo` only after a profile shows the filter is slow, and not at all when
+the React Compiler already covers this component.
+
+## React Compiler
+
+When the compiler is on and covers the code, write plain components and hooks
+and skip routine `useMemo`, `useCallback` and `React.memo`. Keep existing manual
+memoization until a test and a profile show removing it is safe: it can change
+effect behavior. Check that the compiler ran (build output or diagnostics) and
+fix Rules of React violations it reports.
+
+## References
+
+- Choosing a runtime, creating a surface, the marketing and application split,
+  and compiler setup: [references/stack-and-surface.md](references/stack-and-surface.md).
+- Broad performance rules (waterfalls, bundle size, re-renders), written for
+  React and Next.js by Vercel: `vercel-labs/agent-skills`, `react-best-practices`.
+  Read only the rules for the topic you are working on.
+
+Related: `typescript-standards` for types, `tailwind-v4` for styling.
