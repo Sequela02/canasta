@@ -1,6 +1,6 @@
 ---
 name: typescript-standards
-description: "TypeScript judgment: modeling types, narrowing, imports and modules, tsconfig strictness and checks. Use when reading or editing .ts or .tsx files or a tsconfig."
+description: "TypeScript types that rule out illegal states, narrowing without casts, parsing input at the boundary, imports, modules and tsconfig. Use when reading or editing .ts or .tsx files or a tsconfig."
 paths: ["**/*.ts", "**/*.tsx", "**/tsconfig*.json"]
 license: Complete terms in LICENSE.txt
 metadata:
@@ -10,10 +10,30 @@ metadata:
 
 # TypeScript standards
 
-This file holds judgment, not reference. For versions, defaults and compiler
-behavior, read the version the repository pins and the official docs at
-typescriptlang.org. In an existing repository, follow its conventions and
-propose changes to them as their own change.
+For versions, defaults and compiler behavior, read the version the repository
+pins and its release notes. In an existing repository, follow its conventions
+and propose changes to them as their own change.
+
+## Procedure
+
+1. Read the `tsconfig` and a neighboring file to learn the conventions in force.
+2. Model the data first: pick the type that cannot hold an invalid value (see
+   Types), then write the code.
+3. Parse external data once, where it enters, into a named type. Inside, trust it.
+4. Run `tsc --noEmit` (or the repository's typecheck) and the tests, and say
+   which ran. A bundler or type stripping never checks types.
+
+Example:
+
+```ts
+// Bad: any shape passes, and every caller guesses
+type Result = { ok: boolean; value?: User; error?: string };
+
+// Good: each state carries exactly its data
+type Result =
+  | { kind: "ok"; value: User }
+  | { kind: "failed"; error: string };
+```
 
 ## Types
 
@@ -62,7 +82,9 @@ Ask who resolves the import at run time:
 
 Aliases are `package.json` `imports` subpaths with a segment (`#src/*`), not
 `tsconfig` `paths`, which only type-checks and is emitted unchanged. Check that
-the repository's linters and codegen resolve `#` before adopting it.
+the repository's linters and codegen resolve `#` before adopting it. If `paths`
+is already in use, TypeScript 7 resolves it relative to the `tsconfig`, since
+`baseUrl` is gone.
 
 Named exports only: no default exports and no wildcard re-exports, so renames
 are mechanical and imports are greppable. No `namespace`; use modules.
@@ -75,9 +97,10 @@ are mechanical and imports are greppable. No `namespace`; use modules.
   `moduleDetection: "force"` and `skipLibCheck`. Write `strict` even where the
   pinned version defaults to it, so the file states its contract.
 - Declare `types` (`["node"]`, `["bun"]`, a test runner's) and `rootDir`
-  explicitly. Recent compilers default `types` to none and `rootDir` to the
+  explicitly. Since TypeScript 6, `types` defaults to none and `rootDir` to the
   config's folder, and the missing-global errors don't name the cause.
-- No `baseUrl`; use `imports` subpaths.
+- TypeScript 7 removed `baseUrl`, `moduleResolution: node10`, `target: es5` and
+  `esModuleInterop: false`; use `nodenext` or `bundler` and `imports` subpaths.
 - `isolatedDeclarations` for any package that emits declarations, from day one.
 - `tsc --noEmit` runs in CI. Type stripping and bundlers delete types without
   checking them.
