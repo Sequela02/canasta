@@ -1,91 +1,90 @@
 ---
 name: implementation-planning
-description: Produce repository-evidenced implementation sequences for scoped,
-  nontrivial changes with decisions, dependencies, verification, and recovery.
+description: "Plan how to implement a change before coding: break a feature into steps with their dependencies, write an implementation plan another agent can follow, with decisions, verification and recovery. Skip one obvious low-risk edit."
 tags:
   - engineering
   - planning
+metadata:
+  source: "writing-plans by Jesse Vincent, obra/superpowers 22f0b46; to-tickets by Matt Pocock, mattpocock/skills bbadaa6; planning-and-task-breakdown by Addy Osmani, addyosmani/agent-skills e997ac5"
+  changes: "A step is done when the implementer can write exactly one reasonable thing (superpowers); dependency-linked vertical slices and expand-contract for wide changes (to-tickets); checkpoints after two or three slices and risky slices first (planning-and-task-breakdown); confirmed versus candidate files, open product decisions left to the user and recovery are this pack's own"
 ---
 
-# Implementation Planning
+# Implementation planning
 
-Use this skill when sequencing dependencies, consequential decisions, or recovery
-needs make a plan useful. Reuse current repository evidence; a separate scouting
-pass is needed only for unresolved questions. Skip a full plan for one obvious
-low-risk edit; state the change and focused verification instead.
+A plan holds the decisions the implementer can't make alone, in steps they can
+check. Use it when dependencies, a consequential decision or recovery make the
+order matter. For one obvious low-risk edit, state the change and its check
+instead.
 
-Workflow:
-1. State the intended outcome, acceptance evidence, and non-goals. Preserve the
-   user's actual contract rather than expanding it into adjacent cleanup.
-2. List material assumptions, unknowns, and decisions. Do not hide unresolved
-   product, architecture, authority, security, or data-safety decisions inside an
-   implementation step. Resolve choices within the authorized outcome using
-   evidence; ask for direction when a consequential ambiguity or scope expansion
-   cannot be resolved from the request and repository contract.
-   A product or business-rule choice the request leaves open, such as what a
-   total includes or which surfaces show a value, is not an implementation
-   detail even when the code makes one answer convenient. Propose your answer
-   and list it as an open decision for the user to confirm.
-   For material architecture, name the simplest materially different design and
-   the required invariant it cannot preserve. Future flexibility alone is not a
-   sufficient reason to add permanent concepts.
-3. Ground the affected surface in current repository evidence.
-   Treat files and symbols as exact only when confirmed by repository evidence;
-   label other surfaces as candidates to verify during execution.
-4. Split work by coherent behavior or invariant. Prefer tracer-bullet slices:
-   each cuts a narrow, complete path through every layer it touches, can be
-   demonstrated or verified on its own, and fits one fresh context. A wide
-   mechanical change (a rename or retype across many call sites) instead goes
-   expand, migrate in batches, contract, each batch green on its own. When a
-   design question blocks a slice, plan a throwaway prototype that answers it
-   first (see problem-clarification). Each slice must leave a safe,
-   reviewable intermediate state and name:
-   - its outcome and why it is necessary;
-   - confirmed files, symbols, contracts, and owning surface;
-   - the slices that block it, and those it blocks;
-   - focused verification and its expected completion signal;
-   - rollback, roll-forward, or recovery when state or deployment can escape the
+## Procedure
+
+1. Write the outcome, the evidence that will show it worked, and what is out
+   of scope. Keep to the request; leave adjacent cleanup out.
+2. Read the affected code. Mark each file and symbol *confirmed* (you opened
+   it) or *candidate* (to verify during the work). Don't invent paths or line
+   numbers.
+3. List decisions and assumptions apart. Settle what the repository answers.
+   Leave a product or business rule the request didn't state, such as what a
+   total includes, as an open decision: give your answer and ask the user to
+   confirm. The same goes for architecture, security and data-safety choices
+   with real consequences.
+4. Cut the work into vertical slices: each runs a narrow path through every
+   layer it touches, can be shown working alone, and fits one fresh context.
+   A rename or retype across many call sites is the exception: add the new
+   form beside the old (expand), move callers in batches that each pass
+   (migrate), then delete the old (contract). If a design question blocks a
+   slice, plan a throwaway prototype first.
+5. For each slice write:
+   - outcome and why it is needed;
+   - confirmed files and the contracts it touches;
+   - the slices that block it;
+   - its check and the result that means done, a failing test first when
+     practical;
+   - how to undo or roll forward, when state or a deployment can leave the
      repository.
-5. Order prerequisites before consumers. Do not parallelize slices that share a
-   prerequisite or write surface. Mark slices independent only when their state,
-   ownership, and verification do not conflict.
-6. Include contract, data, config, generated-artifact, documentation, cleanup,
-   and surface-parity work only when evidenced consumers require it. Schedule
-   failing behavior proof before production edits when TDD is practical, without
-   designing or writing the test in the plan.
-   Preserve durable rationale in its natural owner only when future maintainers
-   need it to challenge or replace a persistent decision; do not preserve the
-   design conversation.
-7. End with proportionate completion gates and residual risk. Name focused,
-   downstream, integration, or broader gates justified by the dependency surface;
-   do not use a ritual full-suite step as generic boilerplate.
-8. Re-scout and revise the plan when execution, tests, or repository changes
-   invalidate a premise, reveal a new dependency, or broaden the surface. Remove
-   or supersede stale steps instead of executing them ceremonially.
+6. Put prerequisites first and risky slices early. Add a checkpoint every two
+   or three slices (tests, build, the main flow). Run slices in parallel only
+   when they share no prerequisite, write surface or check.
+7. Finish with the gates the dependency surface justifies and the risks left.
+8. Re-read the plan before handing it over (below). When the work shows a
+   premise was wrong, revise the plan and drop stale steps.
 
-Output:
-- objective, acceptance evidence, and non-goals;
-- confirmed evidence, assumptions, open decisions, and candidate surfaces;
-- numbered slices with outcome, owned surface, dependencies, verification signal,
-  and recovery;
-- final gates and residual risks.
+## What a step contains
 
-A plan handed to another agent marks each fact verified (with its source),
-inferred or unknown, keeps decisions apart from assumptions, and asks the
-receiver to restate the goal, deliverable, exclusions and check before its
-first nontrivial step.
+A step is done when the implementer can write exactly one reasonable thing
+from it. A test step names the test and its expected values. A code step names
+the file, the signature and the values the spec fixes; the implementer writes
+the body. A check step gives the command and the result that means it passed.
 
-When the work spans many files or more than one session, write the plan to a
-file (the repository's plan location, or the session scratch directory when it
-has none) and implement it in a fresh session that starts from that file. The
-file, not the conversation, carries the context, so research and failed
-attempts do not crowd the implementation.
+```text
+Weak:   "Add validation and handle edge cases."
+Better: "parseQuantity(input: string): number in src/cart/quantity.ts.
+         Throws RangeError for <1 or >99; trims whitespace. Test:
+         parseQuantity(' 3 ') === 3, parseQuantity('0') throws."
+```
 
-Prefer the smallest plan that fully satisfies the requested behavior. Every step
-must change or verify something real. Do not invent paths, line numbers, time
-estimates, approvals, or rollback guarantees. A plan-only request ends with the
-plan. For an implementation request, proceed into authorized execution after
-planning and continue through verification and necessary repairs. Planning alone
-is not completion. A prose plan does not
-grant write authority, approval, or completion evidence; use the repository's
-structured plan, work-item, or approval system when one exists.
+Leave out function bodies the signature and tests already decide. Executors
+given full code copy it instead of thinking (obra/superpowers issue 895), and a
+plan longer than the code has written the code.
+
+## Self-review
+
+- Each requirement points to a slice.
+- No step says "TBD", "handle edge cases" or "write tests for the above".
+- Names and signatures match between slices.
+- Each slice leaves a state a reviewer can accept.
+
+## Output
+
+Outcome, evidence and exclusions; confirmed facts, assumptions, open decisions
+and candidates; numbered slices as in step 5; gates and residual risk. When
+handing the plan to another agent, mark each fact verified (with its source),
+inferred or unknown, and ask the receiver to restate the goal and the check
+before it starts.
+
+For work over many files or sessions, save the plan to the repository's plan
+location (or the session scratch directory) and implement from that file in a
+fresh session. A plan-only request ends with the plan; an implementation
+request continues into the work. A written plan grants no approval and isn't
+evidence the work is done; use the repository's work-item system when it has
+one.
