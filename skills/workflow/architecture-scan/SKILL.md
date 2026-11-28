@@ -68,6 +68,20 @@ Rank a change that makes a bad pattern impossible above one that rearranges
 modules. Raise a candidate that contradicts a recorded decision only when the
 friction justifies reopening it, and say which decision.
 
+## Example candidate (illustrative figures)
+
+- **Files**: `billing/invoice.ts`, `billing/tax.ts`, `orders/checkout.ts`
+- **Problem**: 41 commits in six months; `invoice.ts` and `checkout.ts` change
+  together in 70% of them across the billing/orders boundary. Deleting `tax.ts`
+  only inlines one function that `invoice.ts` alone calls: the module hides
+  nothing.
+- **Change**: fold `tax.ts` into `invoice.ts`; have `checkout.ts` ask billing
+  for a total instead of assembling line items itself.
+- **Gain**: a tax change touches one module and one test.
+- **Check**: the existing invoice tests pass unchanged; co-changes between the
+  two modules drop over the next months.
+- **Strength**: Strong.
+
 "No candidate worth the change" is a valid result: report it with what you
 examined. Agents asked to improve code rarely stop on their own, and a scan that
 always finds something produces churn.
