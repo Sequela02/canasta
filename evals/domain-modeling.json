@@ -1,0 +1,26 @@
+{
+  "skill_name": "domain-modeling",
+  "trigger": {
+    "positive": [
+      {
+        "prompt": "What exactly is an order versus a booking in our business? The terms are mixed up"
+      },
+      {
+        "prompt": "Model the business rules for a refund as invariants"
+      },
+      {
+        "prompt": "Draw the bounded contexts for billing and inventory"
+      }
+    ],
+    "negative": [
+      {
+        "prompt": "Review the module boundaries before I add this layer",
+        "owner": "architecture-review"
+      },
+      {
+        "prompt": "Design the public API of the SDK",
+        "owner": "api-design"
+      }
+    ]
+  }
+}

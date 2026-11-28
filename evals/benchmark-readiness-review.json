@@ -1,0 +1,26 @@
+{
+  "skill_name": "benchmark-readiness-review",
+  "trigger": {
+    "positive": [
+      {
+        "prompt": "Is this benchmark fair enough to publish the 2x speedup claim?"
+      },
+      {
+        "prompt": "Check whether these performance numbers are reproducible"
+      },
+      {
+        "prompt": "Can we compare our benchmark results with theirs?"
+      }
+    ],
+    "negative": [
+      {
+        "prompt": "Speed up this slow query",
+        "owner": "postgres"
+      },
+      {
+        "prompt": "Research what other tools measure for this",
+        "owner": "research"
+      }
+    ]
+  }
+}

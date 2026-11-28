@@ -1,0 +1,26 @@
+{
+  "skill_name": "refactor",
+  "trigger": {
+    "positive": [
+      {
+        "prompt": "Clean up this function without changing what it does"
+      },
+      {
+        "prompt": "Remove the duplicated code in these two modules"
+      },
+      {
+        "prompt": "Rename this class and move it to its own file"
+      }
+    ],
+    "negative": [
+      {
+        "prompt": "Fix the bug where the total is wrong",
+        "owner": "tdd"
+      },
+      {
+        "prompt": "Review my diff before merging",
+        "owner": "code-review-findings"
+      }
+    ]
+  }
+}

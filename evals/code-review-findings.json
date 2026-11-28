@@ -1,0 +1,26 @@
+{
+  "skill_name": "code-review-findings",
+  "trigger": {
+    "positive": [
+      {
+        "prompt": "Review this diff before I merge it"
+      },
+      {
+        "prompt": "Can you do a code review of the changes on this branch?"
+      },
+      {
+        "prompt": "Check my finished change for bugs and missing tests"
+      }
+    ],
+    "negative": [
+      {
+        "prompt": "Write the pull request description for this branch",
+        "owner": "writing-pr"
+      },
+      {
+        "prompt": "Clean up this function without changing what it does",
+        "owner": "refactor"
+      }
+    ]
+  }
+}

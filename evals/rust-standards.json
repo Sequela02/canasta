@@ -1,0 +1,26 @@
+{
+  "skill_name": "rust-standards",
+  "trigger": {
+    "positive": [
+      {
+        "prompt": "Add a new crate to this Cargo workspace for the parser"
+      },
+      {
+        "prompt": "How should errors be modeled in this Rust module?"
+      },
+      {
+        "prompt": "Expose this Rust function to Node through NAPI bindings"
+      }
+    ],
+    "negative": [
+      {
+        "prompt": "Add a Bun script that runs the tests",
+        "owner": "bun-standards"
+      },
+      {
+        "prompt": "Write a migration for the users table",
+        "owner": "postgres"
+      }
+    ]
+  }
+}

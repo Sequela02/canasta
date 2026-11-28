@@ -1,0 +1,26 @@
+{
+  "skill_name": "task-closeout",
+  "trigger": {
+    "positive": [
+      {
+        "prompt": "I'm done with this task, close it out"
+      },
+      {
+        "prompt": "Write a handoff for the next session"
+      },
+      {
+        "prompt": "Remove the scratch files and check the diff before I call this finished"
+      }
+    ],
+    "negative": [
+      {
+        "prompt": "Write the pull request description",
+        "owner": "writing-pr"
+      },
+      {
+        "prompt": "Review my diff for bugs",
+        "owner": "code-review-findings"
+      }
+    ]
+  }
+}

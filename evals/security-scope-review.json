@@ -1,0 +1,26 @@
+{
+  "skill_name": "security-scope-review",
+  "trigger": {
+    "positive": [
+      {
+        "prompt": "Review this endpoint for authorization holes"
+      },
+      {
+        "prompt": "This change handles API tokens, check how the credentials are protected"
+      },
+      {
+        "prompt": "Where is untrusted user input validated in this flow?"
+      }
+    ],
+    "negative": [
+      {
+        "prompt": "Review my diff for bugs before merging",
+        "owner": "code-review-findings"
+      },
+      {
+        "prompt": "Design the module boundaries",
+        "owner": "architecture-review"
+      }
+    ]
+  }
+}

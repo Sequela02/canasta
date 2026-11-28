@@ -1,0 +1,26 @@
+{
+  "skill_name": "problem-clarification",
+  "trigger": {
+    "positive": [
+      {
+        "prompt": "I'm not sure what this request actually means, help me pin it down"
+      },
+      {
+        "prompt": "Grill me on this idea before I build it"
+      },
+      {
+        "prompt": "Stress-test my proposal and find the holes"
+      }
+    ],
+    "negative": [
+      {
+        "prompt": "Plan the steps to implement this",
+        "owner": "implementation-planning"
+      },
+      {
+        "prompt": "Research what other projects do for this",
+        "owner": "research"
+      }
+    ]
+  }
+}

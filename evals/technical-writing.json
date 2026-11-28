@@ -1,0 +1,26 @@
+{
+  "skill_name": "technical-writing",
+  "trigger": {
+    "positive": [
+      {
+        "prompt": "Rewrite this README so a newcomer understands it"
+      },
+      {
+        "prompt": "Make this explanation clearer without losing anything true"
+      },
+      {
+        "prompt": "Edit this report for clarity"
+      }
+    ],
+    "negative": [
+      {
+        "prompt": "Where should this doc live in the repo?",
+        "owner": "documentation-hygiene"
+      },
+      {
+        "prompt": "Write the pull request description for this branch",
+        "owner": "writing-pr"
+      }
+    ]
+  }
+}

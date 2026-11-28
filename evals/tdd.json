@@ -1,0 +1,26 @@
+{
+  "skill_name": "tdd",
+  "trigger": {
+    "positive": [
+      {
+        "prompt": "Write a failing test for this bug, then fix it"
+      },
+      {
+        "prompt": "Implement this parser test-first"
+      },
+      {
+        "prompt": "This test is flaky, find out why"
+      }
+    ],
+    "negative": [
+      {
+        "prompt": "Clean up this code without changing its behavior",
+        "owner": "refactor"
+      },
+      {
+        "prompt": "Review my finished diff",
+        "owner": "code-review-findings"
+      }
+    ]
+  }
+}

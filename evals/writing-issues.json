@@ -1,0 +1,26 @@
+{
+  "skill_name": "writing-issues",
+  "trigger": {
+    "positive": [
+      {
+        "prompt": "Write an issue for this bug"
+      },
+      {
+        "prompt": "Draft a feature request with acceptance criteria"
+      },
+      {
+        "prompt": "Turn these notes into a bug report for our tracker"
+      }
+    ],
+    "negative": [
+      {
+        "prompt": "Write the pull request description",
+        "owner": "writing-pr"
+      },
+      {
+        "prompt": "File a bug on another project's repository",
+        "owner": "upstream-contribution"
+      }
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "skill_name": "typescript-standards",
+  "trigger": {
+    "positive": [
+      {
+        "prompt": "This union type isn't narrowing correctly, help me fix the types"
+      },
+      {
+        "prompt": "Turn on strict mode in our tsconfig and fix what breaks"
+      },
+      {
+        "prompt": "Should this be a type or an interface, and how should I export it from the module?"
+      }
+    ],
+    "negative": [
+      {
+        "prompt": "Write a Vitest test that mocks the HTTP client",
+        "owner": "vitest-testing"
+      },
+      {
+        "prompt": "Design the exported functions of this SDK",
+        "owner": "api-design"
+      }
+    ]
+  }
+}
