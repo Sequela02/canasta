@@ -1,108 +1,90 @@
 ---
 name: documentation-hygiene
-description: Place, consolidate, or retire repository documentation; use before
-  creating a durable doc, when moving or generating docs (including a library,
-  SDK or CLI docs set and files for agents), and when auditing stale,
-  duplicated, or misplaced material. Not for closing a task (task-closeout)
-  or for prose (technical-writing).
+description: Decide where a document belongs, whether it should exist, and what to merge, move or retire. Use before creating a durable doc or ADR, when moving or generating docs (including a library, SDK or CLI docs set and files for agents), and when a docs folder has stale, duplicated or misplaced pages. Not for closing a task (task-closeout) or for the prose itself (technical-writing).
 tags:
   - documentation
   - maintenance
+metadata:
+  source: "documentation-and-adrs by Addy Osmani, addyosmani/agent-skills e997ac5"
+  changes: "ADR rules (match the existing convention, mark superseded, never delete) from documentation-and-adrs; the rest is canasta's"
 ---
 
-# Documentation Hygiene
+# Documentation hygiene
 
-Keep repository documentation useful to its intended readers. Apply this
-procedure to the requested scope and the docs the task created or changed;
-ordinary task completion does not authorize a repository-wide cleanup.
+Keep a repository's docs useful to the people who read them. Work on the scope
+you were given and the docs this task touched; finishing a task is not a license
+to clean up the whole repository.
 
-Before creating or retaining a document:
-1. Read the repository guidance, documentation entry points, and relevant
-   existing owners. Identify the reader, purpose, sensitivity, expected lifetime,
-   and canonical destination. Prefer updating the existing owner to creating a
-   parallel explanation. Do not create folders or templates just to fill a taxonomy.
-2. Decide whether the change needs a document at all. Code, types and tests
-   already record the implementation, so most code changes need none. Write
-   what a maintainer would get wrong without it: a reason, a constraint across
-   components, a trap the source hides. Leave out field and constant lists,
-   file catalogs, narrated control flow and change summaries; they drift. When
-   code changes what a document says, rewrite that text rather than append a
-   new account beside it.
-3. Distinguish maintained documentation, durable decision or evaluation evidence,
-   requested deliverables, and temporary working state. A plan or report is not
-   automatically permanent because an agent produced it. Keep scratch notes,
-   transcripts, intermediate reports, and task bookkeeping in the configured
-   private project state or an appropriate temporary location outside tracked
-   documentation.
-4. Decide whether content belongs in the repository before writing it. Access to
-   a repository is access to its system, not to the organization behind it: the
-   repository holds what a reader with access to it alone needs to understand,
-   run, change and contribute to that system. Other projects and their people or
-   clients, the organization's strategy, finances and plans, internal
-   infrastructure (hosts, secret-store names, accounts, an operator's machine
-   and paths), real personal data and session history go to the organization's
-   private knowledge store. A public repository also leaves out the
-   organization's clients and users. A folder named internal, a dot directory,
-   or an ignore rule does not establish privacy. An explicit requested
-   deliverable still needs an appropriate audience and home.
+## Before you write a document
 
-Maintain the collection:
-- Organize by reader need and existing conventions: learning, doing, reference,
-  explanation, and consequential decisions may need different forms. Keep the
-  README useful for orientation and navigation. Do not impose a universal folder
-  tree, language, filename style, or document length over project requirements.
-- Verify current claims against their source owners. Dates, TODO markers, file
-  extensions, and missing links are investigation signals, not deletion criteria.
-  Classify affected material as keep, update, merge, move, or retire using content,
-  unique value, consumers, and retention obligations.
-- Consolidate unique information into its canonical owner and link to it. Prefer
-  generated references for mechanically derived facts when the project supports
-  them; retain human explanation that adds value. Do not delete generated outputs
-  required by a published contract, build, or distribution. Every generated
-  document has one source and a check that regenerates it and fails on a
-  diff; never edit the generated copy.
-- Write examples and fixtures with invented names, reserved domains
-  (`example.com`, `.test`, `.invalid`) and placeholders; data copied or derived
-  from real records stays out. Captured artifacts such as test reports, logs and
-  snapshots carry the paths and user names of the machine that made them, so
-  neutralize those before committing one.
-- When evidence for a decision lives in a private store, the repository keeps a
-  self-contained summary a reader can act on, with no link or identifier to the
-  private record: a reference can expose what it names even when its target is
-  access-controlled.
-- Preserve significant decision rationale and future-useful migration or evaluation
-  evidence. Record a decision only when it is hard to reverse, surprising
-  without context, and the result of a real trade-off; a paragraph is enough,
-  kept where the project keeps its decisions. Mark superseded decisions
-  honestly rather than rewriting history.
-  Completed plans need retention only when their remaining evidence or obligations
-  justify it. Promote useful conclusions before retiring obsolete task records;
-  do not move clutter into an archive merely to hide it.
+1. **Find the owner.** Read the repository guidance and the docs entry points.
+   Name the reader, the purpose and how long it will stay true. Update the
+   existing page before creating a parallel one.
+2. **Ask whether it needs to exist.** Code, types and tests already record what
+   was built. Write what a maintainer would get wrong without it: a reason, a
+   constraint that spans components, a trap the source hides. Skip field lists,
+   file catalogs, narrated control flow and change summaries; they drift.
 
-Close out the docs:
-1. Update links, indexes, build references, and affected consumers with moves or
-   removals. Preserve redirects only for a real published-link compatibility need;
-   otherwise remove the old path instead of leaving duplicate documents.
-2. Run repository link checks and documentation builds when affected,
-   regenerate generated docs and confirm no diff, run the doc examples' check,
-   verify changed claims against code or tests, follow changed setup or run
-   instructions as written from a clean checkout, and run git diff --check. A
-   tidy tree is not proof that documentation is accurate.
+   ```text
+   BAD   docs/export.md: "export.ts has three functions: start, stream, finish."
+   GOOD  docs/export.md: "Rows are streamed in 1,000-row pages because the
+         billing API times out on larger requests."
+   ```
 
-Use `task-closeout` for the rest of closing a task: scratch files, private
-material, handoffs and branches.
+3. **Sort what you hold.** A plan, report, transcript or scratch note an agent
+   produced is not permanent for that reason. Keep working notes in private
+   project state or a temp folder, outside tracked docs.
+4. **Check the audience.** Access to a repository is access to its system, not
+   to the organization behind it. The repository holds what someone with only
+   that access needs to understand, run, change and contribute to the system.
+   Other projects and clients, strategy, finances, internal infrastructure
+   (hosts, accounts, secret-store names, an operator's machine and paths), real
+   personal data and session history go to the organization's private store. A
+   folder called `internal`, a dot directory or an ignore rule is not privacy.
+   When a private record backs a decision, keep a self-contained summary in the
+   repository with no link or id to the record: a reference can expose what it
+   names.
+
+## Keep the set healthy
+
+- **Verify before you retire.** Check each claim against the code or tests. An old
+  date, a TODO or a broken link is a reason to look, not to delete. Mark the page
+  keep, update, merge, move or retire by its content, its readers and any
+  retention duty.
+- **Merge into the owner.** Move unique content into the canonical page and link
+  to it. When the code changes what a page says, rewrite that text; don't append
+  a second account beside it.
+- **Generated docs have one source** and a check that regenerates them and fails
+  on a diff. Edit the source, never the copy.
+- **Examples use invented names** and reserved domains (`example.com`, `.test`,
+  `.invalid`). Test reports, logs and snapshots carry the machine's paths and
+  user names: neutralize them before committing.
+- **Decisions.** Record one only when it is hard to reverse, surprising without
+  context and a real trade-off; a paragraph is enough. Follow the project's
+  existing ADR location, numbering and headings before inventing any. Mark a
+  replaced decision "superseded by" the new one; keep the old text.
+- **Finished plans** stay only while their evidence or obligations matter.
+  Promote the conclusion to the owner page, then retire the plan. An archive
+  folder is not a place to hide clutter.
+
+## Close out
+
+1. Update links, indexes and build references for every move or removal. Keep a
+   redirect only for a published link that others rely on.
+2. Run the link check and the docs build, regenerate generated docs and confirm
+   no diff, run the examples' check, and `git diff --check`. Follow any changed
+   setup steps as written from a clean checkout. A tidy tree doesn't prove the
+   docs are right.
 
 Load a reference only for its task:
-- Reviewing, writing, or trimming project-owned agent instructions or skills
-  from repository evidence:
+
+- Reviewing or trimming agent instructions or skills:
   [instruction-review.md](references/instruction-review.md).
 - Auditing what an existing repository holds against step 4:
   [repository-audit.md](references/repository-audit.md).
-- Placing, moving or retiring the pages, examples or agent files of a
-  library, SDK or CLI docs set:
-  [developer-docs-site.md](references/developer-docs-site.md).
+- Placing, moving or retiring pages, examples or agent files of a library, SDK or
+  CLI docs set: [developer-docs-site.md](references/developer-docs-site.md).
 
-Use `technical-writing` for prose and page content (its developer-docs reference
-for library and CLI docs), `research` for external evidence, and `repository-text-hygiene`
-for Git, encoding, and line-ending drift. This procedure grants no publication,
-history-rewrite, or deletion authority beyond the user's task.
+For the rest of closing a task use `task-closeout`; for prose, `technical-writing`;
+for Git and line-ending drift, `repository-text-hygiene`. This skill grants no
+authority to publish, rewrite history or delete beyond the user's task.
