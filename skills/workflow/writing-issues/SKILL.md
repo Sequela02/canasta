@@ -1,51 +1,59 @@
 ---
 name: writing-issues
-description: Draft or revise an issue, bug report, or feature request with
-  concrete impact, evidence, and observable acceptance criteria; use when
-  preparing an issue for a tracker.
+description: Write or revise an issue, bug report or feature request for your own tracker, with who is affected, evidence, and acceptance criteria someone can check. Also turns notes or a plan into tickets. Use when asked to file or draft an issue, report a bug, or split work into tickets.
 tags:
   - writing
   - engineering
   - issues
+metadata:
+  source: "triage AGENT-BRIEF and to-tickets by Matt Pocock, mattpocock/skills bbadaa6"
+  changes: "Acceptance criteria, scope and durability rules from AGENT-BRIEF; vertical slices and blocking links from to-tickets; the reproduced-or-not rule is canasta's"
 ---
 
-# Writing Issues
+# Writing issues
 
-Use for issue titles and bodies. Use `technical-writing` for prose and examples;
-use `problem-clarification` only when missing information materially affects the
-issue. Writing a draft does not require implementing the proposed solution.
+For your own or your organization's tracker. For another project's, use
+`upstream-contribution`. The issue describes the problem; `writing-pr`
+describes the work that fixes it.
 
-1. Read the request, relevant evidence, repository contribution rules, and the
-   applicable issue template. Check related issues and work when accessible;
-   distinguish a duplicate from a related problem. Do not invent tracker IDs,
-   labels, priority, links, or checks. State an unavailable material source once.
-2. Name the problem or desired capability in the title. Open with who or what
-   is affected, the trigger or unmet need, and why it matters. Describe current
-   and desired behavior in terms someone can observe without this conversation.
-3. For a bug, give the smallest known reproduction, relevant environment or
-   revision, expected versus actual result, and supporting evidence. Say when
-   the report has not been reproduced. Keep suspected causes and proposed fixes
-   separate from observations; a plausible explanation is not a diagnosis.
-4. For a feature, explain the use case and constraints. Include a proposed
-   solution only when useful and label its decision status. Do not turn an
-   initial request into a committed architecture or an implementation inventory.
-5. State observable acceptance criteria that distinguish success from the current
-   problem. For an investigation, name the question and evidence needed to resolve
-   it instead of promising a fix. Include scope boundaries, dependencies, or open
-   decisions only when they prevent a material misunderstanding.
-6. When breaking a plan into several issues, write one per independently
-   verifiable slice (see implementation-planning), describe the end-to-end
-   behavior it delivers rather than a layer inventory, and list the issues that
-   block it, using the tracker's native blocking link where it has one. Show
-   the breakdown before creating anything; approving it does not authorize
-   publishing or labels.
-7. Follow the repository template, including instructions to omit inapplicable
-   sections. Without a template, a small issue can be one paragraph plus an
-   acceptance sentence. Use numbered reproduction steps or a comparison when
-   helpful; omit empty headings and generic checklists. Preserve necessary facts
-   while removing credentials, private data and internal infrastructure names
-   (secret stores, private repositories, hosts) from publication-bound evidence.
-8. Recheck that the title and body describe the same problem, links exist, and
-   acceptance criteria are requirements rather than claims of completed work.
-   Return the draft, or use the existing authorized tracker workflow if creation
-   or updating was requested. Never infer publication authority from this skill.
+1. **Look first.** Read the request, the evidence, the repository's issue
+   template and its contribution rules. Search for a duplicate (same problem)
+   and for related issues (same area); link the related ones. Invent no ids,
+   labels, priorities or links.
+2. **Title and opening.** The title names the problem or the missing
+   capability. The first lines say who is affected, what they hit and why it
+   matters, in words someone outside this conversation can follow.
+
+   ```text
+   BAD   Fix export bug
+   GOOD  CSV export drops rows after the first 1,000 when a filter is active
+   ```
+
+3. **A bug** gets: the smallest steps that reproduce it, the version or
+   environment, expected versus actual, and the evidence (output, log, capture).
+   Say whether you reproduced it yourself. Keep what you saw apart from what you
+   suspect; a likely cause is a guess until a check confirms it.
+4. **A feature** gets: the use case, the constraints, and the behavior wanted.
+   Add a proposed solution only if you have one, and label it a proposal.
+5. **Acceptance criteria** are things someone can check against the running
+   system, written as behavior, not as files to edit. Name what is out of scope
+   when a neighbor feature invites scope creep. For an investigation, state the
+   question and the evidence that answers it.
+
+   ```text
+   BAD   Export should work correctly.
+   GOOD  - [ ] Exporting 5,000 filtered rows produces 5,000 CSV rows.
+         - [ ] Exporting with no filter is unchanged.
+         Out of scope: the XLSX export.
+   ```
+
+   Describe interfaces and behavior; skip file paths and line numbers, which go
+   stale before anyone picks the issue up.
+6. **Splitting a plan** into several issues: one issue per slice that cuts
+   through every layer and can be checked on its own (`implementation-planning`
+   draws the slices). Give each its blockers, using the tracker's blocking link
+   if it has one. Show the list and get it approved before creating anything.
+7. **Before filing,** reread the title against the body, confirm the links work,
+   and strip credentials, personal data and internal names (private
+   repositories, hosts, secret stores) from the evidence. Return the draft; file
+   it only when asked.
