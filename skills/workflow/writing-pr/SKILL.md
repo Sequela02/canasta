@@ -1,70 +1,69 @@
 ---
 name: writing-pr
-description: Write or refresh a pull request title and body from the current
-  aggregate change, with reviewer-relevant decisions, verification, and risks;
-  use when preparing work for review.
+description: Write or update a pull request title and description so a reviewer who never saw the conversation knows why the change exists, what changed and how it was checked. Use when preparing work for review or refreshing the body after the change grew.
 tags:
   - writing
   - engineering
   - pull-requests
+metadata:
+  source: "tstack file-pr by Theo Browne, t3dotgg/tstack 11e37a7; pr by Matt Pocock, mattpocock/skills bbadaa6"
+  changes: "Bad/good title and opening pairs from file-pr; the Door and Blast Radius risk note from pr; evidence rules and the secret check are canasta's"
 ---
 
-# Writing Pull Requests
+# Writing pull requests
 
-Use for PR titles and bodies. Use `technical-writing` for prose and visual
-explanations. This procedure describes delivered work; writing-issues describes
-the problem to solve. Neither owns branch, publication, or merge authority.
+For your own or your organization's repository. For another project's, use
+`upstream-contribution`. `writing-issues` covers the problem to solve; this
+skill covers the work delivered.
 
-1. Before writing anything, read the repository's contribution rules, its PR
-   template and two recent merged PRs, and establish whose repository it is
-   from its remote and maintainers, not from assumption.
-   Establish the intended base and current candidate. Inspect the aggregate diff,
-   linked issue or accepted objective, repository PR template, and contribution
-   rules. Check whether a PR for the branch already exists, and inspect its
-   metadata when updating. Verify claims inherited
-   from commits or previous summaries; report unavailable material evidence.
-   The repository's template and the structure of its recent merged PRs decide
-   the sections. In a project you don't maintain, they replace your own
-   organization's conventions; use upstream-contribution there too.
-2. Write the title and opening around the concrete problem and resulting behavior.
-   A reviewer unfamiliar with the conversation should understand why this change
-   exists. Follow repository naming conventions; recent merged PRs and history
-   show them, and a PR title often becomes the merge commit. Name the effect
-   that matters, not the mechanism. Do not promise unverified
-   benefits in the title. Describe the final aggregate
-   change, not intermediate attempts, session history, or transient line counts.
-3. Explain mechanisms, meaningful tradeoffs, compatibility changes, and review
-   focus only where the diff does not make their implications clear. Name affected
-   boundaries and give a reading order when it materially helps. Do not invent
-   rejected alternatives or narrate each changed file.
-4. Use the smallest useful representation from technical-writing. For UI changes,
-   prefer comparable real before/after captures; use a short recording when
-   interaction or timing matters. Identify the states and revisions shown. Missing
-   captures stay missing, never replaced by generated images presented as proof.
-   Narration and diagrams explain behavior; they do not verify it.
-5. Include relevant observed verification and material gaps once. Distinguish
-   passed, failed, unrun, and pending checks; collect executable evidence with
-   `tdd` and its end-to-end verification reference when it is missing. Never claim TDD from passing
-   tests alone: a red/green claim needs an observed relevant failure and subsequent
-   pass. Skip test inventories and generic claims that everything works.
-6. For performance claims, show the actual baseline and candidate revisions,
-   workload, conditions, units, and measurement uncertainty with the comparison.
-   Use `benchmark-readiness-review` for claim validity. Missing comparable results
-   mean the improvement is unverified; never fabricate a before/after table.
-7. Preserve unresolved findings, meaningful residual risks, and required evidence
-   even when concise. Respect repository templates; otherwise scale from a short
-   paragraph and verification line to a structured explanation for complex work.
-   Omit empty sections, repeated facts, raw metadata dumps, and ceremonial lists.
-8. Reconcile the whole title and body with the current candidate after scope or
-   implementation changes. Check every linked artifact exists and is suitable for
-   its audience. Before publishing, check the title, body, quotes and
-   attachments for secrets, private names and internal infrastructure
-   (secret-store names and layout, private repositories, hosts). Return the
-   draft or use the already authorized publication workflow (a real PR, not a draft, unless the
-   repository says otherwise); do not add approval gates or infer authority
-   from the skill.
-9. When the repository or your own organization requires a risk note, end the
-   PR with it: one-way or two-way door, blast radius, and evidence. A PR to
-   another project carries none unless that project asks for one. The agent
-   never merges unless the project's stated policy allows it; passing checks
-   and drafting a PR do not grant merge authority.
+1. **Look first.** Read the contribution rules, the PR template and two recent
+   merged PRs. Check whether a PR for the branch already exists. Read the diff
+   against the base branch, not the commit messages.
+2. **Title.** Follow the repository's convention (a PR title often becomes the
+   merge commit). Say what the change does for someone, not how.
+
+   ```text
+   BAD   perf(server): negotiate permessage-deflate on the websocket
+   GOOD  perf(server): cut websocket frame size by 70% with gzip
+   ```
+
+   Put a number in the title only if you measured it (step 5).
+3. **Open with the problem** in plain words, then the fix in a sentence or two.
+   Leave the list of what you edited to the diff.
+
+   ```text
+   BAD   Removed workspace carry-over from every "new thread" entry point and
+         deleted buildContextualThreadOptions and the sidebar seed context.
+   GOOD  My "new worktree" default was ignored when starting a thread on an
+         existing worktree. Now the configured defaults always apply.
+   ```
+
+4. **Say what a reader would miss:** a trade-off, a compatibility change, where
+   to start reading a large diff. Skip a tour of each file and alternatives you
+   never weighed.
+5. **Show the checks.** Give the command you ran and what it printed. Mark each
+   check passed, failed, not run or pending. For a bug fix, show the test that
+   failed before and passes now. For UI, attach before and after captures of the
+   real screen and name the viewport and data. For a speed claim, give both
+   revisions, the workload, units and the spread of the runs; without
+   comparable runs, call the gain unverified (`benchmark-readiness-review`
+   judges the claim). Never present a generated image as proof.
+6. **End with a risk note** when the repository or your organization asks for
+   one:
+
+   ```text
+   Door: one-way | two-way   (can the merge be walked back?)
+   Blast radius: what else breaks if this is wrong, and for whom
+   Evidence: the check above that supports it
+   ```
+
+   A migration or a public API change is a one-way door. A PR to another
+   project carries a note only if that project asks.
+7. **Before publishing,** reread the title and body against the final diff and
+   fix what the work no longer says. Check links exist. Scan text, quotes and
+   attachments for secrets, personal paths and internal names (private
+   repositories, hosts, secret-store names). Describe the final change, not the
+   attempts or the session.
+
+Open a real PR rather than a draft unless the repository says otherwise. Stop at
+a ready PR: merging is the maintainer's call, and passing checks don't grant it.
