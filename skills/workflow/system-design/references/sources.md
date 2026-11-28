@@ -15,3 +15,4 @@
   often skip skills they must choose to load (Vercel, "AGENTS.md outperforms
   skills in our agent evals", 2026); focused procedures over comprehensive
   documentation (SkillsBench, arXiv:2602.12670).
+- ADR conventions: addyosmani/agent-skills `documentation-and-adrs` (e997ac5, MIT): match the existing ADR scheme; supersede, never delete.
