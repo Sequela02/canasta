@@ -1,67 +1,40 @@
-# Astro Implementation Reference
+# Astro implementation notes
 
-## Rendering selection
+## Pick the rendering
 
-- Static HTML: default for landings, documentation, blogs, navigation, cards,
-  product explanation, pricing content, and legal content.
-- Client island: use only for browser state or interaction. Prefer
-  `client:visible` below the fold, `client:idle` for non-urgent enhancement,
-  and `client:load` only for immediately interactive controls.
-- Server island: use for request-specific content that should not force the
-  surrounding page into on-demand rendering.
-- On-demand route: use only when the route itself requires request-time data.
+| Content | Use |
+| --- | --- |
+| Landing, docs, blog, pricing, legal | Static HTML (the default) |
+| Interactive widget | Client island, lazy directive |
+| One personalized block on a static page | Server island (`server:defer`) |
+| A route that needs request data | On-demand route plus an adapter |
 
-Never choose a directive from a generic recipe without checking the actual
-interaction, bundle, and supported Astro release.
+Route caching is stable in current Astro; check the docs for the installed major
+before relying on `cache` or `routeRules`.
 
-## Content and assets
+## Content and metadata
 
-- Define content schemas at the canonical content configuration entrypoint.
-- Use supported loaders for local or remote content instead of hand-built file
-  crawling.
-- Import local images and render them through Astro image components when
-  optimization is valuable. Keep public passthrough assets deliberate.
-- Generate canonical URLs from the configured site URL.
-- Give every page a unique title, description, canonical URL, social metadata,
-  language, heading structure, and index policy.
+- Define collection schemas in the content config; use a loader for local or
+  remote content instead of crawling files by hand.
+- Import local images and render them with Astro's image components.
+- Build canonical URLs from the `site` setting.
+- Give each page a title, description, canonical, social tags, `lang` and one `h1`.
 
-## Scripts and navigation
+## Scripts
 
-- Process npm imports through normal bundled `<script>` elements; do not place
-  package imports in scripts that Astro intentionally leaves inline.
-- Prefer native cross-document View Transitions for MPA navigation.
-- If a client router is justified, reinitialize behavior through documented
-  Astro navigation lifecycle events and test back/forward navigation.
-- Ensure navigation remains correct with animation disabled and with
-  `prefers-reduced-motion: reduce`.
+- Package imports work in normal `<script>` tags, which Astro bundles. A script
+  with `is:inline` is left alone and cannot import packages.
 
 ## Forms
 
-- Keep simple lead or contact forms static-first.
-- Validate again at the server boundary.
-- Include rate limiting, abuse protection, explicit consent, useful error
-  messages, pending state, and a no-JavaScript-compatible submission path when
-  feasible.
+Keep a simple contact form static-first: validate on the server again, rate
+limit, ask for consent, show pending and error states, and let it submit without
+JavaScript when you can.
 
-## Verification
+## Verify
 
-Use repository commands rather than assuming a package manager. At minimum:
-
-1. Run Astro's diagnostic/type check when configured.
-2. Build the production site.
-3. Check emitted routes and assets.
-4. Use Playwright for navigation, forms, responsive breakpoints, focus order,
-   and reduced motion.
-5. Inspect shipped JavaScript and confirm every hydrated island is justified.
-6. Verify title, canonical, description, Open Graph, structured data, sitemap,
-   robots policy, and 404 behavior where applicable.
-
-## Official sources
-
-- Documentation: https://docs.astro.build/
-- Agent-readable documentation: https://docs.astro.build/llms.txt
-- Islands: https://docs.astro.build/en/concepts/islands/
-- View transitions: https://docs.astro.build/en/guides/view-transitions/
-- Content collections: https://docs.astro.build/en/guides/content-collections/
-- Images: https://docs.astro.build/en/guides/images/
-- Upgrade guides: https://docs.astro.build/en/upgrade-astro/
+1. `astro check` and the production build.
+2. List the emitted routes and assets.
+3. Use the project's browser test tool for navigation, forms, breakpoints, focus
+   order and reduced motion.
+4. Check title, canonical, Open Graph, sitemap, robots and the 404 page.

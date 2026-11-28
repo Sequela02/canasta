@@ -1,53 +1,59 @@
 ---
 name: astro
-description: "Astro judgment: islands, hydration, rendering mode, content and View Transitions. Use when editing .astro files or astro.config."
+description: "Build Astro pages with the least client JavaScript: when a component needs an island, which client:* directive to use, static vs on-demand rendering, content collections, View Transitions. Use when editing .astro files or astro.config."
 paths: ["**/*.astro", "**/astro.config.*"]
 ---
 
 # Astro
 
-Use Astro for content-first surfaces and ship the least client JavaScript that
-fully supports the required behavior. Read the repository manifests before choosing APIs or changing dependencies; this
-skill is not version authority.
+Ship HTML. Add JavaScript only where a user interaction needs it.
 
-## Workflow
+Versions and APIs move: read the Astro version in `package.json` and the docs for
+it at docs.astro.build. The Astro Docs MCP server (`https://mcp.docs.astro.build/mcp`)
+serves current docs to agents. Run `npx @astrojs/upgrade` only when asked to upgrade.
 
-1. Identify the surface, output mode, deployment target, content source, and
-   interactions.
-2. Keep document structure, content, navigation, metadata, and non-interactive
-   components in `.astro` files.
-3. Add a framework island only when behavior needs component state or an
-   existing framework component. Choose the least eager `client:*` directive
-   that still meets the interaction requirement.
-4. Prefer build-time content and static output for landings. Introduce
-   on-demand rendering, server islands, sessions, actions, or adapters only
-   when request-specific behavior proves the need.
-5. Use Astro image components, semantic HTML, canonical metadata, structured
-   content schemas, and accessible forms.
-6. Use browser-native cross-document View Transitions for navigation when they
-   satisfy the experience. Add a client router only for features that require
-   it and account for script lifecycle changes.
-7. Run the repository's Astro check, typecheck, build, and browser verification.
-   Inspect rendered metadata, responsive layout, keyboard navigation, reduced
-   motion, asset output, and client JavaScript.
+## Procedure
 
-## Boundaries
+1. Find the output mode (`output` and adapter in `astro.config.*`), the content
+   source and the interactions the page needs.
+2. Write structure, copy, navigation, cards and metadata as `.astro` components.
+   They render at build time and send no JavaScript.
+3. For each interactive piece, ask what breaks without client JavaScript. If
+   nothing breaks, it stays `.astro`. If something does, make one small island
+   and pick the lazier directive that still works:
+   `client:visible` (below the fold) < `client:idle` (not urgent) < `client:load`
+   (must work at first paint). `client:only` skips server HTML; use it for
+   components that cannot render on the server.
+4. Keep pages static. Use on-demand rendering or a server island (`server:defer`)
+   only for content that differs per request, and add an adapter only then.
+5. Use `astro:assets` images, a content collection with a schema for repeated
+   content, and a unique title, description and canonical URL per page.
+6. For page navigation animation, start with native cross-document View
+   Transitions. Add `<ClientRouter />` only for what native cannot do (persisted
+   elements, shared state); it makes scripts run once, so re-run setup on
+   `astro:page-load`.
+7. Check: run the project's `astro check` and `build`, then open the built page.
+   Confirm each island is justified, the JavaScript shipped is what you expect
+   (network tab or `dist/_astro`), keyboard navigation works, and navigation is
+   correct with `prefers-reduced-motion: reduce`.
 
-- Do not turn a content site into a React SPA.
-- Do not hydrate static navigation, cards, layout, or copy.
-- Do not add an adapter to a fully static deployment.
-- Do not access browser APIs in server frontmatter.
-- Do not add Motion or GSAP for page navigation that native View Transitions
-  express cleanly.
-- Do not copy framework versions into this skill. Consult the resolved stack
-  profile and current official documentation.
-- Keep credential, tenant, checkout, and authenticated application workflows
-  behind the owning application boundary unless the architecture explicitly
-  assigns them to Astro server routes.
+## Example
 
-## Reference
+A pricing page with a monthly/yearly toggle and a feature table.
 
-Read [references/implementation.md](references/implementation.md) when choosing
-rendering, hydration, content, transition, or verification patterns. For APIs
-that may have changed, consult Astro's official documentation and `llms.txt`
-before implementing.
+Bad: the whole page is `<Pricing client:load />`, so the table hydrates too.
+
+Good: the table and copy stay in `Pricing.astro`. Only `<BillingToggle client:visible />`
+is an island. If the toggle only switches visible numbers, a `<script>` that sets a
+`data-` attribute on the section and CSS that shows one price is smaller still.
+
+## Guardrails
+
+- Browser APIs (`window`, `document`) run in a `<script>` or an island, not in
+  frontmatter, which runs on the server.
+- Credential, tenant, checkout and signed-in flows belong to the application that
+  owns them; Astro routes handle them only when the architecture says so.
+- Validate form posts again on the server, with rate limiting.
+
+More on rendering choice, content, forms and verification:
+[references/implementation.md](references/implementation.md).
