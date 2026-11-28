@@ -1,0 +1,26 @@
+{
+  "skill_name": "system-design",
+  "trigger": {
+    "positive": [
+      {
+        "prompt": "Design the whole system for this new service before we build it, with capacity numbers"
+      },
+      {
+        "prompt": "Write a design doc for how these components share data and fail"
+      },
+      {
+        "prompt": "Do a system design for the ticketing platform"
+      }
+    ],
+    "negative": [
+      {
+        "prompt": "Plan the implementation steps for this change",
+        "owner": "implementation-planning"
+      },
+      {
+        "prompt": "Review this module boundary",
+        "owner": "architecture-review"
+      }
+    ]
+  }
+}

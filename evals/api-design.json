@@ -1,0 +1,26 @@
+{
+  "skill_name": "api-design",
+  "trigger": {
+    "positive": [
+      {
+        "prompt": "Design the public functions and options for our new SDK"
+      },
+      {
+        "prompt": "Should this library function throw or return a result object?"
+      },
+      {
+        "prompt": "Review the exports of this package before we publish 1.0"
+      }
+    ],
+    "negative": [
+      {
+        "prompt": "Add a --json flag to our command-line tool",
+        "owner": "cli-design"
+      },
+      {
+        "prompt": "Where should this module sit in the dependency graph?",
+        "owner": "architecture-review"
+      }
+    ]
+  }
+}

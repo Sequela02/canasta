@@ -1,0 +1,26 @@
+{
+  "skill_name": "writing-pr",
+  "trigger": {
+    "positive": [
+      {
+        "prompt": "Write the pull request description for this branch"
+      },
+      {
+        "prompt": "Update the PR body now that the change grew"
+      },
+      {
+        "prompt": "Prepare this work for review with a good title and summary"
+      }
+    ],
+    "negative": [
+      {
+        "prompt": "Write an issue for this bug",
+        "owner": "writing-issues"
+      },
+      {
+        "prompt": "Review this diff for bugs",
+        "owner": "code-review-findings"
+      }
+    ]
+  }
+}

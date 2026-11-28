@@ -1,0 +1,26 @@
+{
+  "skill_name": "documentation-hygiene",
+  "trigger": {
+    "positive": [
+      {
+        "prompt": "Where should this new document go in the repository?"
+      },
+      {
+        "prompt": "Our docs folder has stale and duplicated pages, clean it up"
+      },
+      {
+        "prompt": "Should this be a doc at all or does the code already say it?"
+      }
+    ],
+    "negative": [
+      {
+        "prompt": "Rewrite this README so it reads clearly",
+        "owner": "technical-writing"
+      },
+      {
+        "prompt": "Write a handoff before I finish this task",
+        "owner": "task-closeout"
+      }
+    ]
+  }
+}

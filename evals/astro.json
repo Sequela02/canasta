@@ -1,0 +1,26 @@
+{
+  "skill_name": "astro",
+  "trigger": {
+    "positive": [
+      {
+        "prompt": "Add a client-side counter island to this Astro page"
+      },
+      {
+        "prompt": "Should this .astro component hydrate with client:load or client:visible?"
+      },
+      {
+        "prompt": "Set up View Transitions between the blog pages in astro.config"
+      }
+    ],
+    "negative": [
+      {
+        "prompt": "Refactor this React hook to remove the duplicated state",
+        "owner": "react-engineering"
+      },
+      {
+        "prompt": "Write a migration that adds an index to the orders table",
+        "owner": "postgres"
+      }
+    ]
+  }
+}

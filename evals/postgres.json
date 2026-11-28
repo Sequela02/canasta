@@ -1,0 +1,26 @@
+{
+  "skill_name": "postgres",
+  "trigger": {
+    "positive": [
+      {
+        "prompt": "This query on the orders table is slow, can you look at the plan?"
+      },
+      {
+        "prompt": "Write a migration that adds a NOT NULL column without locking the table"
+      },
+      {
+        "prompt": "We keep getting deadlocks when two workers update the same rows in Postgres"
+      }
+    ],
+    "negative": [
+      {
+        "prompt": "Add a Spring controller for the new endpoint",
+        "owner": "spring-boot"
+      },
+      {
+        "prompt": "Split this React component into smaller ones",
+        "owner": "react-engineering"
+      }
+    ]
+  }
+}

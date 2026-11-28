@@ -1,0 +1,26 @@
+{
+  "skill_name": "cli-design",
+  "trigger": {
+    "positive": [
+      {
+        "prompt": "Design the commands and flags for our new CLI"
+      },
+      {
+        "prompt": "What exit codes should this command-line tool return?"
+      },
+      {
+        "prompt": "Add a --json output mode to this command"
+      }
+    ],
+    "negative": [
+      {
+        "prompt": "Design the exported functions of the SDK",
+        "owner": "api-design"
+      },
+      {
+        "prompt": "Write the README for the tool",
+        "owner": "technical-writing"
+      }
+    ]
+  }
+}

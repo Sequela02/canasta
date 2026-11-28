@@ -1,0 +1,26 @@
+{
+  "skill_name": "tailwind-v4",
+  "trigger": {
+    "positive": [
+      {
+        "prompt": "Migrate our Tailwind config from v3 to v4"
+      },
+      {
+        "prompt": "These class lists are huge, clean up the Tailwind utilities"
+      },
+      {
+        "prompt": "Add a brand color token to the Tailwind theme"
+      }
+    ],
+    "negative": [
+      {
+        "prompt": "Fix the hydration mismatch in this Astro island",
+        "owner": "astro"
+      },
+      {
+        "prompt": "Make this React list render faster",
+        "owner": "react-engineering"
+      }
+    ]
+  }
+}

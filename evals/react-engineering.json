@@ -1,0 +1,25 @@
+{
+  "skill_name": "react-engineering",
+  "trigger": {
+    "positive": [
+      {
+        "prompt": "This React component re-renders on every keystroke, fix it"
+      },
+      {
+        "prompt": "Split this big .tsx component into smaller pieces with clear props"
+      },
+      {
+        "prompt": "Where should this data fetching live in our React app?"
+      }
+    ],
+    "negative": [
+      {
+        "prompt": "Pick a color palette and typography for the landing"
+      },
+      {
+        "prompt": "Speed up this slow SQL query",
+        "owner": "postgres"
+      }
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "skill_name": "formal-verification",
+  "trigger": {
+    "positive": [
+      {
+        "prompt": "Add a LemmaScript contract to this function and prove it"
+      },
+      {
+        "prompt": "Should this function get a formal proof or are tests enough?"
+      },
+      {
+        "prompt": "The proof passes but I think the contract is too weak, check it"
+      }
+    ],
+    "negative": [
+      {
+        "prompt": "Write a failing test first for this bug",
+        "owner": "tdd"
+      },
+      {
+        "prompt": "Review the security of this endpoint",
+        "owner": "security-scope-review"
+      }
+    ]
+  }
+}

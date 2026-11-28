@@ -1,0 +1,26 @@
+{
+  "skill_name": "architecture-review",
+  "trigger": {
+    "positive": [
+      {
+        "prompt": "Should this new module depend on the database layer or the other way around?"
+      },
+      {
+        "prompt": "Review the boundary between billing and orders before we add a port"
+      },
+      {
+        "prompt": "Is this new layer worth adding or is it speculative abstraction?"
+      }
+    ],
+    "negative": [
+      {
+        "prompt": "Find the biggest structural problems in this codebase and rank them",
+        "owner": "architecture-scan"
+      },
+      {
+        "prompt": "Design the public API of our SDK",
+        "owner": "api-design"
+      }
+    ]
+  }
+}

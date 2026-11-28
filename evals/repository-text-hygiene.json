@@ -1,0 +1,26 @@
+{
+  "skill_name": "repository-text-hygiene",
+  "trigger": {
+    "positive": [
+      {
+        "prompt": "Git shows every file changed but the diff is empty, it's probably line endings"
+      },
+      {
+        "prompt": "The formatter rewrote the whole repo, separate the real changes"
+      },
+      {
+        "prompt": "Fix the encoding of these files without losing my edits"
+      }
+    ],
+    "negative": [
+      {
+        "prompt": "Where should this doc go?",
+        "owner": "documentation-hygiene"
+      },
+      {
+        "prompt": "Clean up this function's code",
+        "owner": "refactor"
+      }
+    ]
+  }
+}

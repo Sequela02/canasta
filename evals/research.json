@@ -1,0 +1,26 @@
+{
+  "skill_name": "research",
+  "trigger": {
+    "positive": [
+      {
+        "prompt": "Research whether this library is still maintained and what replaced it"
+      },
+      {
+        "prompt": "Find sources on how other projects solved this, with citations"
+      },
+      {
+        "prompt": "What's the current evidence on this question? Check the sources"
+      }
+    ],
+    "negative": [
+      {
+        "prompt": "Is this benchmark valid enough to publish?",
+        "owner": "benchmark-readiness-review"
+      },
+      {
+        "prompt": "Clarify what this vague request means",
+        "owner": "problem-clarification"
+      }
+    ]
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "skill_name": "bun-standards",
+  "trigger": {
+    "positive": [
+      {
+        "prompt": "Our CI fails on bun install with a lockfile mismatch"
+      },
+      {
+        "prompt": "Move this package from npm to Bun and keep the workspaces working"
+      },
+      {
+        "prompt": "Is it fine to call Bun.file here or should this stay portable to Node?"
+      }
+    ],
+    "negative": [
+      {
+        "prompt": "Add a Vitest test for this parser",
+        "owner": "vitest-testing"
+      },
+      {
+        "prompt": "Tighten the tsconfig so strict null checks pass",
+        "owner": "typescript-standards"
+      }
+    ]
+  }
+}

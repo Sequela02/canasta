@@ -1,0 +1,26 @@
+{
+  "skill_name": "architecture-scan",
+  "trigger": {
+    "positive": [
+      {
+        "prompt": "Scan this codebase and tell me which structural changes are most worth making"
+      },
+      {
+        "prompt": "Find hot spots and hidden coupling in this repository"
+      },
+      {
+        "prompt": "Which modules are shallow and should be merged? Give me ranked candidates"
+      }
+    ],
+    "negative": [
+      {
+        "prompt": "Review the boundary I'm adding between billing and orders",
+        "owner": "architecture-review"
+      },
+      {
+        "prompt": "Rename this function and move it to another file",
+        "owner": "refactor"
+      }
+    ]
+  }
+}

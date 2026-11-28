@@ -1,0 +1,26 @@
+{
+  "skill_name": "implementation-planning",
+  "trigger": {
+    "positive": [
+      {
+        "prompt": "Plan how to implement this change before we start coding"
+      },
+      {
+        "prompt": "Break this feature into steps with their dependencies"
+      },
+      {
+        "prompt": "Write an implementation plan another agent can follow"
+      }
+    ],
+    "negative": [
+      {
+        "prompt": "The requirement is ambiguous, help me figure out what's being asked",
+        "owner": "problem-clarification"
+      },
+      {
+        "prompt": "Design the whole system before we build it",
+        "owner": "system-design"
+      }
+    ]
+  }
+}

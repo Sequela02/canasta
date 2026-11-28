@@ -1,0 +1,26 @@
+{
+  "skill_name": "upstream-contribution",
+  "trigger": {
+    "positive": [
+      {
+        "prompt": "Open a pull request to this open-source project we depend on"
+      },
+      {
+        "prompt": "File a bug report on another project's repository"
+      },
+      {
+        "prompt": "Prepare a contribution to a project I don't maintain, following their rules"
+      }
+    ],
+    "negative": [
+      {
+        "prompt": "Write an issue for our own tracker",
+        "owner": "writing-issues"
+      },
+      {
+        "prompt": "Write the pull request description for our repo",
+        "owner": "writing-pr"
+      }
+    ]
+  }
+}

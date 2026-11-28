@@ -1,0 +1,26 @@
+{
+  "skill_name": "spring-boot",
+  "trigger": {
+    "positive": [
+      {
+        "prompt": "Add a Spring Boot endpoint that creates an order"
+      },
+      {
+        "prompt": "Where should the transaction boundary go in this Java service?"
+      },
+      {
+        "prompt": "Wire this Kotlin repository adapter into the Spring context"
+      }
+    ],
+    "negative": [
+      {
+        "prompt": "Write the React form for the new order screen",
+        "owner": "react-engineering"
+      },
+      {
+        "prompt": "Design the public functions of this TypeScript SDK",
+        "owner": "api-design"
+      }
+    ]
+  }
+}

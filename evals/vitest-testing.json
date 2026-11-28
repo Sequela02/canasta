@@ -1,0 +1,26 @@
+{
+  "skill_name": "vitest-testing",
+  "trigger": {
+    "positive": [
+      {
+        "prompt": "Our Vitest suite is slow and one test is flaky, can you look?"
+      },
+      {
+        "prompt": "Mock the HTTP client in this vitest test without mocking our own code"
+      },
+      {
+        "prompt": "Set up vitest config so integration tests run separately from unit tests"
+      }
+    ],
+    "negative": [
+      {
+        "prompt": "Write the failing test first and then implement the parser",
+        "owner": "tdd"
+      },
+      {
+        "prompt": "Upgrade TypeScript and fix the type errors",
+        "owner": "typescript-standards"
+      }
+    ]
+  }
+}

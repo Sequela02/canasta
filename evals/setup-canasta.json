@@ -1,0 +1,25 @@
+{
+  "skill_name": "setup-canasta",
+  "trigger": {
+    "positive": [
+      {
+        "prompt": "Install canasta for my agents"
+      },
+      {
+        "prompt": "Set up these skills in Claude Code and Codex"
+      },
+      {
+        "prompt": "Which model should each agent role use after installing canasta?"
+      }
+    ],
+    "negative": [
+      {
+        "prompt": "Write a new skill for our team"
+      },
+      {
+        "prompt": "Plan this feature",
+        "owner": "implementation-planning"
+      }
+    ]
+  }
+}
