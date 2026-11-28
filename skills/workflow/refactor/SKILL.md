@@ -1,75 +1,64 @@
 ---
 name: refactor
-description: "Change code structure without changing behavior: refactor, clean up, remove duplication or dead code, rename, move, or simplify. For a change in behavior, use tdd instead."
+description: "Refactor, clean up, simplify, rename, move, extract a function, or remove duplication and dead code, keeping behavior exactly the same. Not for changing behavior (tdd)."
+metadata:
+  source: "code-simplification by Addy Osmani, addyosmani/agent-skills e997ac5"
+  changes: "Takes the rule of 500 and the Chesterton's fence check; adds characterization tests before editing, a list of behavior to pin, and a final diff review"
 ---
 
 # Refactor
 
-A refactor changes structure and keeps observable behavior exactly the same.
-If behavior must change, it is not a refactor: split it out and use `tdd`.
+A refactor changes structure and keeps behavior identical. When behavior has to
+change, split that part out and use `tdd`.
 
-## Agent failure modes
+## Procedure
 
-Coding agents often change behavior while "refactoring" (in published studies,
-about one recommended refactoring in fourteen changed functionality or broke
-syntax). These rules override convenience:
+1. **Pin the behavior.** Write down what must not change: public API,
+   outputs, persisted or serialized data, errors, ordering, side effects,
+   authorization decisions, and performance when it is part of the contract.
+2. **Find every consumer** of the code you will touch: callers, tests,
+   configuration, scripts, generated code.
+3. **Get a check that would catch drift.** If tests are thin around this code,
+   write characterization tests first. They record what the code does today,
+   right or wrong, and pass before you edit.
+4. **Name the one structural problem** you are fixing (duplication, a name
+   that misleads, a wrapper with one caller, a tangled conditional). Mention
+   neighbouring cleanup in the report and leave it alone.
+5. **Apply one transformation at a time**: extract, inline, rename, move,
+   replace a conditional. Use the compiler, IDE or an AST tool for renames and
+   moves. Run the narrowest check after each step; the code builds and passes
+   before the next one. A change over about 500 lines is a codemod, not hand edits.
+6. **Delete what the change makes dead**: commented-out code, compatibility
+   paths with no consumer, comments that described the old shape.
+7. **Review the final diff** for drift in defaults, constants, errors, ordering,
+   transactions, async behavior, authorization, data shape and resource use.
+8. **Commit structure apart from behavior.** Report the behavior pinned, the
+   transformations, the checks and their results, and anything you could not
+   show equivalent. A change you cannot show equivalent is a behavior change.
 
-- Never mix a behavior change into a refactor, not even a "small fix" you
-  notice. Report it, and if asked, do it as a separate change.
-- One named transformation at a time (extract function, inline, rename, move,
-  replace conditional), each leaving the code buildable and its checks green.
-- Use the compiler, type system, IDE, or AST tools for renames and moves
-  instead of editing text by hand when they are available.
-- Absence of static references does not prove code is dead: check
-  configuration, reflection, registration, generated code, scripts, and
-  entry points first.
-- Do not add an abstraction, layer, or wrapper unless it removes demonstrated
-  duplication, coupling, or confusion.
+## Before removing anything
 
-## Before editing
+No static reference does not mean dead. Search configuration, reflection,
+registries, generated code, scripts and entry points. Read `git blame` for why
+it was written (Chesterton's fence). Remove it only when you can say why it
+is no longer needed.
 
-1. Name the behavior that must not change: public APIs, outputs, persisted or
-   serialized data, errors, ordering, side effects, authorization decisions,
-   and performance where it is part of the contract.
-2. Find every consumer of the code you will touch.
-3. Make sure a check would catch drift. If the existing tests are weak around
-   the code, add characterization tests first; they record current behavior,
-   right or wrong.
-4. Name the structural problem you are fixing and stay inside it. Adjacent
-   cleanup the user did not ask for gets mentioned, not done.
+## Example
 
-## What to fix
+While extracting `applyDiscount` out of `checkout`, you see it rounds down
+where the price list rounds half up.
 
-- Duplicated logic: one owner per behavior.
-- Dead code, commented-out code, and compatibility paths with no remaining
-  consumer: delete them in the same change.
-- Wrappers and layers with a single caller that add nothing: inline them.
-- Swallowed exceptions: fail fast or handle the error deliberately.
-- Complex conditionals, unclear names, magic numbers.
-- Explanations made obsolete by the move: delete them rather than keep a
-  historical copy beside the new owner.
+- Bad: fix the rounding in the same commit. The refactor now changes totals
+  and a reviewer reading "extract function" misses it.
+- Good: extract with the rounding as it is, run the characterization test,
+  and report "rounding in `applyDiscount` looks wrong; left unchanged." If the
+  owner wants it fixed, that is a second change through `tdd`.
 
-Leave mechanical rules (unused or wildcard imports, `any`, formatting) to the
-repository's linters and formatters. If a rule you keep fixing has no linter,
-propose one instead of fixing it by hand every time.
+## Leave to tools and owners
 
-Do not refactor generated code, applied migrations, third-party code, or
-configuration files.
-
-## Verify
-
-- After each transformation, run the narrowest check that could expose drift;
-  then check affected dependents in proportion to their reach and risk.
-- Where tests are weak or the change crosses a boundary, compare before and
-  after directly: characterization, differential, or trace evidence.
-- Review the final diff for accidental changes to defaults, constants, errors,
-  ordering, transactions, async behavior, authorization, data shape, and
-  resource use.
-
-## Commit and report
-
-- Keep structure and behavior in separate commits (Kent Beck's *Tidy First?*):
-  a refactor commit contains no behavior change.
-- Report the behavior preserved, the transformations applied, the checks run
-  and their results, and any residual uncertainty. If equivalence could not be
-  established, say so and treat the work as a behavior change.
+- Mechanical rules (unused imports, formatting, `any`) belong to the linter.
+  When you keep fixing the same rule by hand, propose the lint rule.
+- Generated code, applied migrations and third-party code are changed at their
+  source, not refactored in place.
+- Add an abstraction only to remove demonstrated duplication, coupling or
+  confusion. Fewer lines is not the goal; faster reading is.
