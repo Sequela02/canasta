@@ -1,6 +1,6 @@
 ---
 name: setup-canasta
-description: Install canasta and set up its skills and agents in Claude Code, Codex or Pi, and pick a model for each agent role (explorer, clerk, worker, reviewer, verifier, advisor), keeping local choices. Use for "install canasta", "set up these skills in Claude Code and Codex", or "which model should each role use".
+description: Install or update canasta in Claude Code, Codex or Pi, link its pack, and pick a model for each agent role (explorer, clerk, worker, reviewer, verifier, advisor), keeping local choices. Use when installing canasta, setting it up in a new agent, or choosing which model each role uses.
 ---
 
 # Set up canasta

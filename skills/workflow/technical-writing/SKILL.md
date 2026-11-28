@@ -1,6 +1,6 @@
 ---
 name: technical-writing
-description: "Write, edit or rewrite prose so the reader understands it on the first read and nothing true is lost: edit a report for clarity, rewrite a README, explain something, cut filler, write a PR description, commit message or message someone will sign. Uses Diátaxis structure and plain-English rules. Not for where docs belong (documentation-hygiene) or interface copy."
+description: "Write, edit or rewrite prose so the reader understands it on the first read and nothing true is lost: edit a report for clarity, rewrite a README, make an explanation clearer, cut filler, write a PR description, commit message or message someone will sign. Uses Diátaxis structure and plain-English rules. Not for where docs belong (documentation-hygiene) or interface copy."
 license: Complete terms in LICENSE.txt
 metadata:
   source: "pstack technical-writing by Lauren Tan, cursor/plugins 2f87c85"
