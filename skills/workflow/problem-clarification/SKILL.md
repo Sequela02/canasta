@@ -1,57 +1,74 @@
 ---
 name: problem-clarification
-description: Clarify a materially ambiguous problem, requirement, or design
-  decision; stress-test a proposal when requested. Skip routine work whose
-  outcome is already clear.
+description: "Pin down what a request actually means when you're not sure, or grill me on an idea or proposal before building it: find the open decisions, ask about them in rounds with a recommendation each, and stop when the answers no longer change the work. Skip a clear, small request."
 tags:
   - engineering
   - requirements
   - decisions
+metadata:
+  source: "grilling by Matt Pocock, mattpocock/skills bbadaa6; interview-me by Addy Osmani, addyosmani/agent-skills e997ac5"
+  changes: "Rounds ask only the decisions whose prerequisites are settled, each with a recommendation (grilling); a stated guess that the user corrects (interview-me); investigation before asking, small budgeted experiments and a stop rule tied to whether the answer changes the work are this pack's own"
 ---
 
-# Problem Clarification
+# Problem clarification
 
-Before a nontrivial step, restate in your own words the goal, who it serves,
-the deliverable, what is excluded, and the check that will show it worked. A
-wrong restatement is cheaper to correct than wrong work. For a clear, small
-edit, skip it.
+Use it when an unanswered question would change what you build, and when the
+user asks to be grilled or to have a proposal stress-tested. For a small,
+clear request, do the work. A request to write an issue or PR needs no
+interview.
 
-Use when unresolved intent would materially change the outcome, scope,
-acceptance criteria, or a consequential design choice, or when the user asks
-to stress-test a proposal. A request to write an issue or PR alone does not
-require an interview. Use `technical-writing` for the resulting explanation.
+## Procedure
 
-1. Inspect the supplied evidence and existing work before reopening questions:
-   relevant code, guidance, issues, decisions, and active branches or worktrees
-   when they concern this effort. Treat drafts and prior agent conclusions as
-   evidence to check, not settled truth. Investigate discoverable facts yourself.
-2. State the affected person or system, trigger, observed and desired behavior,
-   impact, and what would demonstrate success. Separate observations, hypotheses,
-   proposals, and decisions. For new capabilities, describe the unmet need rather
-   than inventing a broken behavior. Mark missing evidence honestly.
-3. Identify only consequential unresolved decisions and their dependencies.
-   Ask a small batch of questions answerable now, with a recommendation and its
-   tradeoff. Defer questions whose premises depend on unanswered ones. Reuse
-   the user's prior answers; do not ask for facts available in the environment.
-4. Continue independent investigation while waiting. Never treat silence as a
-   decision or answer on the user's behalf where their input is required.
-   Resolve routine implementation choices within the already authorized scope.
-5. Probe the uncertain boundary with a concrete example, counterexample, or
-   failure scenario. When only running code can answer the question, build one
-   limited experiment with an explicit budget and an observation that would
-   settle the uncertainty. Choose a representation suited to that observation:
-   sample inputs may expose a logic gap, while a rendered example may reveal a
-   layout constraint. Keep experimental code separate from the deliverable.
-   Record what was learned before removing it; retaining it as product code
-   requires the user's decision. Use domain-modeling for conflicting or overloaded
-   terminology; use research for external evidence and
-   implementation-planning for sequencing an established objective.
-6. Stop when remaining uncertainty no longer changes the authorized outcome or
-   safe next step. For an explicitly requested interview, present the resulting
-   understanding for the user's response. Otherwise continue authorized work
-   without adding a confirmation gate. Record durable decisions at their existing
-   owner; do not create a parallel glossary, tracker, or planning lifecycle.
+1. Write a one-sentence guess of what the user wants, and what you can't tell
+   yet. It is the thing they will correct.
+2. Look before you ask. Read the code, docs, issues and decisions that touch
+   the request, and treat earlier drafts and agent notes as claims to check.
+   Ask only what the repository can't tell you.
+3. List the open decisions and which ones depend on others. Rank them by how
+   much the answer changes the outcome, scope or acceptance check.
+4. Ask a round: every decision whose prerequisites are already settled, and
+   no others. Number the questions. Give each a recommended answer and its
+   tradeoff, worded so "yes" accepts it. Keep to the decisions that matter,
+   usually two to five.
+5. Use the answers to redraw the list. A question that was waiting on another
+   moves into the next round. Keep working on whatever the open questions
+   don't block.
+6. When only running code can answer a question, run one small experiment with
+   a stated budget and the result that would settle it. Keep it out of the
+   deliverable and record what it showed.
+7. Stop when the remaining doubt wouldn't change the outcome or the next safe
+   step. Hand back: the problem, the acceptance check, what is out of scope,
+   and any decision still open. Then continue the authorized work.
 
-Output the problem, acceptance criteria, and any material unresolved decision
-in the smallest useful form. A hypothesis is not a confirmed cause; agreement
-on a proposal is not evidence that it works.
+A user's silence is not an answer, so keep the question open or park the work
+that depends on it. "Whatever you think" is delegation: offer two concrete
+options and a recommendation. A choice within the authorized scope is yours to
+make; report it.
+
+## Example
+
+Request: "Add export to the reports page."
+
+```text
+Guess: a button that downloads what the page shows. Unclear: format,
+whether filters apply, who may export.
+Found in the repo: reports are already built as rows in reports/query.ts,
+and the page has no auth beyond login.
+
+Q1 - Format: CSV, or also XLSX?
+-> CSV only; no XLSX library is installed, and the rows are flat.
+
+Q2 - Scope: the filtered rows, or the whole report?
+-> Filtered rows, so the file matches the screen.
+
+Held for the next round: row limit (depends on Q2).
+```
+
+"Who is the user?" is not asked: the repository answered it.
+
+## Related
+
+Overloaded terms go to `domain-modeling`; outside evidence to `research`;
+sequencing a settled goal to `implementation-planning`. Record durable
+decisions where the repository already keeps them. A hypothesis is not a
+confirmed cause, and agreement with a proposal does not show it works.
