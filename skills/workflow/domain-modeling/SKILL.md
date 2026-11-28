@@ -1,41 +1,36 @@
 ---
 name: domain-modeling
-description: Domain-driven design with checks behind every rule. Use when a
-  business term is ambiguous, overloaded or missing from GLOSSARY.md; when
-  drawing or changing bounded contexts; when modeling business rules,
-  invariants or an aggregate's lifecycle; when a command may be retried, two
-  writers race, a side effect leaves the database, a flow spans aggregates
-  or a client works offline; and when reviewing a domain model. Module and
-  dependency shape belongs to architecture-review.
+description: "Domain-driven design with a check behind every rule. Use when a business term is ambiguous, overloaded or missing from GLOSSARY.md; when drawing bounded contexts; when modeling business rules, invariants or an aggregate's lifecycle; when a command may be retried, two writers race, a side effect leaves the database or a client works offline; and when reviewing a domain model. Module and dependency shape belongs to architecture-review."
 tags:
   - architecture
   - domain-driven-design
   - glossary
   - invariants
+metadata:
+  source: "domain-modeling by Matt Pocock, mattpocock/skills bbadaa6"
+  changes: "Takes the glossary format and the challenge, sharpen, cross-check and write-down practice; adds bounded-context boundary tests, the decider, invariant property tests and integration patterns, each ending in a check a tool runs"
 ---
 
-# Domain Modeling
+# Domain modeling
 
-Domain rules held in prose drift; rules held in types, tests and build checks
-hold. Each step below ends in an artifact a tool checks: the glossary, a
-boundary test, closed types, a property test.
+Rules held in prose drift. Rules held in a glossary, a closed type, a boundary
+test or a property test stay true. Each step below ends in one of those.
 
-Skip the tactical steps (3–5) for plain data maintenance with no business
-rule, and say so in the pull request. Vocabulary and boundaries apply to every
-context.
+For plain data maintenance with no business rule, do steps 1 and 2 only and say
+so in the pull request.
 
 ## 1. Vocabulary
 
-Read `GLOSSARY.md` first: at the repository root, or the per-context file
-named in a root `GLOSSARY-MAP.md`. Then, while designing:
+Read `GLOSSARY.md` (at the root, or the per-context file listed in
+`GLOSSARY-MAP.md`). While designing:
 
-- **Challenge** a term that conflicts with the glossary, and ask which
-  meaning holds.
-- **Sharpen** a vague or overloaded term into a canonical one, using concrete
-  scenarios that probe its edges.
-- **Cross-check** the code: when a stated rule and the code disagree, quote
-  the code and ask which is right.
-- **Write** each settled term into the glossary at once, in this shape:
+- **Challenge** a term that conflicts with the glossary: "the glossary says
+  cancellation means X; you seem to mean Y. Which holds?"
+- **Sharpen** a vague term into one canonical term, and probe its edges with
+  concrete scenarios.
+- **Cross-check** the code. When a stated rule and the code disagree, quote the
+  code and ask which is right.
+- **Write** each settled term into the glossary at once:
 
   ```md
   **Reservation**: a seat held for one customer until checkout completes or
@@ -43,89 +38,94 @@ named in a root `GLOSSARY-MAP.md`. Then, while designing:
   _Avoid_: booking, hold
   ```
 
-The glossary holds what terms mean and nothing else; decisions go to an ADR,
-and only when the decision is hard to reverse, surprising without context and
-the result of a real trade-off. A rename updates the glossary, the code,
-tables, events, status values and issue titles in the same commit.
+The glossary holds meanings only, never design or implementation notes. A
+decision goes in an ADR when it is hard to reverse, surprising without context
+and a real trade-off. A rename updates the glossary, code, tables, events,
+status values and issue titles in one commit. A name that crosses a surface
+(stored, serialized, public API, prompt) needs
+[concept contracts](references/concept-contracts.md) first.
 
-When a name crosses surfaces (persisted, serialized, a public API, a prompt),
-trace its contract with [concept contracts](references/concept-contracts.md)
-before changing it.
-
-Done when every term the change introduces or renames is in the glossary and
-the code uses it.
+Done when every term the change adds or renames is in the glossary and the code
+uses it.
 
 ## 2. Bounded contexts
 
-- Each context is a module that owns its capability, its terms and its data.
-  Contexts meet only through each other's public API; translate at that
-  boundary. Each context owns its tables and entity classes.
-- Domain code imports only the language and its standard library: no
-  framework, persistence, transport or serialization types.
-- Enforce both with a boundary test in CI, using
-  [boundary checks](references/boundary-checks.md). An existing codebase
-  records its current violations as a baseline, so only new ones fail.
+- A context owns its capability, terms and data. Contexts meet only through
+  each other's public API and translate at that edge.
+- Domain code imports no framework, persistence, transport or serialization
+  types.
+- Enforce both with a CI boundary test
+  ([boundary checks](references/boundary-checks.md)). An existing codebase
+  records its current violations as a baseline so only new ones fail.
 
-Done when the boundary test runs in CI and passes against the baseline.
+Done when the boundary test runs in CI and passes.
 
 ## 3. Decider
 
-For a context whose state changes under business rules, model it as a
-decider ([templates](references/decider.md)):
+For a context whose state changes under business rules
+([templates](references/decider.md)):
 
-- Commands (`ReserveSeat`), events in the past tense (`SeatReserved`) and
-  rejections (`SeatAlreadyTaken`) are closed types, matched exhaustively.
+- Commands (`ReserveSeat`), past-tense events (`SeatReserved`) and rejections
+  (`SeatAlreadyTaken`) are closed types, matched exhaustively.
 - `decide(command, state)` is pure and returns events or a rejection.
-- `evolve(state, event)` applies one event, covers every state and never
-  fails.
-- The lifecycle is an explicit state type, so an invalid state is
-  unrepresentable.
-- Size the aggregate to the smallest data that must stay consistent in one
-  transaction. Reference other aggregates by identity. A rule spanning
-  aggregates gets its own aggregate, or a policy that reacts to events.
-- The application service loads state, calls `decide`, applies `evolve`,
-  saves and publishes. It holds no business rule.
+  `evolve(state, event)` applies one event and never fails.
+- The lifecycle is an explicit state type, so an invalid state cannot be built.
+- An aggregate is the smallest data that must be consistent in one transaction.
+  It refers to other aggregates by id. A rule across aggregates becomes its own
+  aggregate or a policy reacting to events.
+- The application service loads, calls `decide`, applies `evolve`, saves and
+  publishes. It holds no rule.
 
-Store state in the database by default. Choose event sourcing for a context
-whose history itself has business value, such as a ledger or an audit trail,
-and record that choice in an ADR.
+Store state by default. Use event sourcing only when the history itself has
+business value (a ledger, an audit trail), and record that in an ADR.
 
-Done when every business rule of the change lives in a `decide` function and
-the compiler rejects an unhandled command, event or state.
+Done when every rule lives in a `decide` function and the compiler rejects an
+unhandled command, event or state.
 
 ## 4. Invariants
 
-Write a property-based test for each invariant of a decider: generate command
-sequences, fold them through `decide` and `evolve`, and assert the invariant
-on every resulting state. Use jqwik in Java, fast-check in TypeScript and
-Hypothesis in Python. Where the risk justifies a proof, such as money, hand
-`decide` to formal-verification.
+For each invariant of a decider, write a property test: generate command
+sequences, fold them through `decide` and `evolve`, assert the invariant on
+every state (jqwik, fast-check, Hypothesis). Where the risk justifies a proof,
+such as money, use `formal-verification`.
 
-Done when each invariant named in the glossary or the plan has a property test
-that fails when the rule is removed.
+A new context starts as a skeleton: glossary entries, the closed types, the
+`decide` and `evolve` signatures and these tests, failing. Implementation
+follows in a later commit.
 
-## 5. Skeleton first
+Done when each invariant has a test that fails when you delete the rule.
 
-A new context starts as a skeleton: glossary entries; command, event,
-rejection and state types; `decide` and `evolve` signatures; and the invariant
-tests, failing. Implementation follows in a later commit.
+## 5. Integration
 
-## 6. Integration
+Add the pattern the risk calls for, with its check
+([patterns](references/integration.md)):
 
-Around a decider, add the pattern the risk calls for, with its check, from
-[integration](references/integration.md):
+| Risk | Pattern |
+| --- | --- |
+| A command that moves money or stock may be retried | idempotency key |
+| Two writers race on one aggregate | optimistic concurrency |
+| A side effect leaves the database | transactional outbox |
+| A flow spans aggregates | process manager |
+| A client works offline | local queue, server authority |
 
-- a command that moves money or inventory may be retried: idempotency key;
-- two writers may race on one aggregate: optimistic concurrency;
-- a side effect leaves the database: transactional outbox;
-- a flow spans aggregates: process manager;
-- a client must work offline: local queue with server authority.
+Done when each risk the change introduces has its pattern and a passing check,
+or the pull request names the risk accepted.
 
-Done when each risk the change introduces has its pattern and its passing
-check, or the pull request names the risk accepted instead.
+## Example
 
-## Reviewing a model
+A request says "cancel the order". The glossary has **Order** (a customer's
+purchase) and **Shipment** (goods leaving the warehouse).
 
-Use [review](references/review.md). Lead with findings ordered by severity,
-each tied to the language, invariant, lifecycle or coupling evidence behind
-it; say plainly when the model is sound.
+- Probe: "Can a shipped order be cancelled? Can one line be?"
+- Answer: only unshipped orders, whole order.
+- Write: `**Cancellation**: ending an unshipped **Order** before it ships.`
+  `_Avoid_: void, abort`.
+- Decider: `CancelOrder` on a `Shipped` state returns `OrderAlreadyShipped`.
+- Invariant test: for any command sequence, a shipped order never reaches
+  `Cancelled`.
+
+## Review a model
+
+Use [the review checklist](references/review.md). Findings first, most severe
+first, each tied to the language, invariant, lifecycle or coupling evidence.
+Say plainly when the model is sound.

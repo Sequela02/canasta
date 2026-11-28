@@ -1,66 +1,66 @@
-> Reference for `spring-boot`, formerly the `backend-testing` skill.
+# Testing a Spring Boot service
 
-# Backend Testing
+Prove behavior and production risk with the smallest test that exercises the real
+contract. Chase risks, not a coverage number.
 
-Prove behavior and production risk with the narrowest test that exercises the
-real contract. Do not optimize for a universal coverage percentage.
+## Pick the boundary
 
-## Select The Test Boundary
-
-| Contract | Preferred test |
+| Contract | Test |
 | --- | --- |
-| Domain invariant or state transition | Plain managed JUnit, no Spring |
-| Application orchestration and ports | Plain test with fakes or focused mocks |
-| Module dependency rules | Spring Modulith or ArchUnit when adopted |
-| Controller HTTP semantics and security | MVC slice with the repository's current Boot test starter |
-| JSON contract | JSON slice or explicit mapper contract test |
-| JPA mapping, query, constraint, lock, migration | Data slice or integration test with PostgreSQL Testcontainers |
-| Outbound HTTP adapter | REST client slice plus provider contract fixture |
-| Full startup or cross-adapter flow | `@SpringBootTest` only when smaller tests cannot prove it |
-| Public SDK/event/API compatibility | Consumer/provider or schema contract test |
+| Domain rule or state transition | Plain JUnit, no Spring |
+| Application orchestration and ports | Plain test with fakes or a few mocks |
+| Module dependency rules | Spring Modulith or ArchUnit, where adopted |
+| Controller routing, validation, status, errors, security | MVC slice (`@WebMvcTest`) |
+| JSON shape | JSON slice or a mapper contract test |
+| JPA mapping, queries, constraints, locks, migrations | Data slice or integration test on PostgreSQL via Testcontainers |
+| Outbound HTTP client | REST client slice plus a provider contract fixture |
+| Startup or cross-adapter flow | `@SpringBootTest`, only when smaller tests cannot prove it |
+| Public SDK, event or API compatibility | Consumer and provider or schema contract test |
 
-Read [spring-testing.md](spring-testing.md) when choosing
-Boot annotations, clients, mocks, or container wiring.
+## Procedure
 
-## Workflow
+1. Name the behavior, who relies on it, how it can fail and what you can observe.
+2. For a bug, write the smallest failing test first.
+3. Match what the contract needs from production: database, serialization,
+   security, clock.
+4. Keep fixtures synthetic, minimal and visible in the test.
+5. Assert public behavior, stored state, emitted events and side effects, not
+   private details.
+6. Run the focused test, then the module, then the repository gates; report any
+   Docker or provider dependency you could not run.
 
-1. Name the behavior, consumer, failure mode, and observable result.
-2. Reproduce a bug with the smallest failing test when practical.
-3. Match the production database, serialization, security, clock, and runtime
-   behavior needed by the contract.
-4. Keep fixtures synthetic, portable, minimal, and explicit.
-5. Assert public behavior, persisted state, emitted events, and side effects;
-   avoid private implementation details.
-6. Run the focused test; widen to module or repository gates when affected
-   contracts or repository requirements justify them.
+## Spring specifics
 
-## High-Risk Coverage
+- Resolve test APIs from the installed Boot line before writing imports. Recent
+  lines offer focused test starters, `MockMvcTester`, `RestTestClient` and
+  `@MockitoBean`; do not write wrappers to compile across unrelated generations.
+- A controller slice must prove routing, validation, serialization, status,
+  headers, error bodies and the real security layer. A data slice uses the
+  production database when dialect, locking, JSON, ranges or migrations matter.
+- Containers: prefer Boot service connections or the repository's dynamic-property
+  pattern, match the production database major, avoid hidden shared containers in
+  CI, and wait on container readiness rather than sleeping.
+- Security: cover unauthenticated, unauthorized, wrong-tenant, expired or invalid
+  token, CSRF-sensitive and allowed paths. Do not switch off method security to
+  simplify a slice; use test principals whose claims match the real contract.
+- Time and races: inject a clock. For races, run competing transactions in a
+  controlled order and assert the database invariant, never a sleep.
 
-- Tenant and organization isolation, ownership checks, and denied paths.
-- Payment/webhook signatures, idempotency, retries, ordering, and state changes.
-- Booking, inventory, admission, expiration, clocks, and concurrent conflicts.
-- Flyway preflights, migration from supported states, and startup failure.
-- JSON records, enums, time, money, errors, pagination, and SDK-facing DTOs.
-- Logs, metrics, and traces for critical operations without secret or
-  high-cardinality leakage.
-- Timeouts, unavailable dependencies, partial failures, retry exhaustion, and
-  recovery behavior.
+## High-risk cases to cover
 
-## Test Quality
+- Tenant isolation, ownership checks and denied paths.
+- Webhook signatures, idempotency, retries, ordering and state changes for payments.
+- Bookings, inventory, expiry, clocks and concurrent conflicts.
+- Flyway preflights, migration from supported states and startup failure.
+- JSON for records, enums, time, money, errors, pagination and SDK DTOs.
+- Timeouts, unavailable dependencies, partial failure, retry exhaustion, recovery.
 
-- Prefer behavior names over framework-oriented names.
-- Mock external boundaries, not the business rules being tested.
-- Avoid overspecified interaction counts unless the call itself is the contract.
-- Keep repeated setup visible until a fixture or factory removes substantial
-  noise without hiding the scenario.
-- Quarantine is temporary debt with an owner and removal condition, never a
-  permanent answer to flaky tests.
-- Coverage reports are navigation aids. Missing risk coverage matters more than
-  an arbitrary percentage.
+## Test quality
 
-## Gate
+- Name tests after behavior.
+- Mock external boundaries, not the rules under test, and do not assert call counts
+  unless the call is the contract.
+- Keep repeated setup visible until a factory removes real noise.
+- A quarantined flaky test is debt with an owner and a removal condition.
 
-Use repository-defined commands. Typical Gradle sequencing is a specific test,
-the owning test task, integration or architecture tests, quality gates, build,
-and container smoke verification when packaging changed. Report unavailable
-Docker/provider/system dependencies as residual risk.
+Docs: Spring Boot "Testing", Spring Framework "Testing", Testcontainers' Spring Boot guides.

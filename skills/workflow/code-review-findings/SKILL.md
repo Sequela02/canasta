@@ -1,102 +1,101 @@
 ---
 name: code-review-findings
-description: Review completed code changes findings-first with severity,
-  evidence, actionable defect risk, and verification gaps.
+description: "Review a diff, branch or finished change before merge: find bugs, regressions and missing tests, and give each finding a severity, the file and line, and a check that confirms it. Use for 'review this diff before I merge it' and 'check my finished change for bugs'."
 tags:
   - engineering
   - review
+metadata:
+  source: "code-review-and-quality by Addy Osmani, addyosmani/agent-skills e997ac5"
+  changes: "The review dimensions, the approval standard and the structural remedies come from code-review-and-quality; the Intent and Standards lenses, confirmation of every finding by a check, unverified findings and the output block are this pack's own"
 ---
 
-# Code Review Findings
+# Code review findings
 
-Use this skill for quality gates and completed-change review.
+Use it to review a completed change before it merges. Report defects the
+change introduces or exposes, each confirmed by a check. Approve a change that
+improves the code, even when you would have written it differently.
 
-Workflow:
-1. Read the task, contract, and relevant repository context before judging the
+## Procedure
+
+1. Read the task, the issue or spec, and the nearby code before judging the
    diff. Fix the comparison point (a commit, branch or merge-base) and include
-   uncommitted working-tree changes when they are in scope. Inspect targeted
-   surrounding code, dependencies, and tests; avoid indiscriminate context
-   loading.
-2. Map the changed surface and likely blast radius. Review every human-authored
-   line in scope or state the exceptions.
-3. Check correctness, regressions, security and authority, boundary direction,
-   failure handling, concurrency and data integrity, maintainability, and
-   verification gaps. Treat explanation debt as a maintainability or architecture
-   risk when safe change depends on creator or session context. Name specialist
-   review that remains necessary.
-4. Apply two separate lenses and report them separately, because a change can
-   pass one and fail the other:
-   - **Intent:** against the issue, spec, or request, what is missing or
-     partial, what was added beyond it, and what looks implemented but wrong.
-     Quote the requirement. Say so when no spec exists.
-   - **Standards:** against the repository's documented standards, cite the
-     rule. Skip what tooling already enforces; a documented repository
-     standard overrides general smells, which stay judgment calls.
-   Use an independent reviewer per lens only when risk justifies the cost;
-   reviewers agreeing is not evidence.
-5. Review tests as production code: confirm that they are correct, reliable,
-   behavior-focused, and contribute a distinct behavioral signal. A missing test
-   is a finding only when a material behavior is unprotected and a specific test
-   would close the gap.
-6. Confirm each candidate finding before you report it. Run the narrowest check
-   you can without changing the files under review: an existing test, a short
-   script, or an executable counterexample. Keep the command and its result.
-   Reasoning about the code is a hypothesis, not a confirmation, and a candidate
-   that a check refutes is dropped.
-7. When confusion reveals durable missing knowledge, repair the narrow canonical artifact:
-   clearer code or names first, then tests, the owning architecture or
-   operations document, or a decision record when persistent rationale matters.
-   A review-thread explanation alone does not resolve the finding.
+   uncommitted changes when they are in scope.
+2. Map what changed and what it can reach. Review every human-written line in
+   scope, or say which you skipped.
+3. Look at the change through these dimensions:
+   - correctness: requirement met, edge cases, error paths, races, data
+     integrity;
+   - tests: correct, reliable, and giving a distinct signal (they are
+     production code too);
+   - security and authority: input validation, secrets, who may do what;
+   - architecture: dependencies pointing the right way, logic in the layer
+     that owns it, a new pattern justified;
+   - readability: names, control flow, abstractions that earn their weight;
+   - performance: unbounded loops or fetches, N+1 queries, work in hot paths.
+   Name any specialist review still needed.
+4. Review twice and report apart, because a change can pass one and fail the
+   other:
+   - **Intent:** against the issue, spec or request, what is missing, partial,
+     added beyond it, or implemented but wrong. Quote the requirement, or say
+     no spec exists.
+   - **Standards:** against the repository's written rules, cite the rule. Skip
+     what a tool already enforces. A written standard overrides general taste.
+5. Confirm each candidate before reporting it. Run the narrowest check that
+   leaves the files under review unchanged: an existing test, a short script,
+   a counterexample. Keep the command and its result. Reading the code gives a
+   hypothesis; a candidate that a check refutes is dropped.
+6. When you can't run it, because it depends on code you can't see, build a
+   minimal harness or reconstruct the missing part from what the diff shows.
+   If it still can't be confirmed, report it as unverified with its condition,
+   its impact and the check that would settle it. A real defect left in a
+   footnote is a missed finding.
+7. When confusion shows missing durable knowledge, fix the narrowest owner:
+   clearer code or names, then a test, then the architecture or operations
+   doc, then a decision record. A reply in the review thread doesn't fix it.
 
-Finding admission:
-- Report only an issue introduced or exposed by the change with a concrete
-  condition and material impact.
-- Anchor the finding to the narrowest file and line evidence, and explain the
-  causal path from input or state to observable failure.
-- Rank severity by impact, reach, and recoverability, not by rhetorical
-  confidence. If verification is incomplete, say so.
-- When you can't run a candidate, for example because it depends on code you
-  can't see, reproduce it with a minimal harness or reconstruct the missing
-  part from what the diff proves. If you still can't confirm it, report it as
-  an unverified finding with its condition, impact and the check that would
-  settle it, not only as a verification gap: a real defect demoted to a
-  footnote is a missed finding.
-- Do not report speculative findings, stylistic preferences, or mechanically
-  enforced concerns as defects. A finding is speculative when nothing in the
-  change supports it, not when part of its evidence is out of view.
-- Do not demand duplicate tests, raw coverage increases, or implementation-detail
-  assertions when existing tests already protect the behavior.
+## What counts as a finding
 
-Output:
-1. Lead with findings ordered by severity; omit summaries before findings.
-2. Give each defect its own finding, written as this block:
+- It is introduced or exposed by this change, has a concrete triggering
+  condition, and a material impact.
+- It points to the narrowest file and line and traces the path from input or
+  state to the visible failure.
+- Severity follows impact, reach and recoverability, not how sure you feel.
+- A missing test counts when a specific material behavior is unprotected and a
+  named test would close the gap. Existing tests that already protect the
+  behavior need no duplicate.
+- Style preferences, tool-enforced rules and guesses the change doesn't
+  support are left out. A guess is speculative when nothing in the change backs
+  it, not when part of its evidence is out of view.
 
-   ```text
-   1. src/cart.ts:22, medium: a discount over 100% makes the total negative.
-      applyDiscount subtracts percent / 100 * total without a cap, so a
-      150% coupon charges -50.00 against the spec's "never below zero".
-      Fix: clamp the result at zero.
-      Confirmed: node -e "<harness>" → total(100, 150) returned -50.
-   ```
+When you flag a structural problem, name the move: replace a conditional chain
+with a model, collapse duplicate branches, reuse the existing helper, move
+feature logic to its owner, delete a pass-through wrapper. Prefer the remedy
+that removes moving parts. State the direction in a sentence; leave the
+rewrite to the author.
 
-   - First line: `file:line`, severity and the defect.
-   - Then the triggering condition and its impact, in one or two sentences.
-     Quote the requirement only for an intent finding.
-   - Then the narrowest correction direction, in one sentence, without
-     rewriting the author's solution.
-   - Last, one status line: `Confirmed: <command> → <result>`, or
-     `Unverified: <the check that would settle it>`. Every finding ends with
-     one, also when you could run nothing. A finding supported only by reading
-     the code is unverified. Don't replace the status lines with a summary of
-     what you ran.
-3. Report only admitted findings. Leave out observations that fail admission;
-   don't list them under another heading.
-4. Don't summarize a lens or a standard that found nothing.
-5. End with one or two lines: the surface you reviewed, what you couldn't
-   review or run, and the residual risk.
-6. With no findings, write only `No findings.` and the closing lines of item 5.
-   Do not invent a finding to avoid an empty result.
-7. Cut every word that does no work. Keep numbers, conditions, identifiers and
-   negations exactly.
+## Output
 
-Do not rewrite the author's intent unless the evidence shows a real problem.
+Findings first, most severe first, no summary before them. One block per
+defect:
+
+```text
+1. src/cart.ts:22, medium: a discount over 100% makes the total negative.
+   applyDiscount subtracts percent / 100 * total without a cap, so a
+   150% coupon charges -50.00 against the spec's "never below zero".
+   Fix: clamp the result at zero.
+   Confirmed: node -e "<harness>" -> total(100, 150) returned -50.
+```
+
+- Line one: `file:line`, severity, the defect.
+- Then the condition and impact in a sentence or two; quote the requirement
+  for an intent finding.
+- Then the correction direction in one sentence.
+- Then one status line: `Confirmed: <command> -> <result>`, or
+  `Unverified: <the check that would settle it>`. A finding backed only by
+  reading the code is unverified, also when you ran nothing.
+
+Report only admitted findings; leave other observations out. Skip a lens that
+found nothing. End with one or two lines: the surface reviewed, what you
+couldn't review or run, and the residual risk. With no findings, write
+`No findings.` and those lines. Cut every word that does no work, and keep
+numbers, conditions, identifiers and negations exact.

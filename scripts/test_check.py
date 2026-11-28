@@ -45,6 +45,11 @@ class AgentInventoryTests(unittest.TestCase):
         expected = Path("skills/workflow/task-closeout/SKILL.md")
         self.assertIn(f"Tool-specific metadata: {expected}", check(self.root))
 
+    def test_adapted_skill_needs_a_notice(self):
+        (self.root / "skills/workflow/writing-pr/NOTICE").unlink()
+        expected = Path("skills/workflow/writing-pr")
+        self.assertIn(f"Adapted skill without a NOTICE or LICENSE.txt: {expected}", check(self.root))
+
     def test_unquoted_description_with_colon(self):
         path = self.root / "skills/stack/typescript-standards/SKILL.md"
         text = path.read_text(encoding="utf-8")

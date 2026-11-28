@@ -138,7 +138,6 @@ In the order a task usually meets them.
 - [security-scope-review](skills/workflow/security-scope-review/SKILL.md): follow authority and untrusted data to where it matters.
 - [formal-verification](skills/workflow/formal-verification/SKILL.md): prove contracts without mistaking the proof for the intent.
 - [benchmark-readiness-review](skills/workflow/benchmark-readiness-review/SKILL.md): whether a benchmark claim holds up.
-- [config-projection-review](skills/workflow/config-projection-review/SKILL.md): one source of truth for configuration.
 
 **Write**
 
@@ -151,7 +150,7 @@ In the order a task usually meets them.
 
 - [task-closeout](skills/workflow/task-closeout/SKILL.md): finish a task clean: no scratch left, nothing private, a handoff when needed.
 - [documentation-hygiene](skills/workflow/documentation-hygiene/SKILL.md): where docs go, and keeping them current.
-- [repository-text-hygiene](skills/workflow/repository-text-hygiene/SKILL.md): fix encoding, line-ending and Git drift.
+- [line-ending-drift](skills/workflow/line-ending-drift/SKILL.md): fix encoding, line-ending and Git drift.
 
 **Set up**
 

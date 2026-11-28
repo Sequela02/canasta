@@ -1,119 +1,93 @@
 ---
 name: rust-standards
-description: "Rust judgment: workspace layout, module rules, crate choices, determinism, testing, errors and NAPI bindings. Use when editing .rs files or Cargo manifests."
+description: "Write Rust: error handling, borrowing vs cloning, module and crate layout, clippy, tests, deterministic output and NAPI bindings to Node. Use when editing .rs files or Cargo.toml."
 paths: ["**/*.rs", "**/Cargo.toml"]
+metadata:
+  source: "rust-best-practices by Apollo GraphQL, apollographql/skills 13ff457"
+  changes: "Borrowing, lint-expectation and type-state guidance adapted; workspace, determinism and NAPI rules are canasta's own"
 ---
 
-# Rust Standards (cross-project)
+# Rust standards
 
-Coding standards, tooling, and crate choices for any project that uses
-Rust. A repository's own Rust guidance wins where the two differ.
+A repository's own Rust guidance wins. Read the toolchain and edition in
+`rust-toolchain.toml` and `Cargo.toml`, and the Rust docs for that version.
+New crates take the latest stable edition (`cargo new` picks it) and pin the
+toolchain in `rust-toolchain.toml`.
 
-## Edition & toolchain
+## Procedure
 
-- **Rust edition: 2024** (stable since Rust 1.85, the default for `cargo new`).
-  Default new projects to it.
-- Pin the toolchain with `rust-toolchain.toml` at the repo root so everyone
-  builds with the same version.
-- Target MSRV: latest stable at project start. No nightly features.
+1. Read the crate's `Cargo.toml`, its public API in `lib.rs` and a neighboring
+   module before you add code.
+2. Keep one concept per module. Expose the public API from `lib.rs` with explicit
+   `pub use`; everything else is `pub(crate)`. Import names explicitly, no `use foo::*`.
+3. Take `&str`, `&[T]` and `&T` in parameters. Clone only when you need ownership,
+   and not inside a loop. Pass small `Copy` types by value.
+4. Libraries return a `thiserror` enum from fallible functions. Binaries and
+   examples use `anyhow::Result` in `main`. Validate at the public entry points and
+   trust internal state after that.
+5. Library code has no `unwrap()` or `expect()` outside tests; use `?`. Use
+   `unreachable!("why")` only for states that cannot happen.
+6. Log with `tracing` events, not `println!`. Keep hot loops free of logging
+   above `trace!`.
+7. Run `cargo fmt` and `cargo clippy --all-targets --all-features --locked -- -D warnings`.
+   Fix the warning; if you must silence one, use `#[expect(clippy::lint)]` with a
+   reason, which fails once the warning goes away.
+8. Test: unit tests in `#[cfg(test)] mod tests`, integration tests in `tests/`
+   through the public API, `proptest` for domain invariants, `insta` snapshots
+   where output must not change. Benchmark hot-path changes before and after with
+   `criterion` and report the difference.
 
-## Project structure
+## Example
 
-- Cargo workspace at the repo root, one crate per concern.
-- Keep the core library free of host-binding knowledge (no Node, NAPI or JS in
-  it). A separate bridge crate wraps it for the host.
-- Integration tests in `tests/` (black-box, through the public API), benchmarks
-  in `benches/`, runnable dev tools in `examples/`.
+A function that returns a name from a config.
 
-## Module rules
+Bad:
 
-- Public API lives in `lib.rs` with explicit `pub use` re-exports.
-- Internal modules are `pub(crate)` by default.
-- No wildcard `use` imports. Always explicit.
-- One logical concept per module; split when a file exceeds ~300 lines.
-
-## Dependencies
-
-| Crate | Purpose | Note |
-|---|---|---|
-| `serde` + `serde_json` | Serialization | The standard choice |
-| `thiserror` | Error types in library code | Idiomatic for libraries |
-| `anyhow` | Error context in binaries and examples | Not inside library code |
-| `tracing` + `tracing-subscriber` | Structured logging | Structured, async-ready |
-| `rand` + `rand_chacha` | Seeded RNG when output must be reproducible | ChaCha is deterministic across platforms |
-
-Dev dependencies: `criterion` (benchmarks), `proptest` (property tests),
-`insta` (snapshot tests). Add others when a project needs them; do not pull in
-a framework (ECS, async runtime, graphics) a project's scale does not need.
-
-## Determinism rules
-
-Apply when output must be reproducible (simulation, replay, content hashes):
-
-1. Every source of randomness goes through a single seeded RNG handle passed
-   explicitly. No `thread_rng()`. No `rand::random()`.
-2. The seed is part of the input.
-3. No wall-clock reads in the computation; model time explicitly.
-4. No `HashMap` iteration-order dependence. Use `BTreeMap` when order matters,
-   or sort keys before iterating.
-5. Floating-point ordering matters. Avoid relying on non-associative FP
-   operations in cross-platform paths.
-6. A snapshot test pins it: seed X + inputs Y always produce output Z.
-
-## Code style
-
-- `cargo fmt` on every save.
-- `cargo clippy -- -D warnings` passes before commit; CI enforces it.
-- Default clippy lint level is enough unless a repository opts into more.
-- Prefer `&str` over `String` in signatures unless ownership is needed.
-- Prefer iterators over index loops, and `match` over nested `if let` chains.
-- Doc comments (`///`) on every public item. One-liner minimum.
-- No `unwrap()` or `expect()` in library code outside tests and examples.
-- `#[must_use]` on public constructors whose result can be silently dropped.
-
-## Testing standards
-
-- Unit tests live beside the code in `#[cfg(test)] mod tests`.
-- Integration tests in `tests/` exercise only the public API.
-- Property tests (proptest) for invariants the domain guarantees.
-- Snapshot tests (insta) where output must stay byte-identical.
-- Run benchmarks before and after any hot-path change, and report the delta.
-
-## Error handling
-
-- **Library code:** error enums with `thiserror`. Never panic in the public API
-  except for truly unreachable states (`unreachable!()` with a comment why).
-- **Binaries / examples:** `anyhow::Result<()>` in `main`; convert library
-  errors with `?`.
-- Validate at boundaries (public entry points). Trust internal state after.
-
-## Logging / tracing
-
-- Use `tracing` structured events, not `println!`, in library code.
-- Keep hot loops free of logging above `trace!`.
-
-## NAPI bridge rules
-
-- The bridge crate only wraps library APIs; no domain logic lives there.
-- `crate-type = ["cdylib"]` in its `Cargo.toml`.
-- Use the `#[napi]` macro; back expensive calls with async thread-pool tasks.
-- Prefer `Uint8Array` / `Buffer` for large binary payloads over JSON strings.
-- Check the generated TypeScript bindings (`napi build --dts`) into the TS side.
-
-## Tooling
-
-```bash
-rustup default stable
-rustup component add rustfmt clippy
-cargo install cargo-nextest        # faster test runner
-cargo install cargo-llvm-cov       # coverage
-cargo install flamegraph           # profiling (requires perf/dtrace)
+```rust
+pub fn name(cfg: &Config) -> String {
+    cfg.name.clone().unwrap()
+}
 ```
 
-## Anti-patterns to never commit
+Good:
 
-- Wildcard imports (`use foo::*`)
-- `unwrap()` / `expect()` in non-test library code
-- `Box<dyn Error>` in a library instead of a proper error enum
-- Panics used as control flow
-- `unsafe` without a `// SAFETY:` comment stating the invariant it relies on
+```rust
+pub fn name(cfg: &Config) -> Result<&str, ConfigError> {
+    cfg.name.as_deref().ok_or(ConfigError::MissingName)
+}
+```
+
+It borrows instead of cloning, and the caller learns what is missing.
+
+## Layout
+
+- A Cargo workspace at the root with one crate per concern. The core library knows
+  nothing about Node, NAPI or JavaScript; a separate bridge crate wraps it.
+- `benches/` for benchmarks, `examples/` for runnable tools.
+- Put `unsafe` behind a safe API and write `// SAFETY:` above each block with the
+  invariant it relies on.
+- Prefer a plain `match` over nested `if let`, and iterators over index loops.
+- Add types that make illegal states unrepresentable, such as a type-state
+  `Connection<Connected>` that alone has `send`, when a wrong call order is a real bug.
+- Add a framework (async runtime, ECS, graphics) only when the project's size needs it.
+
+## Reproducible output
+
+When output must repeat exactly (simulation, replay, content hashes):
+
+1. Pass one seeded RNG handle (`rand_chacha`) into the code; never `thread_rng()` or
+   `rand::random()`. The seed is part of the input.
+2. Do not read the wall clock inside the computation; pass time in.
+3. Do not depend on `HashMap` iteration order: use `BTreeMap` or sort the keys.
+4. Do not rely on floating-point operation order across platforms.
+5. Pin it with a snapshot test: seed X and input Y give output Z.
+
+## NAPI bridge
+
+- `crate-type = ["cdylib"]`; the bridge only wraps library calls and holds no
+  domain logic.
+- Mark exports with `#[napi]` and run expensive calls as async tasks on the thread pool.
+- Send large binary data as `Uint8Array` or `Buffer`, not JSON strings.
+- Generate the TypeScript declarations with the NAPI CLI (check its docs for the
+  installed major's flag) and commit them on the
+  TypeScript side.

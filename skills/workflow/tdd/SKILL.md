@@ -1,111 +1,114 @@
 ---
 name: tdd
-description: "Change behavior test-first in small vertical slices, design trustworthy test oracles, or diagnose flaky, slow, redundant, or weak tests. Not for restructuring that keeps behavior (refactor)."
+description: "Fix a bug or add behavior test-first: write a failing test for the bug, watch it fail, then fix it. Also for choosing trustworthy test oracles and diagnosing flaky, slow or weak tests. Not for restructuring that keeps behavior (refactor)."
+metadata:
+  source: "test-driven-development by Jesse Vincent, obra/superpowers 22f0b46; diagnosing-bugs by Matt Pocock, mattpocock/skills 5beb35b"
+  changes: "The core rule and the worked red/green example come from superpowers; the reference on diagnosing hard bugs comes from mattpocock/skills (see NOTICE); independent oracles, characterization versus specification oracles, agent failure modes, flaky-test handling and the limit on what the loop proves are this pack's own"
 ---
 
 # TDD
 
-Work in small behavior increments, each proven by a test that failed for the
-right reason first. Test-first order is a feedback discipline, not a quality
-guarantee; the evidence is in [references/evidence.md](references/evidence.md).
+If you didn't watch the test fail, you don't know whether it tests the right
+thing. Work in small increments, each proven by a test that failed for the
+right reason first. Test-first order is a feedback habit, not a guarantee of
+quality; the evidence is in [references/evidence.md](references/evidence.md).
 
-## Agent failure modes
-
-Coding agents fail at TDD in known ways. These rules override convenience:
-
-- Never edit, delete, skip, or weaken a test to make it pass. If a test looks
-  wrong, stop and report why; changing it is the operator's decision.
-- Do not special-case test inputs or detect the test environment in
-  production code.
-- Do not mock code you own. Mock only at real system boundaries (network,
-  clock, third-party services), and keep the semantics the claim depends on.
-- Give each assertion an independent oracle: a requirement, a known example,
-  or a domain rule. A test that duplicates the implementation's calculation
-  can preserve its mistakes instead of detecting them.
-- Do not write all tests up front. Tests written before any implementation
-  describe imagined behavior.
-
-## Before the first test
-
-1. Identify the observable behavior, its owning boundary, affected consumers,
-   and the closest existing test owner.
-2. Choose the seam: the public interface where the behavior is observed without
-   reaching inside. Test only through agreed seams; when the seam is unclear,
-   ask before writing tests.
-3. Choose the oracle. A specification or regression oracle comes from a
-   requirement, contract, issue reproduction, or domain invariant, never only
-   from the current implementation. A characterization oracle records current
-   behavior and counts as preservation evidence only.
-4. In unclear legacy code, add narrow characterization tests first, then the
-   intended failing test.
-
-## Vertical slices
+## The loop
 
 Repeat for each increment, one test at a time:
 
-1. Write one test for the smallest behavior that can fail and pass on its own.
-2. Run it and confirm it fails because the behavior is absent, not because of
-   syntax, environment, fixtures, or an unrelated baseline failure.
-3. Implement only enough to pass it, preserving repository invariants.
-4. Rerun it and read the result, not just the exit code.
-5. Refactor only while behavior stays the same, rerunning the tests that cover
-   the affected code and its callers.
+1. **Red.** Write one test for the smallest behavior that can fail and pass on
+   its own. Run it. Confirm it fails because the behavior is missing, not
+   because of syntax, setup or an unrelated failure. Read the message.
+2. **Green.** Write only enough code to pass it. Run it again and read the
+   result, not just the exit code.
+3. **Refactor.** Tidy while the tests stay green, rerunning them and their
+   callers.
 
-Then run the owning suite and affected downstream suites; widen to the full
-gate when risk, integration, or repository rules require it. If a failing test
-is impractical, say why and use the closest independent executable check.
+Then run the owning suite and affected downstream suites, and widen to the
+full gate when risk or repository rules call for it. If a failing test is
+impractical, say why and use the closest independent executable check.
+
+Worked case: "the total ignores the discount."
+
+```text
+Red:    test('applies a 10% discount', () => expect(total([{ price: 50 }], 10)).toBe(45))
+        run -> FAIL: expected 45, received 50      (the bug, not a typo)
+Green:  total() now subtracts percent / 100 * subtotal
+        run -> PASS
+Next:   test('never goes below zero at 150%') -> red first, then green
+```
+
+A test that passes the first time proves nothing yet: it checks behavior that
+already exists, or checks the wrong thing. Fix the test until it goes red for
+the right reason.
+
+For a reported bug, reproduce it before fixing it. When the cause isn't
+obvious, follow [references/diagnosing-bugs.md](references/diagnosing-bugs.md):
+a command that goes red on this symptom, a minimal case, falsifiable
+hypotheses, and the minimal case kept as the regression test. Set a budget,
+and report what was tried when it runs out.
+
+## Before the first test
+
+1. Name the observable behavior, its owning boundary and the nearest existing
+   test.
+2. Pick the seam: the public interface where the behavior shows without
+   reaching inside. If it is unclear, ask before writing tests.
+3. Pick the oracle, the source of the expected value. A specification or
+   regression oracle comes from a requirement, contract, bug report or domain
+   rule. A characterization oracle records what the code does now and proves
+   preservation only. In unclear legacy code, write narrow characterization
+   tests first, then the failing test for the change.
+
+## Rules that agents break
+
+- When a test looks wrong, stop and report why. Changing it is the operator's
+  decision; editing, skipping or weakening it to get green is not allowed.
+- Production code has no special cases for test inputs and no test-environment
+  detection.
+- Mock only at real boundaries (network, clock, third-party services), keeping
+  the semantics the claim depends on. Code you own runs for real.
+- Take each expected value from an independent oracle. A test that repeats the
+  implementation's calculation keeps its mistakes.
+- Write tests one at a time, after the behavior is clear. Tests written all
+  up front describe behavior you imagined.
 
 ## Choose the layer by risk
 
-Use the narrowest layer that faithfully observes the behavior:
+Use the narrowest layer that shows the behavior faithfully: pure tests for
+calculations and state transitions; integration tests for wiring,
+persistence, protocols and configuration; contract tests for the agreed shape
+between consumer and provider; a few end-to-end tests for critical journeys;
+runtime probes when the browser, OS or packaging changes the result. To prove
+a change in the running product, follow
+[references/end-to-end-verification.md](references/end-to-end-verification.md).
 
-- Pure or domain tests for calculations, decisions, state transitions, invariants.
-- Integration tests for real wiring, persistence, protocols, configuration, and
-  dependency behavior invisible below the boundary.
-- Contract tests for agreed consumer and provider shape and semantics.
-- End-to-end tests for a few critical journeys lower layers cannot prove.
-- Runtime-specific probes when the runtime, browser, OS, or packaging changes
-  behavior.
+## Keep tests worth having
 
-Follow risks and oracles, not fixed pyramid ratios. To prove a change in the
-running product, follow [references/end-to-end-verification.md](references/end-to-end-verification.md).
+- Search the owning layer for a test of the same behavior and strengthen it
+  before adding another.
+- Each new test protects a distinct behavior, regression or failure mode, and
+  fails with a message that says what broke.
+- Coverage shows code nothing runs; mutation testing on changed, high-risk
+  code shows whether assertions notice change. Neither number proves anything.
+- Remove an obsolete or implementation-coupled test only with evidence the
+  behavior stays protected.
 
-## Hard bugs
+## Flaky and slow tests
 
-For a reported failure, reproduce it before fixing it. When the cause is not
-obvious, follow [references/diagnosing-bugs.md](references/diagnosing-bugs.md): build a command that goes red on
-this exact symptom, minimise it, test falsifiable hypotheses, and turn the
-minimal repro into the regression test. Set a budget for the investigation
-and report what was tried when it runs out; a trivial bug needs no ranked
-hypothesis list.
+- Use synthetic, portable values: no operator paths, credentials or raw
+  incident data.
+- Use isolated temporary resources and restore clocks, environment, globals,
+  working directory, mocks and handles.
+- Replace sleeps with a controllable clock or an event.
+- A retry that passes shows nondeterminism. Find the cause, or quarantine the
+  test with an owner, a reason and a removal condition.
 
-## Keep tests valuable
+## Report
 
-- Before adding a test, search the owning layer for one that covers the same
-  behavior and strengthen it instead.
-- A new test must protect a distinct behavior, regression, boundary, or failure
-  mode, and fail with an actionable message.
-- Coverage finds unexercised code; targeted mutation on changed, high-risk code
-  checks assertion sensitivity. Neither percentage is a goal or proof.
-- Remove obsolete or implementation-coupled tests only with evidence that the
-  behavior stays protected elsewhere.
-
-## Determinism and fixtures
-
-- Use synthetic, portable values. Never put operator paths, credentials, tokens,
-  or raw incident payloads in tests.
-- Use isolated temporary resources, and restore clocks, environment, globals,
-  working directory, mocks, files, and handles.
-- Replace sleeps with a deterministic clock or event.
-- A retry that passes is evidence of nondeterminism, not verification. Fix the
-  cause, or quarantine with an owner, reason, and removal condition.
-
-## Completion report
-
-- Behavior covered, oracle source, layers, and the focused and broader gates run
-  with their results.
-- Every test file added, changed, or deleted, with the reason for each. A change
-  to an existing assertion must name the requirement that justifies it.
-- Residual untested risk.
-
-Do not claim that red-green-refactor itself proves correctness.
+Behavior covered, oracle source, layers, and the focused and broader gates run
+with their results. Every test file added, changed or deleted, with the
+reason; a changed assertion names the requirement behind it. Residual untested
+risk. Red-green-refactor does not by itself prove correctness, so say what was
+checked and no more.

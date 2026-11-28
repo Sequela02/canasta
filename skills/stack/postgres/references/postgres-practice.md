@@ -1,45 +1,33 @@
 # PostgreSQL practice
 
-## Version posture
+Find the supported majors and release notes at
+https://www.postgresql.org/support/versioning/ and
+https://www.postgresql.org/docs/release/. Keep patch versions in runtime
+configuration and images, not in docs or skills.
 
-At the 2026-07-22 scout, PostgreSQL 18 was the current supported major and 19
-was still in beta. Re-check the official supported-version and release pages
-before changing the target:
+## Recording a plan
 
-- https://www.postgresql.org/docs/current/index.html
-- https://www.postgresql.org/docs/release/
-- https://www.postgresql.org/docs/current/upgrading.html
+Write down the SQL, the bind values, the data size, the settings that affect the
+plan, estimated against actual rows, buffers, time, loops, sort spills and locks.
+Fix the largest evidenced cost first.
 
-Keep exact patch versions in runtime configuration and images. Adopt a new
-major only through an explicit data and operations migration.
+## Choosing indexes
 
-## Feature selection
+- Order columns by equality first, then range or sort, using real selectivity.
+- Partial index: a stable hot subset. Expression index: a stable lookup such as
+  `lower(email)`.
+- GIN, GiST or BRIN only when the query uses what they serve.
+- Drop an index only after watching real workload and planning the rollout.
 
-- Consider ordered UUID generation, temporal/range constraints, generated
-  columns, enhanced `RETURNING`, skip scans, and newer monitoring views only
-  when they simplify a real requirement.
-- Do not assume a planner feature removes the need to design and verify indexes.
-- Review authentication deprecations, extensions, collations, full-text indexes,
-  checksums, wire-protocol compatibility, and replication changes during major
-  upgrades.
+## Reviewing a migration
 
-## Plan review
+For each statement note its lock level, whether it rewrites the table, how long
+it takes, disk and WAL growth, the effect on replicas and how you recover.
+Changes that cannot land at the same moment as every consumer use expand,
+migrate, contract.
 
-Record the SQL, representative bind values, data scale, server settings relevant
-to the plan, actual/estimated rows, buffers, timing, loops, sort spills, and lock
-behavior. Optimize the largest evidenced cost before rewriting everything.
+## Reviewing a major upgrade
 
-## Index review
-
-- Match column order to equality, range, ordering, and selectivity evidence.
-- Use partial indexes for stable hot subsets and expression indexes for stable
-  canonical lookup expressions.
-- Use GIN/GiST/BRIN only for access patterns they actually serve.
-- Remove redundant or unused indexes only after workload evidence and rollout
-  planning.
-
-## Migration review
-
-Classify operations by lock level, table rewrite potential, duration, disk/WAL
-growth, replication effect, and rollback/recovery path. Prefer expand/migrate/
-contract for changes that cannot be deployed atomically with all consumers.
+Read the release notes for removed settings, authentication changes, extension
+and collation changes. Take a backup, restore it somewhere safe, run
+`pg_upgrade` or dump/restore there, and run the application's tests against it.

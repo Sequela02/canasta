@@ -1,134 +1,85 @@
 ---
 name: setup-canasta
-description: Detect agent tools and available models, install canasta, and confirm a model or session inheritance for each agent role without replacing local choices.
+description: Install or update canasta in Claude Code, Codex or Pi, link its pack, and pick a model for each agent role (explorer, clerk, worker, reviewer, verifier, advisor), keeping local choices. Use when installing canasta, setting it up in a new agent, or choosing which model each role uses.
 ---
 
 # Set up canasta
 
-Help the user install this pack without assuming one agent, operating system,
-or skills directory. Installation is the exception to this pack's tool-neutral
-working procedures. Use the current [installation guide](references/installation.md) packaged with this skill;
-do not assume a remote release exists yet.
+Install canasta's skills and agent roles into the agent tools the user has,
+without overwriting anything they edited. Follow the
+[installation guide](references/installation.md) for exact commands and paths;
+check each tool's current `--help` when syntax differs.
 
-## Inspect before changing anything
+## 1. Inspect (change nothing)
 
-1. Detect available agent executables and existing agent configuration or skill
-   directories using the environment's read-only inspection capabilities.
-   Check Claude Code, Codex, Pi and other tools the user names. A directory alone
-   is not proof a tool is installed; distinguish found, absent and unknown.
-   Do not crawl unrelated home files or read credentials to detect a tool.
-2. Read each detected tool's current help or official skill-loading guidance.
-   Find existing canasta installs, their scope, revision and installation method.
-   Check for duplicates and locally edited copies; do not overwrite them.
-3. Explain the findings in plain English. Recommend one installation method per
-   tool: native plugin where supported, skills.sh for supported agents, otherwise
-   immediate-child skill folders in the tool's documented skills directory.
-   Do not invent a skills.sh adapter for an unsupported tool.
+1. For each tool (Claude Code, Codex, Pi, others the user names), run its version
+   command or look for its executable. Record found, absent or unknown. A config
+   directory alone doesn't prove the tool is installed.
+2. Look for an existing canasta install: scope, revision, method, and locally
+   edited copies.
+3. Don't read credentials or crawl the home directory.
 
-## Agree on the installation
+## 2. Agree on the plan
 
-Batch the related choices: which tools, project or user scope, workflow only or
-workflow plus optional stack, and install versus check-only. The workflow group
-includes this setup skill. Explain what will be downloaded, which files or
-settings will change, and how the user can remove the installation later.
-A request to check is not permission to install. If the user already explicitly
-requested all groups for all detected tools, do not ask the same question again;
-ask only for unresolved scope or conflicting local edits.
+Ask once, in one message: which tools, project or user scope, workflow skills
+only or plus the stack skills, and install or check only. Say what will be
+downloaded, which files will change and how to remove it. Skip a question the
+user already answered. A request to check is not permission to install.
 
-## Install or check each chosen tool
+Recommend one method per tool: the native plugin where the tool has one, else
+skills.sh, else copy each skill folder (with its `references/` and `NOTICE`) into
+the tool's skills directory. Use one method per tool, or skills appear twice.
 
-- Use the verified commands and layout in the installation guide, checking local
-  help when syntax differs. Do not run installation commands in check-only mode.
-- Explain each step before doing it, in terms of its effect rather than assuming
-  the user knows plugin or marketplace jargon.
-- Install each selected skill once per tool. Do not use both a plugin and a
-  copied-skills install for the same group. Do not install excluded upstream
-  skills as if they were part of canasta.
-- For manual installation, copy each selected skill directory with its references
-  and notices intact; do not copy only SKILL.md or nest the whole repository in
-  a skill directory and assume recursive discovery.
-- Never change the project's behavioral instructions or merge policy as a side
-  effect. Do not push, publish, grant new access, install an agent executable,
-  or bypass permissions to complete setup.
-- Stop when a tool requires the user: interactive marketplace approval, a slash
-  command, authentication, a restart or a new session. Give the exact action
-  supported by that tool's current help, say where to do it and what success
-  looks like. Never claim the interaction happened on the user's behalf.
-- If a download, permission or tool capability is unavailable, leave that tool
-  pending. Continue with independent authorized checks, not a fabricated install.
+## 3. Install or check
 
-## Choose models and install agent types
+Do each step, saying what it does in plain words. When a step needs the user (a
+marketplace approval, a slash command, a restart), give the exact command and
+where to run it, then stop. Don't claim it happened. If a download or permission
+is missing, leave that tool pending and continue with the others.
 
-Use the [agent types guide](references/installation.md#agent-types) for native
-formats, paths and evidence limits. The six public `agents/*.md` files have no
-model settings. If the skill installer did not include them, locate the trusted
-source checkout or obtain the matching revision with the user's approval; do
-not reconstruct role prompts from memory or fetch an unrelated branch.
+Don't push, publish, change the project's own instructions, or install an agent
+executable.
 
-1. Inspect only documented model/provider listings and relevant non-secret
-   settings for each selected tool. Use current help, the session's model list,
-   or a documented model picker/API. Provider configuration is evidence of a
-   provider, not proof of model entitlement. Never read credential stores, print
-   tokens, sign in, or run a paid inference just to detect availability. If the
-   tool cannot enumerate models, ask for the user's available identifiers and
-   mark them user-confirmed. Do not guess model names from the author's setup.
-2. Load existing native role definitions first. Their model values are the
-   current choices; an omitted model means inheritance where documented. Keep
-   those choices, including inheritance, on reruns. If an earlier model is no
-   longer listed, flag it as unverified and ask; never silently replace it.
-3. Propose this table separately for each tool, using only detected or
-   user-confirmed choices:
+## 4. Choose models for the agent roles
 
-   | Role | Tier | Authority |
+The six `agents/*.md` files carry no model. Per tool:
+
+1. List models from the tool's own picker or help. If it can't list them, ask the
+   user for identifiers and mark them user-confirmed. Don't guess names and don't
+   run a paid call to test availability.
+2. Keep models already set in existing role files, including inheritance (no
+   `model` field). If a saved model is no longer listed, flag it and ask.
+3. Propose this table using only models you have evidence for:
+
+   | Role | Tier | Access |
    | --- | --- | --- |
-   | explorer | Light | Read-only investigation |
-   | clerk | Light | Read-only mechanical support |
-   | worker | Light | Writes within assigned ownership |
-   | reviewer | Strong | Read-only defect review |
-   | verifier | Strong | Writes verification artifacts, not product repairs |
-   | advisor | Strong | Read-only decision support |
+   | explorer, clerk | light | read-only |
+   | worker | light | writes in its assigned files |
+   | reviewer, advisor | strong | read-only |
+   | verifier | strong | writes checks, not product fixes |
 
-   Light means lower cost/latency for bounded tasks; strong means more capable
-   reasoning for judgment. Do not infer capability from a provider name alone.
-   Prefer a strong model from a different family than the implementation model
-   for reviewer and verifier when available in that tool. This can expose shared
-   blind spots; it is not proof of independence or correctness. A different model
-   size in the same family does not count. If only one family is available, say
-   so and use it without inventing a cross-provider route. Inheritance has an
-   unknown family if the parent model can change; explain that limit.
-4. Show all six proposed choices per tool with identifiers, evidence, rationale
-   and destination. Ask the user to confirm the whole table or change individual
-   rows; every row must be covered by confirmation. Offer **inherit the session's
-   model** for every role. If no light/strong ranking is known, ask instead of
-   inventing one. Model choice does not authorize file replacement: separately
-   list existing same-name files and ask before changing them, including files
-   with different prompts but the same model. Respect check-only mode.
-5. Render the public description and body in each tool's documented native
-   format. Set only its supported `model` field to the chosen identifier; encode
-   inheritance by omitting it, not by writing an invented alias. Use the native
-   read-only sandbox or a tool allowlist for the four read-only roles where
-   supported; a prompt is not a permission boundary. Do not allow a general
-   shell merely to make a read-only role convenient. Worker and verifier may
-   write only in authorized scope; verifier must not repair product code.
-6. Preview the diff, then write only authorized files, preserving unrelated
-   fields and configuration entries. If a target already matches, do nothing.
-   The installed native model fields are the saved choices; no shared model
-   defaults or extra global rule file is needed. On updates, preserve them and
-   ask before replacing changed role bodies. Do not edit a plugin cache to save
-   choices: updates would discard them. If the native format cannot be verified,
-   leave that tool's agent setup pending, rather than copying Markdown into an
-   unrecognized directory.
+   Prefer a strong reviewer and verifier from a different model family than the
+   one that writes code, when the tool offers one. That reduces shared blind
+   spots; it doesn't prove correctness. Offer "inherit the session's model" for
+   every role.
+4. Ask the user to confirm the whole table or change rows. List existing
+   same-name files separately and ask before replacing one.
+5. Write each role in the tool's native format. Set only its `model` field (omit
+   it for inheritance). Use the tool's read-only sandbox or tool allowlist for the
+   read-only roles, because a prompt is not a permission boundary. If you can't
+   verify the native format, leave that tool's agents pending.
 
-## Verify and hand back
+## 5. Verify and hand back
 
-Check the installed plugin listing or actual immediate-child skill files for
-each tool. After any required restart, ask the user to confirm skill discovery
-inside the agent; seeing files on disk does not prove they loaded.
-Report per tool: selected groups, method, scope, revision, checks and results,
-local edits preserved, each role's saved model or inheritance, permission limits,
-and any user action still needed. Check agent discovery as well as skills;
-confirm the actual selected role and model when a user-authorized invocation is
-available. A model proposal or a plugin validation is not a model execution.
-Mark installation,
-discovery and execution as separate states. Re-running setup should check what
-exists and change only what is missing or explicitly authorized for update.
+After any restart, ask the user to confirm the skills show up inside the agent;
+files on disk don't prove they loaded. Report per tool: groups installed, method,
+scope, revision, checks and results, local edits kept, each role's model or
+inheritance, and what the user still has to do. Installed, discovered and
+executed are three separate states; report which you reached. Re-running should
+change only what is missing or approved.
+
+## Example
+
+> Claude Code 2.x found, Codex 0.x found, Pi absent.
+> Plan: Claude Code via the plugin (user scope), Codex via skills.sh. Workflow
+> skills only. Nothing installed yet. Confirm, or tell me what to change.

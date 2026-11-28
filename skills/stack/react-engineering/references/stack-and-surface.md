@@ -1,87 +1,46 @@
-## Stack Resolution
+# Stack and surface
 
-Treat package manifests and lockfiles as installed-state authority. Verify
-current stable compatibility in official
-framework documentation instead of copying exact package versions into skills.
+These are defaults. A repository's documented choice wins. Read versions from
+manifests and lockfiles and check compatibility in official docs; do not copy
+version numbers into this skill.
 
-These are cross-project defaults, not claims about a particular company or
-repository. Preserve quality, security, and accessibility gates; let repository
-evidence override stack selection when a different supported choice is already
-owned or materially better suited.
+## Defaults for web surfaces
 
-Shared expectations across web surfaces:
+- Package manager: Bun, unless the repository uses another.
+- TypeScript rules (module resolution, import specifiers, `tsconfig`) are in
+  `typescript-standards`. Bundled application code resolves through the bundler:
+  `module: "preserve"`, extensionless relative imports.
+- Styling: current Tailwind with semantic tokens (`tailwind-v4`). Source-owned
+  shadcn/ui components, with Base UI primitives where behavior matters. OKLCH for
+  new color tokens.
 
-- The `typescript-standards` skill owns module resolution and import
-  specifiers, the strict tsconfig baseline, and type-level idiom.
-  Those rules are language-wide and are not restated here. Load it alongside this
-  skill for any TypeScript work.
-- Bun as the default package manager unless repository evidence selects another
-  supported runner.
-- Bundled application surfaces are bundler-resolved: `module: "preserve"`,
-  extensionless relative imports. Do not carry the runtime-resolved `.js`
-  specifier convention into bundled code, and do not carry bundler assumptions
-  into a published package.
-- Framework-owned embedded-language tooling may retain a scoped TypeScript 6
-  compatibility dependency only when official compatibility evidence requires
-  it. Keep application compilation on the current stable compiler line and
-  remove the bridge once the consumer supports the native API.
-- The current governed Tailwind CSS major with semantic tokens and CSS-first
-  theme configuration.
-- Source-owned shadcn/ui components and Base UI primitives where they carry real interaction behavior.
-- OKLCH for new token values and the project-selected icon system; do not assume Lucide is the final visual language.
+## Pick the runtime before the library
 
-Select the runtime before selecting React-specific libraries:
+| Surface | Default | Notes |
+| --- | --- | --- |
+| Signed-in, operational or data-heavy app | React + Vite | Add TanStack Router and Query, React Hook Form and Zod only where the repository already does or the workflow needs them. |
+| Marketing site, landing page, docs, public writing | Astro, static output | `.astro` components for structure; React islands only for state or browser APIs. No SPA router or query client by default. See `astro`. |
+| Public signup, checkout or portal next to marketing | Separate deployments | Astro serves discoverable content and hands off to the app. Credentials, tenants, payments and sessions belong to the app. |
+| Public route inside an existing app | The existing stack | Do not add a second runtime for one route. Prerender or server-render it when search engines need it. |
 
-| Surface                                                                          | Default                                              | Rules                                                                                                                                                                                                                                                |
-| -------------------------------------------------------------------------------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Authenticated, operational, or data-heavy application                            | React + Vite                                         | Use the governed stable baseline. Use TanStack Router/Query, React Hook Form, Zod, and client state only where the repository pattern and workflow require them. If installed, load `typescript-standards` and its Zod reference; otherwise consult Zod's official documentation for runtime schemas, migrations, and compilation.              |
-| Marketing site, product landing, campaign page, public writing, or documentation | Astro, static output by default                      | Keep static structure in `.astro` components. Add React islands only for behavior that needs client state or browser APIs. Do not add an SPA router or query client by default.                                                                      |
-| Public signup, checkout, or portal paired with marketing content                 | Split content and application deployments by default | Let Astro own discoverable content and hand off to the application. Real credential, tenant, payment, or session creation belongs to the application. If one deployment owns both, choose the dominant interaction model and document the exception. |
-| Public route inside an established application                                   | Existing application stack                           | An established transactional route takes precedence over the split default. Do not introduce a second runtime for one route. Prerender or server-render indexable content when discoverability matters.                                              |
+A landing page and an application are different products even when they share
+tokens, analytics and a domain.
 
-Treat a landing page and an application as separate product surfaces even when
-the landing page links directly to signup or an authenticated application. They
-may share tokens, analytics, metadata conventions, and a domain without sharing
-a runtime or deployment.
+For marketing surfaces: put copy, navigation and pricing in the first HTML;
+hydrate explicit islands only; send lead forms to an owned public endpoint with
+validation, rate limiting and consent; keep operational credentials and
+authenticated sessions off the marketing site; check metadata, canonical URLs,
+sitemap and production Core Web Vitals; record why when you ship client
+JavaScript, SSR or a single-deployment hybrid.
 
-For Astro surfaces, load `astro` and keep this router focused on surface
-selection. The core boundary remains:
+## React Compiler in React + Vite
 
-- Render indexable copy, navigation, pricing, feature content, and calls to action in the initial HTML.
-- Hydrate explicit islands only. Static components must not receive a client directive.
-- Use shadcn components for real interactions, not as generic marketing-section scaffolding.
-- Keep request-demo and lead-capture forms on Astro when they do not create credentials or tenants. Submit them to an owned public backend or serverless boundary with boundary validation, rate limiting, abuse protection, and explicit privacy/consent handling.
-- Keep operational credentials, tenant bootstrap state, and authenticated application sessions out of the marketing surface.
-- Verify metadata, canonical URLs, sitemap/content discovery, analytics consent, and production Core Web Vitals for public content.
-- Measure production output and record exceptions when client JavaScript, SSR, or a single-deployment hybrid is required.
+The compiler can run through Babel or through Oxc (`oxc-transform-react`, wired
+by `@vitejs/plugin-react`). Check the plugin's and Oxc's current docs for the
+installed Vite and React versions and for the integration's status before
+adopting it; do not upgrade an existing toolchain silently. Replace Babel
+compiler wiring only when you adopt the Oxc one.
 
-## React Compiler for React + Vite
-
-Prefer the Oxc Rust React Compiler integration for compatible React + Vite
-applications. Verify installed compatibility and current integration status
-before adoption; do not silently upgrade an existing application's toolchain.
-Keep framework-specific setup in its owning framework for other React surfaces.
-
-The [Oxc announcement](https://oxc.rs/blog/2026-08-18-react-compiler-support),
-checked 2026-09-08, documents an experimental integration for Vite 8 with
-`@vitejs/plugin-react` 6.1.0 or later and the optional `oxc-transform-react`
-peer dependency. These are dated compatibility evidence, not permanent version
-pins. Install compatible dependencies with the repository's package manager and
-configure the React plugin with `react({ compiler: true })`. Account for the
-experimental status in the repository's adoption decision and verify the React
-runtime target. Remove superseded Babel compiler wiring when replacing it.
-
-When the compiler is enabled and covers the affected code, prefer automatic
-memoization in new components and hooks. Do not add `useMemo`, `useCallback`, or
-`React.memo` routinely. Keep manual memoization for demonstrated control or
-performance needs, and test carefully before removing existing memoization;
-removal can change compiler output and effect behavior. This qualification also
-applies when consulting upstream manual-memoization examples.
-
-Verify compiler activation, compiler diagnostics, a production build, and the
-relevant interactions. Fix Rules of React violations and inspect skipped
-components rather than assuming every component was optimized. Measure build
-and runtime performance separately; published preliminary compiler benchmarks
-are not a guaranteed application speedup.
-
-See [React's memoization guidance](https://react.dev/learn/react-compiler/introduction#what-should-i-do-about-usememo-usecallback-and-reactmemo).
+Confirm it ran, read its diagnostics, build for production and exercise the
+interactions. Measure build time and runtime separately; published benchmarks do
+not promise a speedup in your app.

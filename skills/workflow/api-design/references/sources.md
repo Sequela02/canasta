@@ -22,6 +22,7 @@ Read on 2026-11-07. Paths are inside each project's repository.
 | Unchecked suffix | Effect v4 renamed `unsafeX` to `xUnsafe` (`migration/v3-to-v4.md`) |
 | Exports and stability | Effect `jsdocs/declarations.md`: APIs exposing a third-party dependency are `@stability unstable` |
 | Migrate callers, then delete | pstack `principle-migrate-callers-then-delete-legacy-apis`; Stripe, [API versioning](https://stripe.com/blog/api-versioning): fields stay present, additions are safe |
+| Expose only what you will keep | Hyrum's Law, as stated in addyosmani/agent-skills `api-and-interface-design` (e997ac5, MIT): every observable behavior becomes a dependency. Concept cited, text not copied |
 | Enforce with a tool | vercel/chat enforces adapter naming with konsistent; files-sdk drift tests between its catalog, exports and adapters |
 
 ## Community context

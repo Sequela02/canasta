@@ -1,66 +1,84 @@
 ---
 name: postgres
-description: "PostgreSQL judgment: invariants in the database, measured query plans, concurrency and safe migrations. Use when editing SQL or migrations, or diagnosing queries, locks, backups or upgrades."
+description: "Design PostgreSQL schemas, write safe migrations, and speed up slow queries, locks and races. Use when editing SQL or migrations, adding an index or constraint, reading EXPLAIN output, or planning a backup, restore or major upgrade."
 paths: ["**/*.sql", "**/db/migration/**"]
 ---
 
 # PostgreSQL
 
-Keep the schema simple, enforce cross-process invariants in the database, and
-optimize from measured plans rather than folklore.
+Let the database enforce what must always be true, and change it from measured
+plans, not habit.
 
-## Establish The Database Contract
+For a long rule-by-rule checklist (indexes, RLS, connection pooling, locking),
+use Supabase's `supabase-postgres-best-practices` skill (MIT, works on any
+Postgres) or the Postgres docs for the major version you run.
 
-1. Identify the production major, extensions, collation, driver, pooler,
-   migration tool, backup/restore path, replicas, and Testcontainers image.
-2. Use that active major for changes and tests unless an explicit upgrade slice
-   changes it, and take the target major from that slice.
-3. Read [references/postgres-practice.md](references/postgres-practice.md) for
-   modeling, query, migration, and operational guidance.
-4. Separate application migration, database-major upgrade, and production data
-   repair into independently verifiable slices.
+## Procedure
 
-## Modeling And Integrity
+1. Find what runs in production: the major version, extensions, the driver,
+   pooler and migration tool, and how backups are restored. Write and test
+   against that major, in the same image your tests use.
+2. For a schema change, state each rule the data must obey and put it in the
+   database: `NOT NULL`, foreign keys, `UNIQUE`, `CHECK`, exclusion constraints.
+   An application check followed by a write races; a constraint does not.
+3. Pick types by meaning: `timestamptz` for instants, `numeric` for money,
+   `text` for strings, `jsonb` only for data that really varies in shape.
+   Normalize first. Choose identifiers from the domain, not by habit.
+4. Index the predicates, joins, orderings and foreign keys that queries use.
+   Each index slows writes, so tie each one to a query.
+5. For a slow query, run `EXPLAIN (ANALYZE, BUFFERS)` with real parameter
+   values on production-sized data, fix the largest cost, and run it again.
+6. For a migration, label every statement with its lock and whether it rewrites
+   the table, then follow "Safe migrations" below. Run it from a baseline schema
+   and from a copy of the supported production state, and record duration and locks.
+7. Say what you ran. Compiling the application does not show the database works.
 
-- Normalize first; denormalize only for a measured access path with an owner.
-- Choose identifiers from domain and distribution requirements. Do not mandate
-  UUIDs or sequences universally.
-- Use `TIMESTAMPTZ` for instants, exact numeric types for money, and JSONB only
-  for data whose shape or querying justifies it.
-- Use `NOT NULL`, foreign keys, unique/check/exclusion constraints, and ranges
-  for invariants that must survive concurrent processes.
-- Add supporting indexes for real predicates, joins, ordering, tenant filters,
-  and foreign keys. Every index adds write and maintenance cost.
+## Safe migrations
 
-## Queries And Concurrency
+Migrations move forward. Recovery comes from tested backups and expand, migrate,
+contract rollouts, not from a down script nobody ran.
 
-- Capture representative parameters and use `EXPLAIN (ANALYZE, BUFFERS)` for
-  high-cost or high-volume queries in a safe environment.
-- Prefer keyset pagination for deep ordered traversal; use offset pagination
-  when bounded pages and totals are genuinely required.
-- Address races with constraints, atomic statements, locks, isolation, or
-  idempotency keys. An application check followed by a write is not protection.
-- Keep transactions short and make lock ordering, retry behavior, and timeout
-  handling explicit.
+Example: add a required `status` column to a large `orders` table.
 
-## Migrations And Operations
+Bad:
 
-- Write forward migrations that are deterministic and safe for the deployment
-  sequence. Operational recovery comes from rehearsed backup/restore or rollout
-  strategy, not a fictional universal down migration.
-- Add preflight queries for legacy values, nullability, duplicates, enum/state
-  changes, ownership keys, and expensive rewrites.
-- Rehearse risky migrations on production-shaped isolated data and record
-  duration, locks, storage growth, and recovery behavior.
-- A major upgrade requires extension/driver review, backup and restore or
-  `pg_upgrade` rehearsal, collation/index checks, replication review, and
-  observed application compatibility.
+```sql
+ALTER TABLE orders ADD COLUMN status text NOT NULL;
+```
 
-## Verification
+It fails on existing rows. The "fix" of backfilling and then `SET NOT NULL` in
+one transaction holds a lock that blocks writes while it scans the table.
 
-- Run migration-from-baseline and migration-from-supported-production-state.
-- Use Testcontainers for dialect, constraint, JSONB, range, lock, isolation,
-  generated-column, and Flyway behavior.
-- Verify hot plans, concurrency cases, backup/restore evidence, and monitoring.
-- Report exactly what was exercised; do not equate compilation with database
-  readiness.
+Good, in separate deployable steps:
+
+```sql
+SET lock_timeout = '2s';
+ALTER TABLE orders ADD COLUMN status text;                 -- instant
+-- application starts writing status; backfill in batches
+ALTER TABLE orders ADD CONSTRAINT orders_status_nn
+  CHECK (status IS NOT NULL) NOT VALID;                    -- brief lock
+ALTER TABLE orders VALIDATE CONSTRAINT orders_status_nn;   -- scans, writes continue
+ALTER TABLE orders ALTER COLUMN status SET NOT NULL;       -- uses the check, no scan
+ALTER TABLE orders DROP CONSTRAINT orders_status_nn;
+```
+
+Other habits: `CREATE INDEX CONCURRENTLY` on live tables (outside a transaction);
+a preflight query for duplicates or bad values before adding a constraint;
+`lock_timeout` on every DDL statement so it fails instead of queueing behind a
+long transaction and blocking everyone behind it.
+
+## Concurrency
+
+- Keep transactions short. Fix a lock order, set timeouts, and retry on
+  serialization failure and deadlock.
+- Make writes idempotent with a unique key or `INSERT ... ON CONFLICT`.
+- Page deep result sets with keyset pagination (`WHERE (created_at, id) < ($1, $2)`);
+  use offset only for small bounded pages.
+
+## Major upgrades
+
+Treat an upgrade as its own change, separate from application migrations and
+from data repair. Check extensions and the driver, collation and index
+compatibility, and replication. Rehearse a restore or `pg_upgrade` on a copy,
+and run the application against it. See
+[references/postgres-practice.md](references/postgres-practice.md).

@@ -10,6 +10,12 @@
       },
       {
         "prompt": "Should this be a doc at all or does the code already say it?"
+      },
+      {
+        "prompt": "Our generated config copies have drifted from the source, review them"
+      },
+      {
+        "prompt": "Which file is the canonical configuration and which ones are synced copies?"
       }
     ],
     "negative": [
