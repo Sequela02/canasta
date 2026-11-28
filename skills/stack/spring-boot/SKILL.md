@@ -1,92 +1,73 @@
 ---
 name: spring-boot
-description: "Spring Boot backend judgment: domain purity, adapters, transactions, configuration and operations, routing API, security, PostgreSQL and testing work. Use when editing Java or Kotlin backend code or its build."
+description: "Build Spring Boot backends in Java or Kotlin: package and module layout, transactions, JPA vs SQL, configuration, REST API design, security wiring, observability, tests and version upgrades. Use when editing Java or Kotlin backend code, a Gradle or Maven build, or application.yml."
 paths: ["**/*.java", "**/*.kt", "**/pom.xml", "**/build.gradle*", "**/application*.yml", "**/application*.properties"]
 ---
 
-# Spring Boot Backend
+# Spring Boot
 
-Use the platform deliberately. Do not turn a version bump into an architectural
-rewrite or encode exact patch versions in this skill.
+Use the platform the way the repository already does, and use the versions it
+pins. Version-specific questions go to the docs for those versions:
+`docs.spring.io/spring-boot` for Boot, `docs.spring.io/spring-framework` for the
+framework, and the system-requirements page for Java and build-tool support.
 
-## Relevant Evidence
+## Procedure
 
-1. Inspect the build or runtime configuration needed by the change. Toolchain
-   upgrades need wrapper, dependency, image, and CI evidence; ordinary service
-   edits can reuse the established platform context.
-2. Use the repository's installed versions for implementation. Take target
-   versions only from an explicit upgrade request or a written project standard.
-3. Read [references/platform-and-architecture.md](references/platform-and-architecture.md)
-   for runtime selection, modernization, modules, and framework rules.
-4. Read [references/persistence-and-operations.md](references/persistence-and-operations.md)
-   for JPA/SQL selection, transactions, integrations, and observability.
-5. Load the related skills below only when the change crosses their contracts.
+1. Read the build file, the wrapper, `application*.yml` and the package layout.
+   Find the installed Boot, Spring Framework and Java versions, the persistence
+   approach and the test setup.
+2. Place the change: domain rule, application service, adapter (web, persistence,
+   client) or configuration. Keep domain code free of Spring, JPA, Jackson and HTTP
+   types, and put transaction boundaries on application services.
+3. Constructor injection, immutable configuration, and records for DTOs and small
+   values. Bind settings with a validated `@ConfigurationProperties` class; make
+   security settings fail startup when missing.
+4. Map between transport, domain and persistence models. Do not return JPA
+   entities or raw exception messages from an endpoint.
+5. For the database use the repository's choice: JPA for aggregates and routine
+   transactional access, explicit SQL or jOOQ for reports and bulk work. Migrations
+   go through Flyway or the owned tool, never schema auto-generation in production.
+6. Keep transactions short and never hold one open across a slow remote call. For a
+   side effect that must happen after commit, use an outbox or durable event and
+   make retries idempotent.
+7. Test at the narrowest layer that proves the behavior (see testing reference),
+   then run the repository's build gates. If packaging or startup files changed,
+   start the container image.
 
-## Related Skills
+## Example
 
-| Work | Load |
+An endpoint creates an order and calls a payment provider.
+
+Bad: `@Transactional` on the controller, with the payment HTTP call inside the
+transaction. A slow provider holds a database connection, and a failure after the
+charge leaves no record.
+
+Good: the application service saves the order and an outbox row in one short
+transaction. A worker calls the provider with an idempotency key and records the
+result; the order moves to a visible `PAYMENT_PENDING` or `PAID` state.
+
+## Choose by need
+
+| Work | Read |
 | --- | --- |
-| PostgreSQL schema, SQL, indexes, locks, query plans, Flyway data migration, database upgrade | `postgres` |
-| REST resource design, DTOs, errors, pagination, compatibility, OpenAPI, API versioning | [references/api-contracts.md](references/api-contracts.md) |
-| Authentication, authorization, tenant isolation, cookies/tokens, CSRF/CORS, secrets, abuse controls | `security-scope-review` with its Spring backend reference |
-| Unit, architecture, slice, integration, contract, migration, container, or regression tests | [references/testing.md](references/testing.md), with `tdd` for test-first discipline |
-| Domain model, glossary, bounded contexts, deciders, invariants | `domain-modeling` |
-| Module boundaries and dependency direction | `architecture-review` |
-| Behavior-preserving cleanup | `refactor` |
-| Stripe integration | Stripe's official integration guidance; keep domain orchestration in the backend boundary |
+| Boot or Java upgrade, modules, observability | [references/platform-and-persistence.md](references/platform-and-persistence.md) |
+| REST resources, errors, pagination, versioning, OpenAPI | [references/api-contracts.md](references/api-contracts.md) |
+| Choosing tests, slices, Testcontainers, security tests | [references/testing.md](references/testing.md) |
+| Generating or publishing an SDK from the API | [references/sdk-generation.md](references/sdk-generation.md) |
+| SQL, indexes, locks, Flyway data migrations | the `postgres` skill |
+| Auth, tenant isolation, CSRF, CORS, secrets | the `security-scope-review` skill |
+| Domain rules and boundaries | `domain-modeling`, `architecture-review` |
 
-A new authenticated endpoint with a schema change needs Spring, API, security,
-PostgreSQL, and testing guidance; a pure domain invariant needs none of them.
-Prefer platform components the repository has already adopted, such as an adopted platform component,
-over building a parallel one.
+## Guardrails
 
-## Architecture Invariants
-
-- Domain purity, bounded contexts and deciders follow `domain-modeling`. In
-  Spring, domain code carries no Spring, JPA, Jackson, HTTP, or migration
-  annotations, and application services own transaction boundaries.
-- Adapters translate transport and persistence models instead of exposing JPA
-  entities or infrastructure exceptions as public contracts.
-- Prefer a modular monolith, with its boundaries enforced by ArchUnit or
-  Spring Modulith in CI.
-- Delete compatibility paths after their documented consumer or migration
-  window ends.
-
-## Spring And Java Posture
-
-- Prefer constructor injection, immutable configuration, records for transport
-  DTOs and small values, sealed types only when the closed hierarchy is real,
-  and exhaustive handling for domain states.
-- Use typed, validated `@ConfigurationProperties`; fail closed for security,
-  authority, and governance configuration.
-- Prefer focused Boot starters and Boot-managed dependency versions. Pin only
-  with an evidenced compatibility or security reason.
-- Use Spring MVC and `RestClient` for ordinary blocking services. Do not mix
-  Reactor into a blocking JDBC request path without an end-to-end need.
-- Use virtual threads only for compatible blocking I/O workloads. Protect
-  scarce downstream resources with explicit concurrency limits and validate
-  behavior with JFR, metrics, and load evidence.
-- Treat preview features as opt-in experiments unless the repository explicitly
-  enables and tests them.
-
-## Persistence And Side Effects
-
-- Keep JPA entities in infrastructure and map them to domain models.
-- Choose JPA for aggregate persistence and routine transactional access; use
-  explicit SQL or jOOQ for query-heavy/read-model work only where adopted.
-- Keep transactions narrow. Never hold a database transaction open across a
-  slow remote call without a demonstrated consistency design.
-- Make retries, idempotency, outbox/event publication, and observable failure
-  states explicit for external side effects.
-- Use Flyway or the repository's owned migration tool; never production DDL
-  auto-generation.
-
-## Runtime And Verification
-
-- Expose meaningful health, readiness, metrics, traces, and structured logs.
-  Never put secrets, tokens, personal data, or unbounded identifiers in labels.
-- Keep wrapper, toolchain, CI, builder image, runtime image, and docs aligned.
-- Run focused compilation/tests first, then repository quality and build gates.
-- When platform files change, verify the container image and startup path.
-- Do not claim migration readiness without testing API contracts, persistence,
-  security, migrations, runtime packaging, and the affected production path.
+- Prefer starters and the Boot-managed dependency versions; pin one only with a
+  compatibility or security reason, written next to it.
+- Use Spring MVC with `RestClient` for blocking services. Do not mix Reactor into a
+  blocking JDBC request path without an end-to-end need.
+- Turn on virtual threads only after checking the workload (blocking I/O), limiting
+  concurrency to scarce downstreams and comparing under load.
+- Do not put secrets, tokens, personal data or unbounded identifiers in metric
+  labels or logs.
+- Remove a compatibility path once its consumer or migration window is over.
+- Before you call an upgrade done, run API contract tests, persistence, security,
+  migrations and the packaged image, and list any you could not run.
